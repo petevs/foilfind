@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Shell from '../components/Shell'
 
 export default function Home() {
   return (
@@ -8,7 +9,9 @@ export default function Home() {
         <meta name="description" content="Foil find" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      Hello
+      <Shell>
+        Now
+      </Shell>
     </div>
   )
 }
