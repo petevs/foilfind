@@ -24,12 +24,12 @@ const Shell = ({children}) => {
     return (
         <>
         <Box>
-            <Box sx={minMenu}>
+            {/* <Box sx={minMenu}>
                 <Burger size='sm' onClick={() => setIsOpen(!isOpen)} />
                 <Divider mt='sm' mb='sm' />
                 <ThemeIcon size='sm' variant='outline'>
                     <GrStatusPlaceholder />
-                </ThemeIcon>
+                </ThemeIcon> */}
                 {/* <NavItem 
                     title='Foils'
                     path='/foils'
@@ -54,8 +54,8 @@ const Shell = ({children}) => {
                     icon={<GrStatusPlaceholder />}
 
                 /> */}
-                <Divider mt='sm' mb='sm' />
-            </Box>
+                {/* <Divider mt='sm' mb='sm' />
+            </Box> */}
             <Box>
                 {children}
             </Box>
