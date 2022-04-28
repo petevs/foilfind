@@ -21,7 +21,7 @@ export default function Home() {
       <Shell>
         <Box sx={boxStyle}>
           <Title>Foil Find</Title>
-          <Text>The world's best place to find foil answers</Text>
+          <Text>The world&apos;s best place to find foil answers</Text>
         </Box>
       </Shell>
     </div>
