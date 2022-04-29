@@ -22,7 +22,7 @@ const Location = ({back}) => {
             <Group>
                 <Autocomplete
                     placeholder="Select a country"
-                    data={['United States', 'Canada', 'UK', 'Australia', 'New Zealand']}
+                    data={['United States', 'Canada', 'United Kingdom', 'Australia', 'New Zealand']}
                     size='xl'
                 />
                 <Button 
