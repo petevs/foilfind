@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }) {
   const toggleColorScheme = (value) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
+
   return (
     <ColorSchemeProvider colorScheme={colorScheme}>
     <MantineProvider
