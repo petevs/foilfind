@@ -5,8 +5,10 @@ const Header = ({fixedNav}) => {
 
     const style = (theme) => ({
         position: 'fixed',
-        left: fixedNav ? '240px' : '69px',
+        left: fixedNav ? '240px' : '64px',
         padding: theme.spacing.sm,
+        width: fixedNav ? 'calc(100vw - 240px)' : 'calc(100vw - 64px)',
+        height: '62px'
 
     })
 

@@ -7,6 +7,7 @@ import { useHover } from "@mantine/hooks"
 import Header from "./Header"
 import { FaHotel } from "react-icons/fa"
 import NavContent from "./NavContent"
+import ContentBox from "./ContentBox"
 
 const Shell = ({children}) => {
 
@@ -39,6 +40,10 @@ const Shell = ({children}) => {
         gridTemplateColumns: '40px 1fr',
     }
 
+    const content = {
+
+    }
+
 
     useEffect(() => {
         if(fixedNav === true){
@@ -64,6 +69,7 @@ const Shell = ({children}) => {
     return (
         <>
         <Box sx={wrapper}>
+
             <ScrollArea sx={minMenu} ref={ref}>
                 <Box sx={burg}>
                     <Box
@@ -88,12 +94,16 @@ const Shell = ({children}) => {
                     isOpen={isOpen}
                 />
             </ScrollArea>
+
+
             <Header 
                 fixedNav={fixedNav}
             />
-            <Box>
+            <ContentBox
+                fixedNav={fixedNav}
+            >
                 {children}
-            </Box>
+            </ContentBox>
         </Box>
         </>
     )
