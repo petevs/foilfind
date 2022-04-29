@@ -4,9 +4,9 @@ const ContentBox = ({fixedNav, children}) => {
 
     const style = (theme) => ({
         position: 'fixed',
-        left: fixedNav ? '240px' : '64px',
+        left: fixedNav ? '240px' : '70px',
         top: '62px',
-        width: fixedNav ? 'calc(100vw - 240px)' : 'calc(100vw - 64px)',
+        width: fixedNav ? 'calc(100vw - 240px)' : 'calc(100vw - 70px)',
         height: 'calc(100vh - 62px)',
 
     })

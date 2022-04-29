@@ -39,6 +39,7 @@ const NavContent = ({ isOpen }) => {
                     title='Help Me Choose'
                     icon={<MdQuiz />}
                     showText={isOpen}
+                    path='/help-me-choose'
                 />
                 <NavItem 
                     title='Locate a Dealer'
