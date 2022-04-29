@@ -32,17 +32,20 @@ const NavItem= (props) => {
         onClick={() => handleClick()}
     >
         <Group>
-        <ThemeIcon size='sm' variant='outline'>
+        <ThemeIcon size='md' variant='outline' color='gray'>
             {props.icon}
         </ThemeIcon>
-        <div>
-            <Text
-                color={(!dark && active) && 'blue'}
-                size='sm'
-            >
-                {props.title}
-            </Text>
-        </div>
+        {
+            props.showText &&
+            <div>
+                <Text
+                    color={(!dark && active) && 'blue'}
+                    size='sm'
+                >
+                    {props.title}
+                </Text>
+            </div>
+        }
         </Group>
   </UnstyledButton>
   )

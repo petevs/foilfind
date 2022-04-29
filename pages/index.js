@@ -19,10 +19,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Shell>
-        <Box sx={boxStyle}>
+        {/* <Box sx={boxStyle}>
           <Title>Foil Find</Title>
           <Text>The world&apos;s best place to find foil answers</Text>
-        </Box>
+        </Box> */}
       </Shell>
     </div>
   )
