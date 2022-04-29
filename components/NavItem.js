@@ -22,7 +22,6 @@ const NavItem= (props) => {
 
 
     const handleClick = () => {
-        dispatch(toggleNav(false))
         router.push(props.path)
     }
 

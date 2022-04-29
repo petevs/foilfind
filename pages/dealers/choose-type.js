@@ -1,4 +1,4 @@
-import Shell from "../components/Shell"
+import Shell from "../../components/Shell"
 import { Text, Box, Card, Group, ThemeIcon } from "@mantine/core"
 import { BsShop } from "react-icons/bs"
 import { MdOutlineAddShoppingCart } from "react-icons/md"
@@ -40,6 +40,7 @@ const Dealers = () => {
         <>
             <Shell>
                 <Box sx={wrapper}>
+                    <Text>Locate a Dealer</Text>
                     <Text sx={headline}>
                         Lets get started...
                     </Text>
@@ -59,7 +60,7 @@ const Dealers = () => {
                             />
                             <Box>
                                 <Text sx={{fontSize: '24px'}} weight='900'>Physical</Text>
-                                <Text>Shop in person</Text>
+                                <Text>Pick-up in person</Text>
                             </Box>
                         </Card>
                         <Card
@@ -75,7 +76,7 @@ const Dealers = () => {
                             />
                             <Box>
                                 <Text sx={{fontSize: '24px'}} weight='900'>Online</Text>
-                                <Text>Shop virtually</Text>
+                                <Text>Ship to me</Text>
                             </Box>
                         </Card>
                     </Group>

@@ -44,6 +44,7 @@ const NavContent = ({ isOpen }) => {
                     title='Locate a Dealer'
                     icon={<MdStoreMallDirectory />}
                     showText={isOpen}
+                    path='/dealers/choose-type'
                 />
                 <NavItem 
                     title='Windy Stays'

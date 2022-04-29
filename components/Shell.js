@@ -24,7 +24,7 @@ const Shell = ({children}) => {
         position: 'fixed',
         top: '0',
         left: '0',
-        width: isOpen ? '240px' : '64px',
+        width: isOpen ? '240px' : '70px',
         height: '100vh',
         padding: theme.spacing.sm,
         borderRight: `1px solid #ced4da`,
