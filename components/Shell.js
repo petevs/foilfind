@@ -2,11 +2,13 @@ import { Box, Burger, Divider, Text, ThemeIcon } from "@mantine/core"
 import NavItem from "./NavItem"
 import { GrStatusPlaceholder } from "react-icons/gr"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useHover } from "@mantine/hooks"
 
 const Shell = ({children}) => {
 
     const [isOpen, setIsOpen] = useState(false)
+    const { hovered, ref } = useHover()
 
     const minMenu = (theme) => ({
         // display: 'grid',
@@ -21,41 +23,21 @@ const Shell = ({children}) => {
         boxShadow: 'rgb(23 35 44 / 10%) 0 5px 15px 0'
     })
 
+    useEffect(() => {
+        if(hovered === true){
+            setIsOpen(true)
+        }
+        if(hovered === false){
+            setIsOpen(false)
+        }
+    }, [hovered])
+
     return (
         <>
         <Box>
-            {/* <Box sx={minMenu}>
+            <Box sx={minMenu} ref={ref}>
                 <Burger size='sm' onClick={() => setIsOpen(!isOpen)} />
-                <Divider mt='sm' mb='sm' />
-                <ThemeIcon size='sm' variant='outline'>
-                    <GrStatusPlaceholder />
-                </ThemeIcon> */}
-                {/* <NavItem 
-                    title='Foils'
-                    path='/foils'
-                    icon={<GrStatusPlaceholder />}
-
-                />
-                <NavItem 
-                    title='Wings'
-                    path='/foils'
-                    icon={<GrStatusPlaceholder />}
-
-                />
-                <NavItem 
-                    title='Boards'
-                    path='/foils'
-                    icon={<GrStatusPlaceholder />}
-
-                />
-                <NavItem 
-                    title='Accessories'
-                    path='/foils'
-                    icon={<GrStatusPlaceholder />}
-
-                /> */}
-                {/* <Divider mt='sm' mb='sm' />
-            </Box> */}
+            </Box>
             <Box>
                 {children}
             </Box>
