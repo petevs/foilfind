@@ -3,32 +3,36 @@ import TypeCard from "./TypeCard"
 import { Group } from "@mantine/core"
 import { BsShop } from "react-icons/bs"
 import { MdOutlineAddShoppingCart } from "react-icons/md"
+import { Button, Autocomplete } from "@mantine/core"
+import { useRouter } from "next/router"
 
-const Location = () => {
+const Location = ({back}) => {
 
-    const headline = (theme ) => ({
-        fontSize: '50px',
-        fontWeight: 900,
-        marginBottom: theme.spacing.xl
-    })
+    const router = useRouter()
+
+    const handleClick = () => {
+        router.push('/dealers/all')
+    }
 
     return (
         <>
             <Headline
-                title='Lets get started...'
+                title='Which country are you shipping to?'
             />
             <Group>
-                <TypeCard
-                    icon={<BsShop />}
-                    title='Physical'
-                    subtitle='Pick-up in person'
+                <Autocomplete
+                    placeholder="Select a country"
+                    data={['United States', 'Canada', 'UK', 'Australia', 'New Zealand']}
+                    size='xl'
                 />
-                <TypeCard
-                    icon={<MdOutlineAddShoppingCart />}
-                    title='Online'
-                    subtitle='Order online'
-                />
+                <Button 
+                    size='xl'
+                    onClick={() => handleClick()}
+                >
+                    Show Results
+                </Button>
             </Group>
+            <Button variant='subtle' onClick={back} size='xs' mt='xl'>Go Back</Button>
         </>
     )
 }
