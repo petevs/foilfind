@@ -1,5 +1,6 @@
 import { Box, Title, Text } from '@mantine/core'
 import Head from 'next/head'
+import ComingSoon from '../components/ComingSoon'
 import Shell from '../components/Shell'
 
 export default function Home() {
@@ -18,12 +19,13 @@ export default function Home() {
         <meta name="description" content="Foil Find" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Shell>
+      {/* <Shell> */}
         {/* <Box sx={boxStyle}>
           <Title>Foil Find</Title>
           <Text>The world&apos;s best place to find foil answers</Text>
         </Box> */}
-      </Shell>
+        <ComingSoon />
+      {/* </Shell> */}
     </div>
   )
 }
