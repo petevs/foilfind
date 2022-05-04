@@ -23,14 +23,16 @@ const TestContent = () => {
 
 
     return(
-        <Box>
-            {
-            !post ?
-            'Loading'
-            : 
-            parse(post.description)
-            }
-        </Box>
+        <>
+            <Box>
+                {
+                !post ?
+                'Loading'
+                : 
+                parse(post.description)
+                }
+            </Box>
+        </>
     )
 
 }
