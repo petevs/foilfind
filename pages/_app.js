@@ -1,5 +1,11 @@
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core'
 import { useState } from 'react'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function MyApp({ Component, pageProps }) {
 

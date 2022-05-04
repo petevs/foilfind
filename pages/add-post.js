@@ -16,7 +16,7 @@ const AddPost = () => {
 
     return (
         <>
-            <Container>
+            <Container size='xl'>
                 <Box pt='xl'>
                     <TestContent />
                     <RichTextEditor
