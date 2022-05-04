@@ -6,6 +6,9 @@ const ContentGrid = ({children}) => {
         display: 'grid',
         gridTemplateColumns: '2fr 1fr',
         gridGap: theme.spacing.md,
+        alignItems: 'start',
+        paddingTop: '2rem',
+        gap: '4rem',
     })
 
 

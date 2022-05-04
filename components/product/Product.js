@@ -1,6 +1,7 @@
 import { Box, Text, Container, AspectRatio, Divider } from "@mantine/core"
 import ContentGrid from "./ContentGrid"
 import { ImageGrid } from "./ImageGrid"
+import PriceBox from "./PriceBox"
 import ShortDescription from "./ShortDescription"
 import VideoContent from "./VideoContent"
 
@@ -20,7 +21,7 @@ const Product = ({ product }) => {
         <Container size='lg'>
             <Box pb='lg'>
                 <Text weight={900} size='xl'>{product.title ? product.title : ''}</Text>
-                <Text size='sm'>{product.brand ? product.brand : ''}</Text>
+                <Text size='sm'>{product.brand ? product.brand : ''} · 3 Reviews · Top 10 </Text>
             </Box>
             <ImageGrid images={product.images} />
             <ContentGrid>
@@ -41,6 +42,7 @@ const Product = ({ product }) => {
                     </AspectRatio>
                     </Box>
                 </Box>
+                <PriceBox />
             </ContentGrid>
         </Container>
     )
