@@ -4,7 +4,7 @@ const ContentGrid = ({children}) => {
 
     const style = (theme) => ({
         display: 'grid',
-        gridTemplateColumns: '2fr 1fr',
+        gridTemplateColumns: '3fr 1fr',
         gridGap: theme.spacing.md,
         alignItems: 'start',
         paddingTop: '2rem',

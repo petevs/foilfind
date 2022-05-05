@@ -1,4 +1,5 @@
 import { Text, Box, ThemeIcon } from "@mantine/core"
+import Logo from "./Logo"
 
 const Header = ({fixedNav}) => {
 
@@ -8,13 +9,14 @@ const Header = ({fixedNav}) => {
         left: fixedNav ? '240px' : '70px',
         padding: theme.spacing.sm,
         width: fixedNav ? 'calc(100vw - 240px)' : 'calc(100vw - 70px)',
-        height: '62px'
+        height: '62px',
+        borderBottom: '1px solid black',
 
     })
 
     return (
         <Box sx={style}>
-            <Text size='xl' weight='900'>FoilFind</Text>
+            <Logo />
         </Box>
     )
 }

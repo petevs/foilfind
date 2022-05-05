@@ -154,7 +154,7 @@ const Footer = () => {
 
   return (
     <footer className={classes.footer}>
-      <Container className={classes.inner}>
+      <Container className={classes.inner} size='xl'>
         <div className={classes.logo}>
           <Text>Logo</Text>
           <Text size="xs" color="dimmed" className={classes.description}>

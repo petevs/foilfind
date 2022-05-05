@@ -3,6 +3,7 @@ import RichTextEditor from '../components/RichText'
 import { useState } from "react"
 import TestContent from "../components/TestContent"
 import Footer from "../components/Footer"
+import { HeaderTwo } from "../components/HeaderTwo"
 
 
 const AddPost = () => {
@@ -16,17 +17,14 @@ const AddPost = () => {
 
     return (
         <>
-            <Container size='xl'>
-                <Box pt='xl'>
-                    <TestContent />
-                    <RichTextEditor
-                        mt='xl' 
-                        value={value}
-                        onChange={onChange}
-                    />
-                    <Button onClick={handleClick}>Console log</Button>
-                </Box>
-            </Container>
+            <HeaderTwo />
+            <TestContent />
+            {/* <RichTextEditor
+                mt='xl' 
+                value={value}
+                onChange={onChange}
+            />
+            <Button onClick={handleClick}>Console log</Button> */}
             <Footer />
         </>
     )

@@ -12,6 +12,7 @@ const ShortDescription = ({ description }) => {
     return (
         <Box>
             <Divider mt='lg' />
+            <Text weight={900} size='xl' mt='md'>Description</Text>
             <Box sx={style}>
                 {parse(description)}
             </Box>

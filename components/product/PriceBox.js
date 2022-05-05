@@ -1,21 +1,30 @@
-import { Card, Select, Text, Button, Divider } from "@mantine/core"
+import { Card, Select, Text, Button, Divider, Group } from "@mantine/core"
+import { useState } from "react"
 
 const PriceBox = () => {
 
+    const [size, setSize] = useState("4'8 x 22.5\" x 3\" Vol: 50L")
+
     return (
         <Card shadow='xl' withBorder radius='md' p='xl'>
-            <Text size='xl' weight={500}>$1,999 - $2,495</Text>
-            <Divider mt='md' mb='md' />
+            <Group position='apart' sx={{alignItems: 'baseline'}}>
+                <Text size='xl' weight={500}>$1,999 - $2,495</Text>
+                <Text color='dimmed' size='xs'>8 Reviews</Text>
+            </Group>
+            <Text size='xs' mt='xs' color='green'>In Stock</Text>
             <Select
-                label="Size"
+                mt='xs'
+                size='xs'
+                value={size}
+                onChange={setSize}
                 data={[
-                    { value: 'react', label: 'React' },
+                    { value: "4'8 x 22.5\" x 3\" Vol: 50L", label: "4'8 x 22.5\" x 3\" Vol: 50L" },
                     { value: 'ng', label: 'Angular' },
                     { value: 'svelte', label: 'Svelte' },
                     { value: 'vue', label: 'Vue' },
                 ]}
             />
-            <Button fullWidth mt='md' color='red'>Compare Prices</Button>
+            <Button fullWidth mt='md' color='blue' radius='md' size='md'>Compare Prices</Button>
         </Card>
     )
 }
