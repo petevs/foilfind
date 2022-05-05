@@ -24,6 +24,7 @@ export function ImageGrid({images}) {
         onClose={() => setIsOpen(false)}
         size='xl'
         overflow='inside'
+        transition='slide-up'
       >
         <Box sx={{display: 'grid', gridTemplateColumns: '1fr', gap: '1rem'}}>
           {

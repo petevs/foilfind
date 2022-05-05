@@ -1,12 +1,34 @@
-import { Card, Select, Text, Button, Divider, Group } from "@mantine/core"
+import { Card, Select, Text, Button, Divider, Group, createStyles } from "@mantine/core"
 import { useState } from "react"
 import Compare from "./Compare"
+
+
+const useStyles = createStyles((theme) => ({
+    root: {
+      position: 'relative',
+    },
+  
+    input: {
+      height: 'auto',
+      paddingTop: 18,
+    },
+  
+    label: {
+      position: 'absolute',
+      pointerEvents: 'none',
+      fontSize: theme.fontSizes.xs,
+      paddingLeft: theme.spacing.sm,
+      paddingTop: theme.spacing.sm / 2,
+      zIndex: 1,
+    },
+  }));
+
 
 const PriceBox = ({ product }) => {
 
     const [size, setSize] = useState("4'8 x 22.5\" x 3\" Vol: 50L")
 
-    console.log(product)
+    const { classes } = useStyles();
 
     return (
         <Card shadow='xl' withBorder radius='md' p='xl'>
@@ -16,10 +38,12 @@ const PriceBox = ({ product }) => {
             </Group>
             <Text size='xs' mt='xs' color='green'>In Stock</Text>
             <Select
-                mt='xs'
                 size='xs'
                 value={size}
                 onChange={setSize}
+                style={{ marginTop: 10, zIndex: 2 }}
+                classNames={classes}
+                label='Board Size'
                 data={[
                     { value: "4'8 x 22.5\" x 3\" Vol: 50L", label: "4'8 x 22.5\" x 3\" Vol: 50L" },
                     { value: 'ng', label: 'Angular' },
