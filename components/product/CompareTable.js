@@ -1,4 +1,5 @@
 import { Button, Group, Table, Avatar, Text, UnstyledButton, Center, Box } from "@mantine/core"
+import { CurrencySelect } from "./CurrencySelect"
 
 const CompareTable = () => {
 
@@ -67,14 +68,7 @@ const CompareTable = () => {
                     <Button size='xs' mt='xs' radius='md'>List Your Store Here</Button>
                 </Center>
             </Box>
-            <Text size='lg' mt='lg' weight={500}>Compare Used</Text>
-            <Text size='sm'>None currently for sale</Text>
-            <Box sx={(theme) => ({backgroundColor: theme.colors.gray[0], border: `1px solid ${theme.colors.gray[3]}`, borderRadius: theme.radius.md})} p='md' mt='md'>
-                <Text align='center' size='sm' weight={500}>Selling a used one?</Text>
-                <Center>
-                    <Button size='xs' mt='xs' radius='md'>List Your Item Here</Button>
-                </Center>
-            </Box>
+
         </>
     )
 }

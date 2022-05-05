@@ -32,6 +32,10 @@ const Product = ({ product }) => {
                 <ImageGrid images={product.images} />
                 <ContentGrid>
                     <Box>
+                        <Text size='xl' weight={900}>Summary Based on 8 Reviews</Text>
+                        <Text>
+                        Customers are very happy with the board and its performance. They say it is easy to use and perfect for anyone looking to get into the sport. They also say it is a great choice for those who want to progress and have fun.
+                        </Text>
                         <ShortDescription
                             description={product.description || ''}
                         />
@@ -59,7 +63,13 @@ const Product = ({ product }) => {
                         </Center>
                     </Box>
                 </ContentGrid>
+                <Box>
+                    <Divider mt='lg' mb='lg' />
+                    <Text size='xl' weight={900}>Reviews</Text>
+                </Box>
+
             </Container>
+    
         </>
     )
 }

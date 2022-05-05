@@ -1,6 +1,8 @@
-import { Modal, Button, Card, Image, Box, Text, Group } from "@mantine/core"
+import { Modal, Button, Card, Image, Box, Text, Group, Center, Divider } from "@mantine/core"
 import { useState } from "react"
 import CompareTable from "./CompareTable"
+import { CurrencySelect } from "./CurrencySelect"
+import UsedProductCard from "./UsedProductCard"
 
 const Compare = ({ product }) => {
     
@@ -47,10 +49,26 @@ const Compare = ({ product }) => {
                     sx={(theme) => ({backgroundColor: theme.colors.gray[0], marginLeft: '-1rem', marginRight: '-1rem', padding: `${theme.spacing.sm}px ${theme.spacing.md}px`})}
                     mb='xs'
                 >
-                    <Text weight={500}>Compare New</Text>
-                    <Text size='xs'>Last Updated: Thu May 5, 10:25am</Text>
+                    <Text weight={600}>Compare New</Text>
+                    <Text size='xs' color='dimmed'>Last Updated: Thu May 5, 10:25am</Text>
                 </Box>
                 <CompareTable />
+                <Box
+                    // sx={(theme) => ({backgroundColor: theme.colors.gray[0], marginLeft: '-1rem', marginRight: '-1rem', padding: `${theme.spacing.sm}px ${theme.spacing.md}px`})}
+                    // mb='xs'
+                    // mt='lg'
+                >
+                    <Text weight={600} mt='lg' mb='xs'>Find Used</Text>
+                    <Divider />
+                </Box>
+                <Text size='sm' mt='md' color='dimmed' mb='md'>None currently for sale</Text>
+                <UsedProductCard />
+            <Box sx={(theme) => ({backgroundColor: theme.colors.gray[0], border: `1px solid ${theme.colors.gray[3]}`, borderRadius: theme.radius.md})} p='md' mt='xl'>
+                <Text align='center' size='sm' weight={500}>Selling a used one?</Text>
+                <Center>
+                    <Button size='xs' mt='xs' radius='md'>List Your Item Here</Button>
+                </Center>
+            </Box>
                 {/* <Card
                     withBorder
                     sx={cardStyle}
