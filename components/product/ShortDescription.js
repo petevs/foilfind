@@ -5,7 +5,7 @@ import { useState } from 'react'
 const ShortDescription = ({ description }) => {
 
 
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
 
     const style = {
         height: '175px',
@@ -31,7 +31,7 @@ const ShortDescription = ({ description }) => {
             </Modal>
             <Box>
                 <Divider mt='lg' />
-                <Text weight={900} size='xl' mt='md'>Description</Text>
+                <Text weight={900} size='xl' mt='md'>Brand Description</Text>
                 <Box sx={style}>
                     {parse(description)}
                 </Box>

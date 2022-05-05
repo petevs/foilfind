@@ -51,7 +51,9 @@ const Product = ({ product }) => {
                         </Box>
                     </Box>
                     <Box>
-                        <PriceBox />
+                        <PriceBox 
+                            product={product}
+                        />
                         <Center mt='md'>
                             <Button size='xs' variant='subtle' color='dimmed'>Have One to Sell?</Button>
                         </Center>

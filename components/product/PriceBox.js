@@ -1,9 +1,12 @@
 import { Card, Select, Text, Button, Divider, Group } from "@mantine/core"
 import { useState } from "react"
+import Compare from "./Compare"
 
-const PriceBox = () => {
+const PriceBox = ({ product }) => {
 
     const [size, setSize] = useState("4'8 x 22.5\" x 3\" Vol: 50L")
+
+    console.log(product)
 
     return (
         <Card shadow='xl' withBorder radius='md' p='xl'>
@@ -24,7 +27,9 @@ const PriceBox = () => {
                     { value: 'vue', label: 'Vue' },
                 ]}
             />
-            <Button fullWidth mt='md' color='blue' radius='md' size='md'>Compare Prices</Button>
+            <Compare 
+                product={product}
+            />
         </Card>
     )
 }
