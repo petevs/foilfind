@@ -10,6 +10,7 @@ import VideoContent from "./VideoContent"
 import Shell from '../Shell'
 import { HeaderTwo } from "../HeaderTwo"
 import ReviewTable from "./ReviewTable"
+import VideoSlider from "./VideoSlider"
 
 
 const Product = ({ product }) => {
@@ -31,6 +32,7 @@ const Product = ({ product }) => {
                     <Text size='sm'>{product.brand ? product.brand : ''} · 3 Reviews · Top 10 </Text>
                 </Box>
                 <ImageGrid images={product.images} />
+                <Text mt='md' color='dimmed' size='xs'>Brand: ArmstrongFoils.com</Text>
                 <ContentGrid>
                     <Box>
                         <Text size='xl' weight={900}>Summary Based on 8 Reviews</Text>
@@ -43,7 +45,8 @@ const Product = ({ product }) => {
                         <Box width='100%'>
                         <Divider mb='lg' mt='lg' />
                         <Text weight={900} size='xl' mb='md'>Videos</Text>
-                        <AspectRatio ratio={16 / 9}>
+                        <VideoSlider videos={product.brandVideos} />
+                        {/* <AspectRatio ratio={16 / 9}>
                                 <iframe
                                     src={product.brandVideos[0].replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
                                     title="YouTube video player"
@@ -52,7 +55,7 @@ const Product = ({ product }) => {
                                     allowFullScreen
                                 />
                         </AspectRatio>
-                        <Button variant='outline' color='dark' size='sm' mt='md'>See 7 More Videos</Button>
+                        <Button variant='outline' color='dark' size='sm' mt='md'>See 7 More Videos</Button> */}
                         </Box>
                     </Box>
                     <Box>
