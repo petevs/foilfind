@@ -35,7 +35,7 @@ const Product = ({ product }) => {
                 <Text mt='md' color='dimmed' size='xs'>Brand: ArmstrongFoils.com</Text>
                 <ContentGrid>
                     <Box>
-                        <Text size='xl' weight={900}>Summary Based on 8 Reviews</Text>
+                        <Text size='xl' weight={900} mb='md'>Summary Based on 8 Reviews</Text>
                         <Text>
                         Customers are very happy with the board and its performance. They say it is easy to use and perfect for anyone looking to get into the sport. They also say it is a great choice for those who want to progress and have fun. The boards are designed to get off the water quickly and with minimal effort. They have a lot of concave decking to give the rider more control, and the bottom shape is designed to help the rider take off early and with less swing weight. Boards include a board bag, a carbon tail patch, and a deck pad.
                         </Text>
@@ -45,7 +45,6 @@ const Product = ({ product }) => {
                         <Box width='100%'>
                         <Divider mb='lg' mt='lg' />
                         <Text weight={900} size='xl' mb='md'>Videos</Text>
-                        <VideoSlider videos={product.brandVideos} />
                         {/* <AspectRatio ratio={16 / 9}>
                                 <iframe
                                     src={product.brandVideos[0].replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
@@ -67,6 +66,7 @@ const Product = ({ product }) => {
                         </Center>
                     </Box>
                 </ContentGrid>
+                <VideoSlider videos={product.brandVideos} />
                 <Box>
                     <Divider mt='lg' mb='lg' />
                     <Text size='xl' weight={900} mb='md'>Reviews</Text>

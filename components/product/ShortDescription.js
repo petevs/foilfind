@@ -31,7 +31,7 @@ const ShortDescription = ({ description }) => {
             </Modal>
             <Box>
                 <Divider mt='lg' />
-                <Text weight={900} size='xl' mt='md'>Brand Description</Text>
+                <Text weight={900} size='xl' mt='md'>Description From Armstrong</Text>
                 <Box sx={style}>
                     {parse(description)}
                 </Box>

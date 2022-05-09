@@ -7,6 +7,10 @@ import 'swiper/css/scrollbar';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import UserContext from '../state/UserContext'
+import useUserData from '../hooks/useUserData';
+
+
 function MyApp({ Component, pageProps }) {
 
 
@@ -14,18 +18,21 @@ function MyApp({ Component, pageProps }) {
   const toggleColorScheme = (value) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
+  const userData = useUserData()
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme}>
-    <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme,
-        }}
-    >
-      <Component {...pageProps} />
-  </MantineProvider>
+      <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme,
+          }}
+      >
+        <UserContext.Provider value={userData}>
+          <Component {...pageProps} />
+        </UserContext.Provider>
+    </MantineProvider>
    </ColorSchemeProvider>
   )
 }

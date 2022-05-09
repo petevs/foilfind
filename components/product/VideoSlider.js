@@ -1,4 +1,4 @@
-import { Box, Image, UnstyledButton, Overlay, Modal, AspectRatio } from '@mantine/core'
+import { Box, Image, UnstyledButton, Overlay, Modal, AspectRatio, ScrollArea } from '@mantine/core'
 import { useState } from 'react'
 
 const VideoSlider = ({videos}) => {
@@ -40,7 +40,7 @@ const VideoSlider = ({videos}) => {
                         />
                 </AspectRatio>
             </Modal>
-            <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '.5rem', justifyContent: 'start'}}>
+            <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start', overflowX: 'scroll', padding: '2rem 0'}}>
                 {
                     videos.map( (video, index) => (
                         <UnstyledButton
@@ -55,10 +55,12 @@ const VideoSlider = ({videos}) => {
                             }}
                         >
                             <Image
-                                width='200px'
-                                height='350px'
+                                width='347px'
+                                height='195px'
                                 radius='md'
+                                fit='cover'
                                 src={getThumnail(video)}
+                                sx={(theme) => ({border: `1px solid ${theme.colors.dark[2]}`, borderRadius: theme.radius.md})}
                             />
                         </UnstyledButton>
                     ))
