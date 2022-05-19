@@ -1,4 +1,4 @@
-import { Box, Text, Container, AspectRatio, Divider, ThemeIcon, Button, Center, UnstyledButton } from "@mantine/core"
+import { Box, Text, Container, AspectRatio, Divider, ThemeIcon, Button, Center, UnstyledButton, Breadcrumbs, Anchor } from "@mantine/core"
 import FoilIcon from "../FoilIcon"
 import Header from "../Header"
 import Logo from "../Logo"
@@ -15,6 +15,16 @@ import VideoSlider from "./VideoSlider"
 
 const Product = ({ product }) => {
 
+    const items = [
+        { title: 'Products', href: '#' },
+        { title: 'Wing Boards', href: '#' },
+        { title: 'Armstrong Wing SUP Board', href: '#' },
+      ].map((item, index) => (
+        <Anchor href={item.href} key={index}>
+          {item.title}
+        </Anchor>
+      ));
+
 
     if(!product) {
 
@@ -26,9 +36,10 @@ const Product = ({ product }) => {
     }
     return (
         <>
-            <Container size='xl'>
+            <Container size='lg' pb='lg'>
+                <Breadcrumbs mt='md' mb='md'>{items}</Breadcrumbs>
                 <Box pb='lg'>
-                    <Text weight={900} size='xl'>{product.title ? product.title : ''}</Text>
+                    <Text weight={900} sx={{fontSize: '2rem'}}>{product.title ? product.title : ''}</Text>
                     <Text size='sm'>{product.brand ? product.brand : ''} · 3 Reviews · Top 10 </Text>
                 </Box>
                 <ImageGrid images={product.images} />

@@ -7,7 +7,7 @@ const Logo = () => {
                 <ThemeIcon variant="outline" radius="xl" size="md" color='dark' sx={{border: '1.75px solid #25262b'}}>
                     <FoilIcon />
                 </ThemeIcon>
-                <Text weight={900} size='xl'>Foil Find</Text>
+                <Text weight={900} color='blue' size='xl'>Foil Find</Text>
             </Group>
     )
 }

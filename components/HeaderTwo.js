@@ -56,7 +56,7 @@ export function HeaderTwo() {
   const { classes, cx } = useStyles();
 
   const links = [
-      {label: 'test', link: '#'},
+      {label: 'login', link: '/login'},
   ]
 
   const items = links.map((link) => (

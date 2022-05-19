@@ -9,7 +9,7 @@ import { FaHotel } from "react-icons/fa"
 import NavContent from "./NavContent"
 import ContentBox from "./ContentBox"
 
-const Shell = ({children}) => {
+const Shell = ({scroll, children}) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [fixedNav, setFixedNav] = useState(false)
@@ -101,6 +101,7 @@ const Shell = ({children}) => {
             />
             <ContentBox
                 fixedNav={fixedNav}
+                scroll={scroll}
             >
                 {children}
             </ContentBox>

@@ -10,6 +10,7 @@ export default function Home() {
     justifyItems: 'center',
     minHeight: '100vh',
     alignContent: 'center',
+    overflowY: 'scroll'
   }
 
   return (
@@ -19,13 +20,8 @@ export default function Home() {
         <meta name="description" content="Foil Find" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <Shell> */}
-        {/* <Box sx={boxStyle}>
-          <Title>Foil Find</Title>
-          <Text>The world&apos;s best place to find foil answers</Text>
-        </Box> */}
-        <ComingSoon />
-      {/* </Shell> */}
+
+      <ComingSoon />
     </div>
   )
 }
