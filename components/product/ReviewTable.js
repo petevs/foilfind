@@ -21,7 +21,7 @@ const ReviewTable = () => {
                 <UnstyledButton>
                     {
                         handleRating(rating).map( (item, index) => (
-                        <BsStarFill />
+                        <BsStarFill key={index} />
                         ))
                     }
                 </UnstyledButton>

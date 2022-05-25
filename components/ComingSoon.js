@@ -79,7 +79,7 @@ const ComingSoon = () => {
                 <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', justifyItems: 'center', padding: '2rem'}}>
                     <ThemeIcon size={50} sx={{borderRadius: '50%'}}><ThumbUp /></ThemeIcon>
                     <Text weight={900} size='xl' mt='md'>Thank you for subscribing!</Text>
-                    <Text color='dimmed'>We'll let you know when we go live!</Text>
+                    <Text color='dimmed'>We`&apos;`ll let you know when we go live!</Text>
                 </Box>
             </Modal>
             <Box sx={(theme) => ({borderBottom: `1px solid ${theme.colors.dark[0]}`})}>

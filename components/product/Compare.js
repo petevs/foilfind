@@ -42,7 +42,7 @@ const Compare = ({ product }) => {
                     </Box>
                     <Box>
                         <Text size='lg' weight={900}>{product.brand} {product.title}</Text>
-                        <Text>4'8 x 22.5" x 3" Vol: 50L</Text>
+                        <Text>4`&apos;`8 x 22.5`&quot;` x 3`&quot;` Vol: 50L</Text>
                     </Box>
                 </Group>
                 <Box

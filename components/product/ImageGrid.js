@@ -28,8 +28,8 @@ export function ImageGrid({images}) {
       >
         <Box sx={{display: 'grid', gridTemplateColumns: '1fr', gap: '1rem'}}>
           {
-            images.map(item => (
-              <Image src={item} radius='xs' />
+            images.map((item, index) => (
+              <Image key={index} src={item} radius='xs' />
             ))
           }
         </Box>
@@ -40,8 +40,8 @@ export function ImageGrid({images}) {
 
         <Grid gutter="md">
           {
-            numImages.map( item => (
-              <Grid.Col span={6}>
+            numImages.map( (item, index) => (
+              <Grid.Col span={6} key={index}>
                 <Image onClick={openModal} sx={{cursor: 'pointer'}}  src={images[item]} height={SECONDARY_COL_HEIGHT} radius="md" />
               </Grid.Col>
             ))
