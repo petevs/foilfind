@@ -2,8 +2,46 @@ import { Box, Title, Text } from '@mantine/core'
 import Head from 'next/head'
 import ComingSoon from '../components/ComingSoon'
 import Shell from '../components/Shell'
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
+import { db } from '../firebase'
+import dayjs from 'dayjs'
 
-export default function Home() {
+
+
+export async function getStaticProps() {
+  
+
+  const getPosts = async () => {
+    const updateList = []
+    const q = query(collection(db, 'updates'), orderBy('date', 'desc'))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      const post = doc.data()
+      const friendlyDate = dayjs(post.date.toDate()).format('MMMM DD YYYY h:mm A')
+      updateList.push({
+        ...post,
+        date: friendlyDate
+      })
+    })
+    return updateList
+
+  }
+
+  const res = await getPosts()
+  const posts = JSON.parse(JSON.stringify(res))
+
+  return {
+    props: {
+      posts,
+    },
+
+    revalidate: 900
+  }
+
+}
+
+
+export default function Home({ posts }) {
 
   const boxStyle = {
     display: 'grid',
@@ -21,7 +59,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ComingSoon />
+      <ComingSoon 
+        posts={posts}
+      />
     </div>
   )
 }

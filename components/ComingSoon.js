@@ -9,8 +9,8 @@ import parse from 'html-react-parser'
 import dayjs from "dayjs"
 
 
+const ComingSoon = ({ posts }) => {
 
-const ComingSoon = () => {
 
     const style = {
         display: 'grid',
@@ -19,33 +19,33 @@ const ComingSoon = () => {
     const [dialogBox, setDialogBox] = useState(false)
     const [email, setEmail] = useState('')
 
-    const [post, setPost] = useState(null)
-    const [posts, setPosts] = useState([])
+    // const [post, setPost] = useState(null)
+    // const [posts, setPosts] = useState([])
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        // const getPost = async () => {
-        //     const docRef = doc(db, 'updates', 'uHPm88FzqFmUYw7SjNOd')
-        //     const docSnap = await getDoc(docRef)
-        //     setPost(docSnap.data())
-        // }
+    //     // const getPost = async () => {
+    //     //     const docRef = doc(db, 'updates', 'uHPm88FzqFmUYw7SjNOd')
+    //     //     const docSnap = await getDoc(docRef)
+    //     //     setPost(docSnap.data())
+    //     // }
 
-        const getPosts = async () => {
+    //     const getPosts = async () => {
 
-            const updateList = []
-            const q = query(collection(db, 'updates'), orderBy('date', 'desc'))
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                updateList.push(doc.data())
-            })
-            setPosts(updateList)
-        }
+    //         const updateList = []
+    //         const q = query(collection(db, 'updates'), orderBy('date', 'desc'))
+    //         const querySnapshot = await getDocs(q)
+    //         querySnapshot.forEach((doc) => {
+    //             updateList.push(doc.data())
+    //         })
+    //         setPosts(updateList)
+    //     }
 
-        getPosts()
+    //     getPosts()
 
-        // getPost()
+    //     // getPost()
 
-    },[])
+    // },[])
 
     const getDate = (post) => {
         if(post.date){
@@ -141,7 +141,7 @@ const ComingSoon = () => {
                                 p='xl'
                             >
                                 <Text weight={700} size='xl'>{post.title}</Text>
-                                <Text size='xs' color='dimmed'>{getDate(post)}</Text>
+                                <Text size='xs' color='dimmed'>{post.date}</Text>
                                 <Text>
                                     {parse(post.content)}
                                 </Text>
