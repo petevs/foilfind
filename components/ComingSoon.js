@@ -130,7 +130,8 @@ const ComingSoon = () => {
                     {
                         posts &&
                         posts.map((post, index) => (
-                            <Card 
+                            <Card
+                                key={index} 
                                 withBorder 
                                 shadow='lg' 
                                 mb='xl' 
