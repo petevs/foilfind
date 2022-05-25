@@ -3,7 +3,7 @@ import { Circle, Mail, Search, ThumbUp } from "tabler-icons-react"
 import FoilFindLogo from "../components/FoilFindLogo"
 import PostCard from "./PostCard"
 import { useEffect, useState } from 'react'
-import { collection, doc, getDoc, getDocs, query, addDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, addDoc, orderBy } from 'firebase/firestore'
 import { db } from '../firebase'
 import parse from 'html-react-parser'
 import dayjs from "dayjs"
@@ -33,7 +33,7 @@ const ComingSoon = () => {
         const getPosts = async () => {
 
             const updateList = []
-            const q = query(collection(db, 'updates'))
+            const q = query(collection(db, 'updates'), orderBy('date', 'desc'))
             const querySnapshot = await getDocs(q)
             querySnapshot.forEach((doc) => {
                 updateList.push(doc.data())
