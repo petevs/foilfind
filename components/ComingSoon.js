@@ -1,6 +1,14 @@
-import { Box, Button, Center, Container, Text, TextInput, Group, Timeline, Divider } from "@mantine/core"
-import { Circle, Mail, Search } from "tabler-icons-react"
+import { Box, Button, Center, Container, Text, TextInput, Group, Timeline, Divider, AspectRatio, Card, createStyles, Dialog, Modal, ThemeIcon, Stack } from "@mantine/core"
+import { Circle, Mail, Search, ThumbUp } from "tabler-icons-react"
 import FoilFindLogo from "../components/FoilFindLogo"
+import PostCard from "./PostCard"
+import { useEffect, useState } from 'react'
+import { collection, doc, getDoc, getDocs, query, addDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+import parse from 'html-react-parser'
+import dayjs from "dayjs"
+
+
 
 const ComingSoon = () => {
 
@@ -8,68 +16,150 @@ const ComingSoon = () => {
         display: 'grid',
     }
 
-    const timelineItemStyle = (theme) => ({
-        '& .mantine-Timeline-itemBody': {
-            ':hover': {
-            color: theme.colors.blue,
-            cursor: 'pointer',
-        }
-        }
-    })
+    const [dialogBox, setDialogBox] = useState(false)
+    const [email, setEmail] = useState('')
 
-    const articleSection = (theme) => ({
-        display: 'grid',
-        gridTemplateColumns: '100px auto 1fr',
-        gap: '3rem',
-        alignContent: 'start',
-        marginBottom: '3rem'
-    })
+    const [post, setPost] = useState(null)
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+
+        // const getPost = async () => {
+        //     const docRef = doc(db, 'updates', 'uHPm88FzqFmUYw7SjNOd')
+        //     const docSnap = await getDoc(docRef)
+        //     setPost(docSnap.data())
+        // }
+
+        const getPosts = async () => {
+
+            const updateList = []
+            const q = query(collection(db, 'updates'))
+            const querySnapshot = await getDocs(q)
+            querySnapshot.forEach((doc) => {
+                updateList.push(doc.data())
+            })
+            setPosts(updateList)
+        }
+
+        getPosts()
+
+        // getPost()
+
+    },[])
+
+    const getDate = (post) => {
+        if(post.date){
+            return dayjs(post.date.toDate()).format('MMMM DD YYYY h:mm A')
+        }
+
+        return ''
+    }   
+
+
+    const handleEmailSubscribe = async () => {
+        const docRef = await addDoc(collection(db, 'waitingList'), {
+            email: email
+        })
+
+        console.log(docRef)
+        setEmail('')
+        setDialogBox(true)
+    }
+
 
     return (
         <Box>
+            <Modal
+                opened={dialogBox}
+                withCloseButton
+                onClose={() => setDialogBox(false)}
+                size='lg'
+                radius='md'
+            >
+                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', justifyItems: 'center', padding: '2rem'}}>
+                    <ThemeIcon size={50} sx={{borderRadius: '50%'}}><ThumbUp /></ThemeIcon>
+                    <Text weight={900} size='xl' mt='md'>Thank you for subscribing!</Text>
+                    <Text color='dimmed'>We'll let you know when we go live!</Text>
+                </Box>
+            </Modal>
             <Box sx={(theme) => ({borderBottom: `1px solid ${theme.colors.dark[0]}`})}>
                 <Container size='xl' p='xs'>
                     <Group position='apart'>
                         <FoilFindLogo width='75' />
-                        <Text size='sm' color='dimmed'>Coming Soon</Text>
+                        <Button 
+                            component='a' 
+                            href='mailto:hey@foilfind.com?subject=Inquiry from the site' 
+                            variant="outline" 
+                            radius='xl' 
+                            size='xs' 
+                            leftIcon={<Mail height='12px' width='12px' />}
+                            sx={{
+                                '& span': {
+                                    marginRight: '5px'
+                                }
+                            }}
+                        >
+                            hey@foilfind.com
+                        </Button>
                     </Group>
                 </Container>
             </Box>
             <Container sx={style}>
-                <Box p='xl' mt='xl'>
+                <Box p='xl' mt='xl' mb='xl'>
                     <Text sx={{fontSize: '2.5rem'}} weight={700} align='center'>Coming Soon</Text>
                     <Text align='center' color='dimmed'>A community connecting wing foiling riders, retailers, coaches, brands and more.</Text>
                     <Center>
                         <Group mt='md'>
                             <TextInput
-                                icon={<Mail />} 
-                                placeholder='Subscribe via email'
+                                placeholder='Enter email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
-                            <Button>Notify Me</Button>
+                            <Button onClick={handleEmailSubscribe}>Notify Me</Button>
                         </Group>
                     </Center>
                 </Box>
-                <Container size='md' pt='xl'>
-                    <Box sx={articleSection}>
-                        <Text color='dimmed' size='sm'>May 19, 2022</Text>
-                        <Divider orientation="vertical"/>
-                        <Box
-                            sx={(theme) => ({
-                                padding: '1rem',
-                                borderRadius: '6px',
-                                margin: '-1rem',
-                                '&:hover': {
-                                    backgroundColor: theme.colors.gray[0],
-                                    cursor: 'pointer'
+                <Divider  mb='xl' />
+                <Box
+                    sx={{
+                        overflowY: 'scroll',
+                        padding: '1rem'
+                    }}
+                >
+                    <Text weight={900} mb='xl' size='xl'>Latest Updates</Text>
+                    {
+                        posts &&
+                        posts.map((post, index) => (
+                            <Card 
+                                withBorder 
+                                shadow='lg' 
+                                mb='xl' 
+                                sx={(theme) => ({
+                                    backgroundColor: theme.colors.gray[0]
+                                })}
+                                p='xl'
+                            >
+                                <Text weight={700} size='xl'>{post.title}</Text>
+                                <Text size='xs' color='dimmed'>{getDate(post)}</Text>
+                                <Text>
+                                    {parse(post.content)}
+                                </Text>
+                                {
+                                    post.video &&
+                                    <AspectRatio ratio={16 / 9}>
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${post.video}?showinfo=0&modestbranding=1`}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                    </AspectRatio>
                                 }
-                            })}
-                        >
-                            <Text weight={700} size='md'>First Post Headline</Text>
-                            <Text size='sm' color='dimmed'>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution</Text>
-                            <Text size='sm' color='blue' mt='sm'>Read More</Text>
-                        </Box>
-                    </Box>
-                </Container>
+                            </Card>
+                        ))
+                    }
+                </Box>
+
             </Container>
         </Box>
     )
