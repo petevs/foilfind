@@ -1,7 +1,6 @@
 import { Box, Button, Container, Group, Text, TextInput } from "@mantine/core"
 import RichTextEditor from '../components/RichText'
 import { useState } from "react"
-import TestContent from "../components/TestContent"
 import Footer from "../components/Footer"
 import { HeaderTwo } from "../components/HeaderTwo"
 import FoilFindLogo from "../components/FoilFindLogo"
