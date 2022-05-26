@@ -5,6 +5,7 @@ import Image from "next/image"
 import BrandCard from "../components/cards/BrandCard"
 import SectionTitle from "../components/titles/SectionTitle"
 import Homepage from "../components/homepage/Homepage"
+import AppShell from "../components/appshell/AppShell"
 
 
 
@@ -39,9 +40,11 @@ export async function getStaticProps() {
 const HomePage = ({brands}) => {
 
     return (
+      <AppShell>
         <Homepage
             brands={brands}
         />
+      </AppShell>
     )
 }
 

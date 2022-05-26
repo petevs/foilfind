@@ -1,5 +1,7 @@
 import { db } from "../../../firebase"
 import { query, collection, getDocs } from 'firebase/firestore'
+import AppShell from "../../../components/appshell/AppShell"
+import BrandHeader from "../../../components/brand/BrandHeader"
 
 
 export async function getStaticPaths(){
@@ -43,9 +45,9 @@ export async function getStaticProps({ params }){
 const Brand = ({ brand }) => {
 
     return (
-        <div>
-            <h1>{brand}</h1>
-        </div>
+        <AppShell>
+            <BrandHeader brand={brand} />
+        </AppShell>
     )
 }
 

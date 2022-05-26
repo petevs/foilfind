@@ -4,6 +4,8 @@ import { Box, Container, Text } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import AppShell from '../../../../components/appshell/AppShell'
+import BrandHeader from '../../../../components/brand/BrandHeader'
 
 export async function getStaticPaths(){
 
@@ -102,38 +104,40 @@ const Products = ({ products, brand}) => {
     })
 
     return (
-        <Container size='xl'>
-            <h1>{brand}</h1>
-            <Box>
-                {
-                    products.map((product, index) => (
-                        <Link
-                            passHref={true}
-                            href={`${asPath}/${toKebabCase(product.title)}`}
-                            key={index}
-                        >
-                            <Box 
-                                sx={cardStyle}
+        <AppShell>
+            <BrandHeader brand={brand} />
+            <Container size='xl'>
+                <Box>
+                    {
+                        products.map((product, index) => (
+                            <Link
+                                passHref={true}
+                                href={`${asPath}/${toKebabCase(product.title)}`}
+                                key={index}
                             >
                                 <Box 
-                                    sx={outerWrapper}
+                                    sx={cardStyle}
                                 >
-                                    <Box sx={imgStyle}>
-                                        <Image 
-                                            src={product.images[0]}  
-                                            alt={product.title}
-                                            layout='fill' 
-                                            objectFit='cover'
-                                        />
+                                    <Box 
+                                        sx={outerWrapper}
+                                    >
+                                        <Box sx={imgStyle}>
+                                            <Image 
+                                                src={product.images[0]}  
+                                                alt={product.title}
+                                                layout='fill' 
+                                                objectFit='cover'
+                                            />
+                                        </Box>
                                     </Box>
+                                    <Text>{product.title}</Text>
                                 </Box>
-                                <Text>{product.title}</Text>
-                            </Box>
-                        </Link>
-                    ))
-                }
-            </Box>
-        </Container>
+                            </Link>
+                        ))
+                    }
+                </Box>
+            </Container>
+        </AppShell>
     )
 }
 

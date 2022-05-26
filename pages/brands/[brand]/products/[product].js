@@ -8,6 +8,7 @@ import { getProductRoutes } from '../../../../getPaths/getProductRoutes'
 import { getProduct } from '../../../../getProps/getProduct'
 import ProductPage from '../../../../components/productPage/ProductPage'
 import ProductLayout from '../../../../components/product/ProductLayout'
+import AppShell from '../../../../components/appshell/AppShell'
 
 export async function getStaticPaths(){
 
@@ -43,9 +44,11 @@ const Product = ({brand, product, productDetails}) => {
 
 
     return(
-        <ProductLayout
-            product={productDetails}
-        />
+        <AppShell>
+            <ProductLayout
+                product={productDetails}
+            />
+        </AppShell>
     )
 }
 
