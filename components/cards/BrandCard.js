@@ -4,8 +4,6 @@ import Link from "next/link"
 
 const BrandCard = (props) => {
 
-    console.log(props)
-
     const {
         imgSrc,
         altText,
