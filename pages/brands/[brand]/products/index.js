@@ -79,8 +79,6 @@ const Products = ({ products, brand}) => {
         .toLowerCase();
     }
 
-    console.log(toKebabCase(products[0].title))
-
 
     const cardStyle = (theme) => ({
         ':hover': {
@@ -109,6 +107,7 @@ const Products = ({ products, brand}) => {
             <Container size='xl'>
                 <Box>
                     {
+                        products &&
                         products.map((product, index) => (
                             <Link
                                 passHref={true}
