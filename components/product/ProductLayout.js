@@ -1,4 +1,4 @@
-import { Box, Text, Container, AspectRatio, Divider, ThemeIcon, Button, Center, UnstyledButton, Breadcrumbs, Anchor } from "@mantine/core"
+import { Box, Text, Container, Divider, Button, Center, Breadcrumbs, Anchor } from "@mantine/core"
 import FoilIcon from "../FoilIcon"
 import Header from "../Header"
 import Logo from "../Logo"
@@ -6,34 +6,40 @@ import ContentGrid from "./ContentGrid"
 import { ImageGrid } from "./ImageGrid"
 import PriceBox from "./PriceBox"
 import ShortDescription from "./ShortDescription"
-import VideoContent from "./VideoContent"
-import Shell from '../Shell'
-import { HeaderTwo } from "../HeaderTwo"
 import ReviewTable from "./ReviewTable"
 import VideoSlider from "./VideoSlider"
+import { useRouter } from "next/router"
 
 
-const Product = ({ product }) => {
+const ProductLayout = ({ product }) => {
 
-    const items = [
-        { title: 'Products', href: '#' },
-        { title: 'Wing Boards', href: '#' },
-        { title: 'Armstrong Wing SUP Board', href: '#' },
-      ].map((item, index) => (
-        <Anchor href={item.href} key={index}>
+    const { asPath } = useRouter()
+
+    let path = asPath.split('/')
+    path.shift()
+    let currentPath = ''
+
+    const breadcrumbs = path.map((item, index) => {
+            
+            currentPath += `/${item}`
+
+            return {
+                title: item,
+                href: currentPath
+            }
+
+    })
+
+    breadcrumbs.pop()
+    
+    const items = breadcrumbs.map((item, index) => (
+        <Anchor href={item.href} key={index} transform='capitalize'>
           {item.title}
         </Anchor>
       ));
 
+    
 
-    if(!product) {
-
-        return(
-            <>
-                loading...
-            </>
-        )
-    }
     return (
         <>
             <Container size='lg' pb='lg'>
@@ -89,4 +95,4 @@ const Product = ({ product }) => {
     )
 }
 
-export default Product
+export default ProductLayout

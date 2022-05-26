@@ -60,7 +60,7 @@ const VideoSlider = ({videos}) => {
                                 radius='md'
                                 fit='cover'
                                 src={getThumnail(video)}
-                                sx={(theme) => ({border: `1px solid ${theme.colors.dark[2]}`, borderRadius: theme.radius.md})}
+                                // sx={(theme) => ({border: `1px solid ${theme.colors.dark[2]}`, borderRadius: theme.radius.md})}
                             />
                         </UnstyledButton>
                     ))

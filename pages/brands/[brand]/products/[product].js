@@ -6,11 +6,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getProductRoutes } from '../../../../getPaths/getProductRoutes'
 import { getProduct } from '../../../../getProps/getProduct'
+import ProductPage from '../../../../components/productPage/ProductPage'
+import ProductLayout from '../../../../components/product/ProductLayout'
 
 export async function getStaticPaths(){
 
     const paths = await getProductRoutes()
-
 
     return {
         paths,
@@ -22,11 +23,8 @@ export async function getStaticPaths(){
 
 export async function getStaticProps({ params }) {
 
-
     const productDetails = await getProduct(params.product)
     
-
-
     return {
     props: {
         brand: params.brand,
@@ -41,15 +39,13 @@ export async function getStaticProps({ params }) {
 
 
 
-const Product = (props) => {
-
-    console.log(props)
+const Product = ({brand, product, productDetails}) => {
 
 
     return(
-        <div>
-            product
-        </div>
+        <ProductLayout
+            product={productDetails}
+        />
     )
 }
 
