@@ -1,4 +1,4 @@
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core'
+import { MantineProvider, ColorSchemeProvider, ColorScheme, TypographyStylesProvider } from '@mantine/core'
 import { useState } from 'react'
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -29,9 +29,11 @@ function MyApp({ Component, pageProps }) {
             colorScheme,
           }}
       >
-        <UserContext.Provider value={userData}>
-          <Component {...pageProps} />
-        </UserContext.Provider>
+        <TypographyStylesProvider>
+          <UserContext.Provider value={userData}>
+            <Component {...pageProps} />
+          </UserContext.Provider>
+        </TypographyStylesProvider>
     </MantineProvider>
    </ColorSchemeProvider>
   )
