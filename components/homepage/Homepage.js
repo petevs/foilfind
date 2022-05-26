@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core"
-import PopularBrands from "./FeaturedBrands"
+import PopularBrands from "./PopularBrands"
 
 const Homepage = ({ brands }) => {
 
