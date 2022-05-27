@@ -42,6 +42,7 @@ const PopularBrands = ({ brands }) => {
                     justifyContent: 'start',
                     gap: '1rem'
                 }}
+                mb='xl'
             >
                 {
                     brands.map((brand, index) => (

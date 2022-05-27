@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AppShell from '../../../../components/appshell/AppShell'
 import BrandHeader from '../../../../components/brand/BrandHeader'
+import BrandProducts from '../../../../components/brand/BrandProducts'
 
 export async function getStaticPaths(){
 
@@ -104,7 +105,14 @@ const Products = ({ products, brand}) => {
     return (
         <AppShell>
             <BrandHeader brand={brand} />
-            <Container size='xl'>
+            <BrandProducts 
+                brand={brand} 
+                products={products.map(item => ({
+                    ...item, 
+                    path: `${asPath}/${toKebabCase(item.title)}`
+                }))} 
+            />
+            {/* <Container size='xl'>
                 <Box>
                     {
                         products &&
@@ -135,7 +143,7 @@ const Products = ({ products, brand}) => {
                         ))
                     }
                 </Box>
-            </Container>
+            </Container> */}
         </AppShell>
     )
 }
