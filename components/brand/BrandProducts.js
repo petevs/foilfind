@@ -1,11 +1,16 @@
-import { Box, Card, Checkbox, Container, Group, Skeleton, Text, TextInput, AspectRatio } from "@mantine/core"
+import { Box, Card, Checkbox, Container, Group, Skeleton, Text, TextInput, AspectRatio, Button } from "@mantine/core"
 import { Search } from "tabler-icons-react"
 import { useMediaQuery } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useState } from "react";
 
 const BrandProducts = ({ brand, products }) => {
+
+    const [testProducts, setTestProducts] = useState(products);
+
+    console.log(products)
 
     const mobile = useMediaQuery('(max-width: 768px)');
 
@@ -60,13 +65,19 @@ const BrandProducts = ({ brand, products }) => {
                         <Card withBorder>
                             <Group position='apart'>
                                 <Text size='sm'>All Products</Text>
-                                <Checkbox size='sm' />
+                                <Checkbox 
+                                    size='sm'
+                                    onChange={() => setTestProducts(products)}
+                                />
                             </Group>
                             {
                                 categories.map((item, index) => (
                                     <Group position='apart' key={index} mt='xs'>
                                         <Text size='sm' transform='capitalize'>{item.title}</Text>
-                                        <Checkbox size='sm' />
+                                        <Checkbox 
+                                            size='sm'
+                                            onChange={() => setTestProducts(testProducts.filter(product => product.category === item.title))}
+                                        />
                                     </Group>
                                 ))
                             }
@@ -102,7 +113,7 @@ const BrandProducts = ({ brand, products }) => {
                             }}
                     >
                         {
-                            products.map(((product, index) => (
+                            testProducts.map(((product, index) => (
                                 <Link passHref={true} key={index} href={product.path}>
                                     <Box
                                         sx={{
