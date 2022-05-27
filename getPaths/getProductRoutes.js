@@ -19,6 +19,18 @@ export const getBrands = async () => {
     return brandPaths.map(item => item.brandName)
 }
 
+export const getBrandsWithDetails = async () => {
+    const brands = []
+    const q = query(collection(db, 'brands'))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      const brand = doc.data()
+      brands.push(brand)
+    })
+
+    return brands
+}
+
 
 const getAllProducts = async () => {
     const productList = []

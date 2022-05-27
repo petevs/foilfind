@@ -2,6 +2,7 @@ import AppShell from "../../components/appshell/AppShell";
 import { Container, Box, Text } from "@mantine/core";
 import { getRetailerPaths } from "../../getPaths/getRetailerRoutes";
 import { getRetailer } from "../../getPaths/getRetailerRoutes";
+import RetailerLayout from "../../components/retailer/RetailerLayout";
 
 export async function getStaticPaths(){
 
@@ -34,15 +35,11 @@ export async function getStaticProps({ params }) {
 
 const Retailer = (props) => {
 
-    console.log(props)
-
     return (
         <AppShell>
-            <Container size='xl'>
-                <Box>
-                    <Text>{props.retailer.name}</Text>
-                </Box>
-            </Container>
+            <RetailerLayout
+                retailer={props.retailer}
+            />
         </AppShell>
     );
 }
