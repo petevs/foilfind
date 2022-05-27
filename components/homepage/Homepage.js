@@ -6,7 +6,7 @@ import { getProduct } from "../../getProps/getProduct"
 const Homepage = ({ brands }) => {
 
     return (
-        <Container size='xl'>
+        <Container size='xl' sx={{minHeight: '75vh'}}>
             <PopularBrands 
                 brands={brands}
             />

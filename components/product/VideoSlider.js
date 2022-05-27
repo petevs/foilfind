@@ -40,28 +40,41 @@ const VideoSlider = ({videos}) => {
                         />
                 </AspectRatio>
             </Modal>
-            <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start', overflowX: 'scroll', padding: '2rem 0'}}>
+            <Box sx={{
+                display: 'grid', 
+                gridAutoFlow: 'column', 
+                gap: '1rem', 
+                justifyContent: 'start',
+                overflowX: 'scroll', 
+                padding: '2rem 0',
+                '&::-webkit-scrollbar': {
+                    display: 'none'
+                }
+            }}>
                 {
                     videos.map( (video, index) => (
                         <UnstyledButton
                             key={index}
                             onClick={() => handleClick(video)}
                             sx={{
+                                width: '347px',
                                 '&:hover': {
                                     transform: 'scale(1.15)',
                                     transition: 'transform .2s ease-in-out',
                                     zIndex: 9
-                                }   
+                                },   
                             }}
                         >
-                            <Image
-                                width='347px'
-                                height='195px'
-                                radius='md'
-                                fit='cover'
-                                src={getThumnail(video)}
-                                // sx={(theme) => ({border: `1px solid ${theme.colors.dark[2]}`, borderRadius: theme.radius.md})}
-                            />
+                            <Box>
+                                <Image
+                                    width='100%'
+                                    height='195px'
+                                    radius='md'
+                                    fit='cover'
+                                    src={getThumnail(video)}
+                                    // sx={(theme) => ({border: `1px solid ${theme.colors.dark[2]}`, borderRadius: theme.radius.md})}
+                                />
+                            </Box>
                         </UnstyledButton>
                     ))
                 }

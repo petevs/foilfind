@@ -11,6 +11,17 @@ const PopularBrands = ({ brands }) => {
         marginTop: theme.spacing.xl
     })
 
+    const slider = (theme) => ({
+        display: 'grid',
+        gridAutoFlow: 'column',
+        justifyContent: 'start',
+        gap: '1rem',
+        overflowX: 'scroll',
+        '&::-webkit-scrollbar': {
+            display: 'none'
+        }
+    })
+
     return (
         <>
             <Box sx={titleArea}>
@@ -36,12 +47,7 @@ const PopularBrands = ({ brands }) => {
                 </Box>
             </Box>
             <Box
-                sx={{
-                    display: 'grid',
-                    gridAutoFlow: 'column',
-                    justifyContent: 'start',
-                    gap: '1rem'
-                }}
+                sx={slider}
                 mb='xl'
             >
                 {

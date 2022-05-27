@@ -104,7 +104,7 @@ const Products = ({ products, brand}) => {
 
     return (
         <AppShell>
-            <BrandHeader brand={brand} />
+            <BrandHeader brand={brand} active='products' />
             <BrandProducts 
                 brand={brand} 
                 products={products.map(item => ({

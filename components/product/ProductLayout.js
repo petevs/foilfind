@@ -9,9 +9,12 @@ import ShortDescription from "./ShortDescription"
 import ReviewTable from "./ReviewTable"
 import VideoSlider from "./VideoSlider"
 import { useRouter } from "next/router"
+import { useMediaQuery } from "@mantine/hooks"
 
 
 const ProductLayout = ({ product }) => {
+
+    const mobile = useMediaQuery('(max-width: 1024px)');
 
     const { asPath } = useRouter()
 
@@ -59,7 +62,7 @@ const ProductLayout = ({ product }) => {
                         <ShortDescription
                             description={product.description || ''}
                         />
-                        <Box width='100%'>
+                        <Box>
                         <Divider mb='lg' mt='lg' />
                         <Text weight={900} size='xl' mb='md'>Videos</Text>
                         {/* <AspectRatio ratio={16 / 9}>
@@ -74,14 +77,17 @@ const ProductLayout = ({ product }) => {
                         <Button variant='outline' color='dark' size='sm' mt='md'>See 7 More Videos</Button> */}
                         </Box>
                     </Box>
-                    <Box>
-                        <PriceBox 
-                            product={product}
-                        />
-                        <Center mt='md'>
-                            <Button size='xs' variant='subtle' color='dimmed'>Have One to Sell?</Button>
-                        </Center>
-                    </Box>
+                    {
+                        !mobile &&
+                        <Box>
+                            <PriceBox 
+                                product={product}
+                            />
+                            <Center mt='md'>
+                                <Button size='xs' variant='subtle' color='dimmed'>Have One to Sell?</Button>
+                            </Center>
+                        </Box>
+                    }
                 </ContentGrid>
                 <VideoSlider videos={product.brandVideos} />
                 <Box>

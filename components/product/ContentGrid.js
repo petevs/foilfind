@@ -9,6 +9,9 @@ const ContentGrid = ({children}) => {
         alignItems: 'start',
         paddingTop: '2rem',
         gap: '4rem',
+        '@media (max-width: 1024px)': {
+            gridTemplateColumns: '1fr'
+        }
     })
 
 

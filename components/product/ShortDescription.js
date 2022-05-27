@@ -9,7 +9,7 @@ const ShortDescription = ({ description }) => {
 
     const style = {
         height: '175px',
-        overflow: 'hidden',
+        overflowY: 'hidden',
         maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
     }
 
