@@ -1,7 +1,6 @@
 import { Box, Title, Text } from '@mantine/core'
 import Head from 'next/head'
 import ComingSoon from '../components/ComingSoon'
-import Shell from '../components/Shell'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../firebase'
 import dayjs from 'dayjs'

@@ -1,12 +1,10 @@
-import { Box, Button, Center, Container, Text, TextInput, Group, Timeline, Divider, AspectRatio, Card, createStyles, Dialog, Modal, ThemeIcon, Stack } from "@mantine/core"
-import { Circle, Mail, Search, ThumbUp } from "tabler-icons-react"
+import { Box, Button, Center, Container, Text, TextInput, Group,  Divider, AspectRatio, Card,  Modal, ThemeIcon } from "@mantine/core"
+import {  Mail, ThumbUp } from "tabler-icons-react"
 import FoilFindLogo from "../components/FoilFindLogo"
-import PostCard from "./PostCard"
-import { useEffect, useState } from 'react'
-import { collection, doc, getDoc, getDocs, query, addDoc, orderBy } from 'firebase/firestore'
+import { useState } from 'react'
+import { collection, addDoc,  } from 'firebase/firestore'
 import { db } from '../firebase'
 import parse from 'html-react-parser'
-import dayjs from "dayjs"
 
 
 const ComingSoon = ({ posts }) => {
@@ -19,49 +17,12 @@ const ComingSoon = ({ posts }) => {
     const [dialogBox, setDialogBox] = useState(false)
     const [email, setEmail] = useState('')
 
-    // const [post, setPost] = useState(null)
-    // const [posts, setPosts] = useState([])
-
-    // useEffect(() => {
-
-    //     // const getPost = async () => {
-    //     //     const docRef = doc(db, 'updates', 'uHPm88FzqFmUYw7SjNOd')
-    //     //     const docSnap = await getDoc(docRef)
-    //     //     setPost(docSnap.data())
-    //     // }
-
-    //     const getPosts = async () => {
-
-    //         const updateList = []
-    //         const q = query(collection(db, 'updates'), orderBy('date', 'desc'))
-    //         const querySnapshot = await getDocs(q)
-    //         querySnapshot.forEach((doc) => {
-    //             updateList.push(doc.data())
-    //         })
-    //         setPosts(updateList)
-    //     }
-
-    //     getPosts()
-
-    //     // getPost()
-
-    // },[])
-
-    const getDate = (post) => {
-        if(post.date){
-            return dayjs(post.date.toDate()).format('MMMM DD YYYY h:mm A')
-        }
-
-        return ''
-    }   
-
 
     const handleEmailSubscribe = async () => {
         const docRef = await addDoc(collection(db, 'waitingList'), {
             email: email
         })
 
-        console.log(docRef)
         setEmail('')
         setDialogBox(true)
     }
