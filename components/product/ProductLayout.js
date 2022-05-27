@@ -1,7 +1,4 @@
 import { Box, Text, Container, Divider, Button, Center, Breadcrumbs, Anchor } from "@mantine/core"
-import FoilIcon from "../FoilIcon"
-import Header from "../Header"
-import Logo from "../Logo"
 import ContentGrid from "./ContentGrid"
 import { ImageGrid } from "./ImageGrid"
 import PriceBox from "./PriceBox"
@@ -65,16 +62,6 @@ const ProductLayout = ({ product }) => {
                         <Box>
                         <Divider mb='lg' mt='lg' />
                         <Text weight={900} size='xl' mb='md'>Videos</Text>
-                        {/* <AspectRatio ratio={16 / 9}>
-                                <iframe
-                                    src={product.brandVideos[0].replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/')}
-                                    title="YouTube video player"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                        </AspectRatio>
-                        <Button variant='outline' color='dark' size='sm' mt='md'>See 7 More Videos</Button> */}
                         </Box>
                     </Box>
                     {

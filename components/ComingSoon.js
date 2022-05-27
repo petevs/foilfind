@@ -1,10 +1,10 @@
 import { Box, Button, Center, Container, Text, TextInput, Group,  Divider, AspectRatio, Card,  Modal, ThemeIcon } from "@mantine/core"
-import {  Mail, ThumbUp } from "tabler-icons-react"
-import FoilFindLogo from "../components/FoilFindLogo"
+import { ThumbUp } from "tabler-icons-react"
 import { useState } from 'react'
 import { collection, addDoc,  } from 'firebase/firestore'
 import { db } from '../firebase'
 import parse from 'html-react-parser'
+import TempHeader from "./header/TempHeader"
 
 
 const ComingSoon = ({ posts }) => {
@@ -43,28 +43,7 @@ const ComingSoon = ({ posts }) => {
                     <Text color='dimmed'>We`&apos;`ll let you know when we go live!</Text>
                 </Box>
             </Modal>
-            <Box sx={(theme) => ({borderBottom: `1px solid ${theme.colors.dark[0]}`})}>
-                <Container size='xl' p='xs'>
-                    <Group position='apart'>
-                        <FoilFindLogo width='75' />
-                        <Button 
-                            component='a' 
-                            href='mailto:hey@foilfind.com?subject=Inquiry from the site' 
-                            variant="outline" 
-                            radius='xl' 
-                            size='xs' 
-                            leftIcon={<Mail height='12px' width='12px' />}
-                            sx={{
-                                '& span': {
-                                    marginRight: '5px'
-                                }
-                            }}
-                        >
-                            hey@foilfind.com
-                        </Button>
-                    </Group>
-                </Container>
-            </Box>
+            <TempHeader />
             <Container sx={style}>
                 <Box p='xl' mt='xl' mb='xl'>
                     <Text sx={{fontSize: '2.5rem'}} weight={700} align='center'>Coming Soon</Text>

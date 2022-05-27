@@ -1,7 +1,6 @@
 import { Modal, Button, Card, Image, Box, Text, Group, Center, Divider } from "@mantine/core"
 import { useState } from "react"
 import CompareTable from "./CompareTable"
-import { CurrencySelect } from "./CurrencySelect"
 import UsedProductCard from "./UsedProductCard"
 
 const Compare = ({ product }) => {

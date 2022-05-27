@@ -1,5 +1,4 @@
 import { Button, Group, Table, Avatar, Text, UnstyledButton, Center, Box } from "@mantine/core"
-import { CurrencySelect } from "./CurrencySelect"
 import { BsStarFill, BsStarHalf } from "react-icons/bs"
 
 const ReviewTable = () => {
