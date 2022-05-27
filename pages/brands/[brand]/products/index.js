@@ -26,7 +26,7 @@ export async function getStaticPaths(){
     const brandPaths = await getBrands()
 
     const paths = brandPaths.map(item => ({
-        params: { brand: (item.brandName) }
+        params: { brand: (item.brandName.toLowerCase()) }
     }))
     
 
@@ -42,7 +42,7 @@ export async function getStaticProps({ params }) {
 
     const getProducts = async () => {
         const productList = []
-        const q = query(collection(db, 'products'), where("brand", "==", params.brand))
+        const q = query(collection(db, 'products'), where("brandPath", "==", params.brand))
         const querySnapshot = await getDocs(q)
         querySnapshot.forEach((doc) => {
           const product = doc.data()

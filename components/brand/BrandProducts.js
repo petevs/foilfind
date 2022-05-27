@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const BrandProducts = ({ brand, products }) => {
 
-    const [testProducts, setTestProducts] = useState(products);
+    const [filteredProducts, setFilteredProducts] = useState(products);
 
     console.log(products)
 
@@ -26,14 +26,14 @@ const BrandProducts = ({ brand, products }) => {
     })
 
     const categories = [
-        { title: 'hydrofoils'},
-        { title: 'wings'},
-        { title: 'boards'},
-        { title: 'harnesses'},
-        { title: 'board bags'},
-        { title: 'leashes'},
-        { title: 'accessories'},
-        { title: 'wetsuits'},
+        { title: 'hydrofoils', value: 'hydrofoil' },
+        { title: 'wings', value: 'wing' },
+        { title: 'boards', value: 'wing board' },
+        { title: 'harnesses', value: 'harnesses' },
+        { title: 'board bags', value: 'board bag' },
+        { title: 'leashes', value: 'leash' },
+        { title: 'accessories', value: 'accessories' },
+        { title: 'wetsuits', value: 'wetsuits' },
     ]
 
     const dummyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -67,7 +67,7 @@ const BrandProducts = ({ brand, products }) => {
                                 <Text size='sm'>All Products</Text>
                                 <Checkbox 
                                     size='sm'
-                                    onChange={() => setTestProducts(products)}
+                                    onChange={() => setFilteredProducts(products)}
                                 />
                             </Group>
                             {
@@ -76,7 +76,7 @@ const BrandProducts = ({ brand, products }) => {
                                         <Text size='sm' transform='capitalize'>{item.title}</Text>
                                         <Checkbox 
                                             size='sm'
-                                            onChange={() => setTestProducts(testProducts.filter(product => product.category === item.title))}
+                                            onChange={() => setFilteredProducts(products.filter(product => product.category === item.value))}
                                         />
                                     </Group>
                                 ))
@@ -113,7 +113,7 @@ const BrandProducts = ({ brand, products }) => {
                             }}
                     >
                         {
-                            testProducts.map(((product, index) => (
+                            filteredProducts.map(((product, index) => (
                                 <Link passHref={true} key={index} href={product.path}>
                                     <Box
                                         sx={{
@@ -131,7 +131,7 @@ const BrandProducts = ({ brand, products }) => {
                                                 objectFit='cover' 
                                             />
                                         </AspectRatio>
-                                        <Text size='xs' color='dimmed' mt='xs'>{brand}</Text>
+                                        <Text size='xs' color='dimmed' mt='xs'transform='capitalize'>{brand}</Text>
                                         <Text weight={700}>{product.title}</Text>
                                     </Box>
                                 </Link>

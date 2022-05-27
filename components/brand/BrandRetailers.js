@@ -1,8 +1,9 @@
 import { Container, Box, Skeleton, Card, Group, Text, Button } from "@mantine/core"
-import { Link } from "tabler-icons-react"
+import Link from 'next/link'
 import Map from '../Map'
+import { toKebabCase } from "../../getPaths/getProductRoutes"
 
-const BrandRetailers = () => {
+const BrandRetailers = ({ retailers }) => {
 
     const layout = (theme) => ({
         display: 'grid',
@@ -12,26 +13,32 @@ const BrandRetailers = () => {
         paddingBottom: theme.spacing.xl,
     })
 
-    const testList = [
-        { retailerName: 'Real Watersports', location: 'Cape Hatteras, NC', logo: 'https://via.placeholder.com/150' },
-        { retailerName: 'MacKite', location: 'Grand Haven, MI', logo: 'https://via.placeholder.com/150' },
-        { retailerName: 'SurfFX', location: 'Australia', logo: 'https://via.placeholder.com/150' },
-    ]
-
-
     const MapCard = ({ name, location, url}) => {
 
         return (
-            <Card withBorder shadow='xs' mb='md'>
-                <Group>
-                    <Skeleton height={75} width={75} />
-                    <Box>
-                        <Text size='sm' weight={700}>{name}</Text>
-                        <Text size='xs'>{location}</Text>
-                        <Button size='xs' compact variant='default' radius='md'>Website</Button>
-                    </Box>
-                </Group>
-            </Card>
+            <Link
+                passHref={true}
+                href={`/retailers/${toKebabCase(name)}`}
+            >
+                <Card 
+                    withBorder 
+                    hadow='xs' 
+                    mb='md'
+                    sx={{
+                        ':hover': {
+                            cursor: 'pointer'
+                        }
+                    }}
+                >
+                    <Group>
+                        <Skeleton height={75} width={75} />
+                        <Box>
+                            <Text size='sm' weight={700}>{name}</Text>
+                            <Text size='xs'>{location}</Text>
+                        </Box>
+                    </Group>
+                </Card>
+            </Link>
         )
     }
 
@@ -40,10 +47,10 @@ const BrandRetailers = () => {
             <Box sx={layout}>
                 <Box>
                     {
-                        testList.map((item, index) => (
+                        retailers.map((item, index) => (
                             <MapCard 
                                 key={index}
-                                name={item.retailerName}
+                                name={item.name}
                                 location={item.location}
                             />
                         )
@@ -53,7 +60,9 @@ const BrandRetailers = () => {
                 </Box>
                 <Box>
                     {/* <Skeleton width='100%' height={500} /> */}
-                    <Map />
+                    <Map 
+                        listings={retailers}
+                    />
                 </Box>
             </Box>
         </Container>

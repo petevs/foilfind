@@ -58,7 +58,7 @@ export const getProductRoutes = async () => {
         products.forEach(product => {
             paths.push({
                 params: {
-                    brand: (brand),
+                    brand: (brand.toLowerCase()),
                     product: (toKebabCase(product.title)),
                     id: product.id
                 }

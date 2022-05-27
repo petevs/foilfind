@@ -2,9 +2,10 @@ import { useMemo, useCallback, useRef } from "react"
 import { Box } from "@mantine/core"
 import { GoogleMap } from "@react-google-maps/api"
 import { useLoadScript } from '@react-google-maps/api'
+import MapMarkers from "./MapMarkers"
 
 
-const Map = () => {
+const Map = ({ listings }) => {
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -34,17 +35,23 @@ const Map = () => {
     return (    
         <Box>
             <GoogleMap
-                zoom={10}
+                zoom={3}
                 center={center}
                 options={options}
                 mapContainerStyle={{
                     width: '100%',
-                    height: 'calc(100vh - 62px - 60px)'
+                    height: '500px'
                 }}
                 onLoad={onLoad}
                 // onIdle={onIdle}
 
             >
+                {
+                    listings &&
+                    <MapMarkers
+                        listings={listings}
+                    />
+                }
             </GoogleMap>
         </Box>
     )

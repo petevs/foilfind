@@ -22,7 +22,7 @@ export async function getStaticPaths(){
     const brandPaths = await getBrands()
 
     const paths = brandPaths.map(item => ({
-        params: { brand: (item.brandName) }
+        params: { brand: (item.brandName.toLowerCase()) }
     }))
     
 
