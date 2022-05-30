@@ -35,7 +35,7 @@ const RetailerLayout = ({ retailer }) => {
             <Container size='xl'>
                 <Box sx={topSection}>
                     <Box>
-                        <Image src={retailer.featureImage} height='140px' width='140px' />
+                        <Skeleton height='140px' width='140px' />
                     </Box>
                     <Box>
                         <Text
