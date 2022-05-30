@@ -42,7 +42,7 @@ const ProductLayout = ({ product }) => {
 
     return (
         <>
-            <Container size='lg' pb='lg'>
+            <Container size='xl' p='xl'>
                 <Breadcrumbs mt='md' mb='md'>{items}</Breadcrumbs>
                 <Box pb='lg'>
                     <Text weight={900} sx={{fontSize: '2rem'}}>{product.title ? product.title : ''}</Text>

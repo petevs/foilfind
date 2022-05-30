@@ -34,7 +34,7 @@ const BrandCard = (props) => {
     return (
         <Link
             passHref={true}
-            href={`brands/${brandName.toLowerCase()}`}
+            href={`brands/${brandName.toLowerCase()}/products`}
         >
             <Box sx={cardStyle}>
                 <Box sx={outerWrapper}>

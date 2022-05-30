@@ -1,4 +1,5 @@
 import { Anchor, Box, Button, ScrollArea, Text } from "@mantine/core"
+import Link from "next/link"
 
 const Links = () => {
 
@@ -20,15 +21,15 @@ const Links = () => {
     })
 
     const list = [
-        { title: 'Marketplace'},
-        { title: 'Retailers'},
-        { title: 'Products'},
-        { title: 'Brands'},
-        { title: 'Maps'},
-        { title: 'Rentals'},
-        { title: 'Lessons'},
-        { title: 'Learn'},
-        { title: 'Community'},
+        { title: 'Marketplace', href: '/#'},
+        { title: 'Retailers', href: '/#'},
+        { title: 'Products', href: '/#'},
+        { title: 'Brands', href: '/brands'},
+        { title: 'Maps', href: '/#'},
+        { title: 'Rentals', href: '/#'},
+        { title: 'Lessons', href: '/#'},
+        { title: 'Learn', href: '/#'},
+        { title: 'Community', href: '/#'},
     ]
 
     return (
@@ -36,6 +37,9 @@ const Links = () => {
                 {
                     list.map((item, index) => (
                         <Anchor
+                            component={Link}
+                            passHref={true}
+                            href={item.href}
                             key={index}
                             size='sm'
                             color='dark'
