@@ -1,11 +1,10 @@
 import Homepage from "../components/homepage/Homepage"
 import AppShell from "../components/appshell/AppShell"
-import useFirebase from "../hooks/useFirebase"
+import { getCollection } from "../getProps/getCollection"
 
 export async function getStaticProps() {
 
-  const { getCollection } = useFirebase()
-    
+
   const res = await getCollection('brands')
   const brands = JSON.parse(JSON.stringify(res))
     

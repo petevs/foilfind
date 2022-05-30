@@ -1,5 +1,6 @@
 import { query, collection, getDocs } from "firebase/firestore"
 import { db } from '../firebase'
+import React from "react"
 
 const useFirebase = () => {
 
@@ -16,9 +17,7 @@ const useFirebase = () => {
     }
 
 
-    return {
-        getCollection
-    }
+    return [ getCollection ]
 
 }
 
