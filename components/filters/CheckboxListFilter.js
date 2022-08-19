@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Checkbox, Divider, Group, Text } from "@mantine/core"
+import { Anchor, Box, Button, Checkbox, Divider, Group, Spoiler, Text } from "@mantine/core"
 import FilterLabel from "./FilterLabel"
 import { useState } from "react";
 
@@ -30,14 +30,25 @@ const CheckboxListFilter = ({options, label}) => {
     setValues(initialOptions)
   }
 
+  const spoilerStyle = (theme) => ({
+    '& .mantine-Spoiler-control': {
+      fontSize: '.75rem',
+      paddingTop: '1rem'
+    }
+  })
+
   return (
     <Box my='md'>
+      <Spoiler maxHeight={160} showLabel={`Show More ${label}`} hideLabel='Show Less' sx={spoilerStyle}>
       <FilterLabel text={label} />
-      <Box sx={selectorStyle} my='xs'>
-        <Anchor size='xs' onClick={() => selectAll()}>Select All</Anchor>
-        <Text color='gray' size='xs'>|</Text>
-        <Anchor size='xs' onClick={() => clearAll()}>Clear All</Anchor>
-      </Box>
+      {
+        options.length > 3 &&
+        <Box sx={selectorStyle} my='xs'>
+          <Anchor size='xs' onClick={() => selectAll()}>Select All</Anchor>
+          <Text color='gray' size='xs'>|</Text>
+          <Anchor size='xs' onClick={() => clearAll()}>Clear All</Anchor>
+        </Box>
+      }
       {
         options.map((option, idx) => (
           <Checkbox
@@ -50,6 +61,7 @@ const CheckboxListFilter = ({options, label}) => {
           />
         ))
       }
+      </Spoiler>
     </Box>
   )
 }
