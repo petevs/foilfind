@@ -1,39 +1,27 @@
-import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core'
-import { useState } from 'react'
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-import UserContext from '../state/UserContext'
-import useUserData from '../hooks/useUserData';
-
+import '../styles/globals.css'
+import { AppShell, Container, MantineProvider, TypographyStylesProvider } from '@mantine/core'
+import { cache } from '../emotion-cache'
+import Shell from '../components/Shell'
 
 function MyApp({ Component, pageProps }) {
 
-
-  const [colorScheme, setColorScheme] = useState('light');
-  const toggleColorScheme = (value) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
-
-  const userData = useUserData()
-
   return (
-    <ColorSchemeProvider colorScheme={colorScheme}>
+    <div>
       <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            colorScheme,
-          }}
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme: 'light'}}
+        emotionCache={cache}
       >
-          <UserContext.Provider value={userData}>
+        {/* <UserContext.Provider value={userData}> */}
+        <TypographyStylesProvider>
+          <Shell>
             <Component {...pageProps} />
-          </UserContext.Provider>
+          </Shell>
+        </TypographyStylesProvider>
+        {/* </UserContext.Provider> */}
     </MantineProvider>
-   </ColorSchemeProvider>
+    </div>
   )
 }
 
