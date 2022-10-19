@@ -42,7 +42,7 @@ export default function Brands(props) {
       return true;
     })
     setFilteredBrands(filtered);
-  },[filters, brands])
+  },[filters, parsedBrands])
 
 
   const checkOfferings = (brand) => {
