@@ -18,8 +18,9 @@ export async function getStaticProps() {
 export default function Brands(props) {
 
   const { brands } = props;
+  const parsedBrands = JSON.parse(brands);
 
-  const [filteredBrands, setFilteredBrands] = useState(brands);
+  const [filteredBrands, setFilteredBrands] = useState(parsedBrands);
 
   const [filters, setFilters] = useState({
     foils: false,
@@ -28,7 +29,7 @@ export default function Brands(props) {
   })
 
   useEffect(() => {
-    const filtered = brands.filter(brand => {
+    const filtered = parsedBrands.filter(brand => {
       if (filters.foils && !brand.foils) {
         return false;
       }

@@ -9,7 +9,7 @@ export const getCollection = async (collectionName) => {
   querySnapshot.forEach((doc) => {
     data.push({id: doc.id, ...doc.data()});
     });
-  return data;
+  return JSON.stringify(data);
 };
 
 export const getDocument = async (collection, id) => {
