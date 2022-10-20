@@ -10,6 +10,9 @@ const SidebarToggle = ({showList, setShowList}) => {
     top: `calc(${theme.other.headerHeight}px + 10px)`,
     left: showList ? '385px' : '10px',
     zIndex: 5,
+    '@media (max-width: 768px)': {
+      display: 'none'
+    }
   })
 
   return (

@@ -7,6 +7,7 @@ import useSuperCluster from 'use-supercluster'
 import { useState, useRef, useEffect } from 'react'
 import MapCard from './MapCard';
 import SidebarToggle from "./SidebarToggle";
+import ListingDrawer from "./ListingDrawer";
 
 export default function MapPageWrapper({ parsedRetailers }) {
 
@@ -15,6 +16,7 @@ export default function MapPageWrapper({ parsedRetailers }) {
   const mapRef = useRef(null)
   const [filteredListings, setFilteredListings] = useState(parsedRetailers)
   const [highlightedListing, setHighlightedListing] = useState(null)
+  const [listingDetail, setListingDetail] = useState(null)
 
   const [viewState, setViewState] = useLocalStorage({
     key: 'viewState',
@@ -110,6 +112,7 @@ export default function MapPageWrapper({ parsedRetailers }) {
 
 
   return (
+    <>
       <Box sx={wrapper}>
         <SidebarToggle 
           showList={showList}
@@ -119,9 +122,13 @@ export default function MapPageWrapper({ parsedRetailers }) {
           showList && (
             <Box sx={(theme) => ({
               padding: `${theme.spacing.md}px`, 
-              overflowY: 'scroll'
+              overflowY: 'scroll',
+              '@media (max-width: 768px)': {
+                display: 'none'
+              }
             })}>
             {
+                  showList &&
                   filteredListings.map(retailer => {
                     return (
                       <MapCard
@@ -136,7 +143,18 @@ export default function MapPageWrapper({ parsedRetailers }) {
             </Box>
           )
         }
-        <Box>
+        <Box
+          sx={(theme) => ({
+            '@media (max-width: 768px)': {
+              position: 'fixed',
+              top: `${theme.other.headerHeight}px`,
+              left: 0,
+              width: '100%',
+              height: `calc(100vh - ${theme.other.headerHeight}px)`,
+            }
+          })
+        }
+        >
           <ReactMapGl
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
             {...viewState}
@@ -242,8 +260,16 @@ export default function MapPageWrapper({ parsedRetailers }) {
             </Popup>
         }
           </ReactMapGl>
-
         </Box>
       </Box>
+
+      <ListingDrawer
+          listings={filteredListings}
+          highlightedListing={highlightedListing}
+          setHighlightedListing={setHighlightedListing}
+          listingDetail={listingDetail}
+          setListingDetail={setListingDetail}
+      />
+    </>
   )
 }
