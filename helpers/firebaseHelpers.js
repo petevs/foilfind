@@ -1,6 +1,6 @@
 
 import { query, collection, getDocs, doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../firebase'
+import { db } from '../firebase.js'
 
 export const getCollection = async (collectionName) => {
   const q = query(collection(db, collectionName));

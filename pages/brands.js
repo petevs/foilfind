@@ -81,7 +81,17 @@ export default function Brands(props) {
         <meta property="twitter:description" content="Search and filter through all the wing foiling brands with your criteria." />
         <meta property="twitter:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png" />
       </Head>
-      <Box>
+      <Box sx={(theme) => ({
+        '@media (max-width: 768px)': {
+          position: 'absolute',
+          top: `${theme.other.headerHeight}px`,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#fff'
+        }
+      }
+      )}>
         <Box sx={(theme) => ({padding: `${theme.spacing.md}px`})}>
           <Title order={1}>Brands</Title>
           <Box sx={(theme) => ({display: 'grid', gridAutoFlow: 'column', gap: '.5rem', justifyContent: 'start'})}>

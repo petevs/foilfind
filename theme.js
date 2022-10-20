@@ -7,6 +7,6 @@ export const theme = {
     }
   },
   other: {
-    headerHeight: 80
+    headerHeight: 100
   }
 }

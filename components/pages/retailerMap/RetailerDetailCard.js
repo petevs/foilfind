@@ -1,4 +1,4 @@
-import { Title, Box, Text, Group, ActionIcon, Button, Divider } from "@mantine/core"
+import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton } from "@mantine/core"
 import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
 
 
@@ -34,6 +34,12 @@ const RetailerDetailCard = ({retailer}) => {
   const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
   console.log(retailer)
+
+
+  const checkAllCategory = (category, fields) => {
+    const checks = fields.map(field => retailer[category][field])
+    return checks.every(check => check)
+  }
 
   return (
     <>
@@ -101,13 +107,21 @@ const RetailerDetailCard = ({retailer}) => {
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Call</Text>
           </Box>
-
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
-            <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
-              <IconMapPin size={16} />
-            </ActionIcon>
-            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
-          </Box>
+            <UnstyledButton sx={{display: 'grid', justifyItems: 'center'}}
+              onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`, "_blank")}
+              disabled={!retailer.address}
+            >
+              <ActionIcon 
+                color='dark' 
+                radius='xl' 
+                size='lg' 
+                variant='outline'
+                disabled={!retailer.address}
+              >
+                <IconMapPin size={16} />
+              </ActionIcon>
+              <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
+            </UnstyledButton>
 
           <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
@@ -133,7 +147,13 @@ const RetailerDetailCard = ({retailer}) => {
         </Box>
        
 
-        <Button variant='outline' color='dark' radius='xl' fullWidth>Vist Website</Button>
+        <Button 
+          variant='outline' 
+          color='dark' 
+          radius='xl' 
+          fullWidth
+          onClick={() => window.open(retailer.website, "_blank")}
+          >Vist Website</Button>
 
         <Divider my='lg' />
         <Text size='md' mb='md' weight={700}>Hours of Operation</Text>
@@ -166,56 +186,73 @@ const RetailerDetailCard = ({retailer}) => {
         </Box>
         <Divider my='lg' />
         <Text size='md' mb='md' weight={700}>Contact</Text>
-        <Group mb='xs'>
-          <IconPhone size={16} />
-          <Text size='sm'>{retailer.phone}</Text>
-        </Group>
-        <Group mb='xs'>
-          <IconLink size={16} />
-          <Text size='sm'>{retailer.website}</Text>
-        </Group>
-        <Group mb='xs'>
-          <IconMail size={16} />
-          <Text size='sm'>{retailer.email}</Text>
-        </Group>
-        <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}>
-          <IconMapPin size={16} />
-          <Box>
-            <Text size='sm'>{retailer.address}</Text>
+        {
+          retailer.phone &&
+          <Group mb='xs'>
+            <IconPhone size={16} />
+            <Text size='sm'>{retailer.phone}</Text>
+          </Group>
+        }
+        {
+          retailer.website && 
+          <Group mb='xs'>
+            <IconLink size={16} />
+            <Text size='sm'>{retailer.website}</Text>
+          </Group>
+        }
+        {
+          retailer.email &&
+          <Group mb='xs'>
+            <IconMail size={16} />
+            <Text size='sm'>{retailer.email}</Text>
+          </Group>
+        }
+        {
+          retailer.address &&
+          <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}>
+            <IconMapPin size={16} />
+            <Box>
+              <Text size='sm'>{retailer.address}</Text>
+            </Box>
           </Box>
-        </Box>
-        <Divider my='lg' />
-        <Text size='md' mb='md' weight={700}>Social</Text>
-        <Group spacing='sm'>
-          {
-            retailer.socialMedia['facebook'] && (
-              <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.facebook, "_blank")}>
-                <IconBrandFacebook size={16} />
-              </ActionIcon>
-            )
-          }
-          {
-            retailer.socialMedia['instagram'] && (
-              <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.instagram, "_blank")}>
-                <IconBrandInstagram size={16} />
-              </ActionIcon>
-            )
-          }
-          {
-            retailer.socialMedia['twitter'] && (
-              <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.twitter, "_blank")}>
-                <IconBrandTwitter size={16} />
-              </ActionIcon>
-            )
-          }
-          {
-            retailer.socialMedia['youtube'] && (
-              <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.youtube, "_blank")}>
-                <IconBrandYoutube size={16} />
-              </ActionIcon>
-            )
-          }
-        </Group>
+        }
+        {
+          checkAllCategory('socialMedia', ['facebook', 'instagram', 'twitter', 'youtube']) &&
+          <>
+            <Divider my='lg' />
+            <Text size='md' mb='md' weight={700}>Social</Text>
+            <Group spacing='sm'>
+              {
+                retailer.socialMedia['facebook'] && (
+                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.facebook, "_blank")}>
+                    <IconBrandFacebook size={16} />
+                  </ActionIcon>
+                )
+              }
+              {
+                retailer.socialMedia['instagram'] && (
+                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.instagram, "_blank")}>
+                    <IconBrandInstagram size={16} />
+                  </ActionIcon>
+                )
+              }
+              {
+                retailer.socialMedia['twitter'] && (
+                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.twitter, "_blank")}>
+                    <IconBrandTwitter size={16} />
+                  </ActionIcon>
+                )
+              }
+              {
+                retailer.socialMedia['youtube'] && (
+                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.youtube, "_blank")}>
+                    <IconBrandYoutube size={16} />
+                  </ActionIcon>
+                )
+              }
+            </Group>
+          </>
+        }
     </>
   )
 }

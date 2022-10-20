@@ -12,26 +12,37 @@ export default function Shell({children}){
         })}
       >
           <Box 
-            component='header' 
-            p='md' 
+            component='header'  
             sx={(theme) => ({
               display: 'grid',
-              gridTemplateColumns: 'auto 1fr',
-              alignItems: 'center',
-              gap: '1rem',
+              gridTemplateColumns: '1fr',
               borderBottom: `1px solid ${theme.colors.gray[2]}`,
               '@media (max-width: 768px)': {
                 height: `${theme.other.headerHeight}px`,
                 position: 'fixed',
+                width: '100%',
               }
             })}
           >
-            <Logo />
-            <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
-              <Link href='/retailers'>Retailers</Link>
-              <Link href='/brands'>Brands</Link>
+            <Box sx={(theme) => ({backgroundColor: theme.colors.violet[9], display: 'grid', alignItems: 'center'})}>
+              <Text size='xs' weight={500} align='center' color='white'>This Site is Currently Under Construction</Text>
             </Box>
-          </Box>
+            <Box 
+              px='md'
+              sx={{
+                display: 'grid', 
+                gridTemplateColumns: 'auto 1fr',
+                alignItems: 'center',
+                columnGap: '1rem',
+              }}
+            >
+              <Logo />
+              <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
+                <Link href='/retailers'>Retailers</Link>
+                <Link href='/brands'>Brands</Link>
+              </Box>
+            </Box>
+            </Box>
 
           <Box component='main'>
             {children}
