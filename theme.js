@@ -5,5 +5,8 @@ export const theme = {
         marginTop: 0
       }
     }
+  },
+  other: {
+    headerHeight: 80
   }
 }

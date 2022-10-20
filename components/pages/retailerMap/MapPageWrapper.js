@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { Box, ScrollArea, Text } from "@mantine/core";
 
 export default function MapPageWrapper() {
 
@@ -7,8 +7,9 @@ export default function MapPageWrapper() {
   const wrapper = (theme) => ({
     display: 'grid',
     gridTemplateColumns: showList ? '375px 1fr' : '1fr',
-    width: '100%',
-    height: 'calc(100vh - 106.7px - 120px)',
+    backgroundColor: 'blue',
+    height: `calc(100vh - ${theme.other.headerHeight}px)`,
+    overflow: 'hidden',
     '@media (max-width: 768px)': {
       gridTemplateColumns: '1fr'
     }
@@ -16,17 +17,13 @@ export default function MapPageWrapper() {
 
 
   return (
-    <div>
-      <Box
-        sx={wrapper}
-      >
-        <Box>
-          I am the sidebar
+      <Box sx={wrapper}>
+        <Box sx={{backgroundColor: 'red', overflowY: 'scroll'}}>
+          <Text>Sidebar</Text>
         </Box>
         <Box>
-          I am the map
+          <Text>Map</Text>
         </Box>
       </Box>
-    </div>
   )
 }

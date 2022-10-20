@@ -6,14 +6,29 @@ export default function Shell({children}){
   return(
     <>
       <Box
-        sx={{
+        sx={(theme) => ({
           display: 'grid',
-          gridTemplateRows: 'auto 1fr',
-          minHeight: '100vh',
-        }}
+          gridTemplateRows: `${theme.other.headerHeight}px calc(100vh - ${theme.other.headerHeight}px)`,
+        })}
       >
-          <Box component='header' p='md' sx={(theme) => ({borderBottom: `1px solid ${theme.colors.gray[2]}` })}>
+          <Box 
+            component='header' 
+            p='md' 
+            sx={(theme) => ({
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              alignItems: 'center',
+              gap: '1rem',
+              borderBottom: `1px solid ${theme.colors.gray[2]}`
+     
+            })}
+          >
             <Logo />
+            <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
+              <Link href='/'>Home</Link>
+              <Link href='/retailers'>Retailers</Link>
+              <Link href='/brands'>Brands</Link>
+            </Box>
           </Box>
 
           <Box component='main'>
