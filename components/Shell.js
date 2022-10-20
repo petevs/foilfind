@@ -5,29 +5,29 @@ import Logo from "./Logo"
 export default function Shell({children}){
   return(
     <>
-      <header>
-        <Box p='md' sx={{height: 'auto'}}>
-          <Logo />
-        </Box>
-        <Divider />
-      </header>
-      <main>
-        <Box
-          sx={{
-            minHeight: 'calc(100vh - 60px)',
-          }}
-        >
-          {children}
-        </Box>
-      </main>
-      <footer>
-        <Divider />
-          <Box sx={(theme) => ({display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start', padding: `${theme.spacing.md}px`})}>
-            <Text color='dimmed'>© 2022 Foil Find. All rights reserved.</Text>
-            <Link href='/privacy'>Privacy</Link>
-            <Link href='/terms'>Terms</Link>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateRows: 'auto 1fr',
+          minHeight: '100vh',
+        }}
+      >
+          <Box component='header' p='md' sx={(theme) => ({borderBottom: `1px solid ${theme.colors.gray[2]}` })}>
+            <Logo />
           </Box>
-      </footer>
+
+          <Box component='main'>
+            {children}
+          </Box>
+      </Box>
+      <Box component='footer'>
+        <Divider />
+        <Box sx={(theme) => ({display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start', padding: `${theme.spacing.md}px`})}>
+          <Text color='dimmed'>© 2022 Foil Find. All rights reserved.</Text>
+          <Link href='/privacy'>Privacy</Link>
+          <Link href='/terms'>Terms</Link>
+        </Box>
+      </Box>
     </>
   )
 }
