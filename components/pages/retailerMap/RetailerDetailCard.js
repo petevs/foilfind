@@ -5,6 +5,22 @@ import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMa
 const RetailerDetailCard = ({retailer}) => {
 
 
+  const checkOfferings = () => {
+    const offerings = []
+    if (retailer.services.sales) {
+      offerings.push('Storefront')
+    }
+    if (retailer.services.rentals) {
+      offerings.push('Rentals')
+    }
+    if (retailer.services.lessons) {
+      offerings.push('Lessons')
+    }
+
+    //add a · in between each offering
+    return offerings.join(' · ')
+  }
+
   const createArrayIfTrue = (obj) => {
     const array = []
     for (const key in obj) {
@@ -45,7 +61,7 @@ const RetailerDetailCard = ({retailer}) => {
     <>
           <Text sx={{fontSize: '1.6rem'}} weight={700} mt='lg'>{retailer.name}</Text>
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem'}}>
-            <Text size='sm' color='dimmed'>Storefront · Online · Rentals · Lessons · Retreat</Text>
+            <Text size='sm' color='dimmed'>{checkOfferings()}</Text>
           {/* <Box>
             <Group spacing='xs'>
               <IconBuildingStore size={14} />
