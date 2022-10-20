@@ -19,13 +19,15 @@ export default function Shell({children}){
               gridTemplateColumns: 'auto 1fr',
               alignItems: 'center',
               gap: '1rem',
-              borderBottom: `1px solid ${theme.colors.gray[2]}`
-     
+              borderBottom: `1px solid ${theme.colors.gray[2]}`,
+              '@media (max-width: 768px)': {
+                height: `${theme.other.headerHeight}px`,
+                position: 'fixed',
+              }
             })}
           >
             <Logo />
             <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
-              <Link href='/'>Home</Link>
               <Link href='/retailers'>Retailers</Link>
               <Link href='/brands'>Brands</Link>
             </Box>

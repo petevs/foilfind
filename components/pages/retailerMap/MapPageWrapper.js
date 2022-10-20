@@ -1,4 +1,4 @@
-import { Box, Text, ActionIcon } from "@mantine/core";
+import { Box, Text, ActionIcon, Group, Divider } from "@mantine/core";
 import ReactMapGl, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css"
 import { useLocalStorage } from '@mantine/hooks';
@@ -8,6 +8,8 @@ import { useState, useRef, useEffect } from 'react'
 import MapCard from './MapCard';
 import SidebarToggle from "./SidebarToggle";
 import ListingDrawer from "./ListingDrawer";
+import RetailerDetailCard from "./RetailerDetailCard";
+import { IconChevronLeft, IconX } from "@tabler/icons";
 
 export default function MapPageWrapper({ parsedRetailers }) {
 
@@ -111,6 +113,8 @@ export default function MapPageWrapper({ parsedRetailers }) {
   })
 
 
+  console.log(listingDetail)
+
   return (
     <>
       <Box sx={wrapper}>
@@ -127,18 +131,56 @@ export default function MapPageWrapper({ parsedRetailers }) {
                 display: 'none'
               }
             })}>
+
+{
+                listingDetail
+                ?
+                  <Box>
+                    <Group
+                      sx={{
+                        '&:hover': {
+                          cursor: 'pointer'
+                        }
+                      }}
+                      spacing='xs' 
+                      onClick={() => setListingDetail(null)}
+                    >
+                      <IconChevronLeft size={14} />
+                      <Text weight={600}>Back to Results</Text>
+                    </Group>
+                    <Divider mt='md' />
+                  </Box>
+                :
+                <Box>
+                  <Text weight={600} size='sm'>Showing Results 1 - {filteredListings.length}</Text>
+                  <Divider my='md' />
+                </Box>
+              }
+
             {
                   showList &&
-                  filteredListings.map(retailer => {
-                    return (
-                      <MapCard
-                        listing={retailer}
-                        key={retailer.name}
-                        setListingDetail={setCurrentListing}
-                      />
-                    )
-                  }
-                  )
+
+                  <>
+                    {
+                      listingDetail 
+                    ?
+                      <Box px='md'>
+                        <RetailerDetailCard retailer={listingDetail} />
+                      </Box>
+                    :                  
+                      filteredListings.map(retailer => {
+                        return (
+                          <MapCard
+                            listing={retailer}
+                            key={retailer.name}
+                            mouseEnter={() => setHighlightedListing(retailer.name)}
+                            mouseLeave={() => setHighlightedListing(null)}
+                            setListingDetail={setListingDetail}
+                          />
+                        )
+                      })
+                    }
+                  </>
                 }
             </Box>
           )

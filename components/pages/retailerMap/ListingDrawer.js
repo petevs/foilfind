@@ -1,6 +1,7 @@
 import { Box, Center, Divider, Text, Group } from "@mantine/core"
 import MapCard from "./MapCard"
 import { IconChevronLeft, IconX } from "@tabler/icons"
+import RetailerDetailCard from "./RetailerDetailCard"
 
 const ListingDrawer = (props) => {
 
@@ -83,8 +84,7 @@ const ListingDrawer = (props) => {
           listingDetail
           ?
           <Box px='md'>
-            {/* <RetailerDetailCard retailer={listingDetail} /> */}
-            hello
+            <RetailerDetailCard retailer={listingDetail} />
           </Box>
           :
           listings.map((listing, index) => (
