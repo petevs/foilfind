@@ -19,7 +19,6 @@ export async function getStaticProps() {
 }
 
 
-
 export default function Retailers(props) {
 
   const { retailers } = props;
@@ -156,6 +155,7 @@ export default function Retailers(props) {
                   <MapCard
                     listing={retailer}
                     key={retailer.name}
+                    setListingDetail={setCurrentListing}
                   />
                 )
               }

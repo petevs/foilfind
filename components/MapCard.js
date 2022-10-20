@@ -20,7 +20,7 @@ const MapCard = ({listing, mouseEnter, mouseLeave, setListingDetail}) => {
           mb='md'
           onMouseEnter={mouseEnter}
           onMouseLeave={mouseLeave}
-          // onClick={() => setListingDetail(listing)}
+          onClick={() => setListingDetail(listing)}
         >
           <Paper>
             <Box p='sm' sx={cardWrapper}>

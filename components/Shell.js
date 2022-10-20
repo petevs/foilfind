@@ -1,13 +1,17 @@
-import { Box, Container, Divider, Text } from "@mantine/core"
+import { Box, Divider, Text, Group } from "@mantine/core"
 import Link from "next/link"
+import Header from "./Header"
 import Logo from "./Logo"
 
 export default function Shell({children}){
   return(
     <>
-      <header>
+            <header>
         <Box p='md' sx={{height: 'auto'}}>
           <Logo />
+          <Group>
+            <Link href='/brands'>Brands</Link>
+          </Group>
         </Box>
         <Divider />
       </header>
