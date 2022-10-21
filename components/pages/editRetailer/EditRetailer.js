@@ -4,18 +4,68 @@ import { query, collection, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { TextInput, Paper, Text, Divider } from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
+import { createDocument } from "../../../helpers/firebaseHelpers";
+import { useRouter } from "next/router";
+
+const SectionWrapper = ({children}) => {
+  return(
+    <Box 
+      sx={{
+        display: 'grid', 
+        gridTemplateColumns: '1fr 3fr', 
+        gap: '2rem',
+        '@media (max-width: 768px)': {
+          gridTemplateColumns: '1fr',
+          gap: '0'
+        }
+      }}
+    >
+      {children}
+    </Box>
+  )
+}
+
+
+
+const FormWrapper = ({children, disabled, reset, onSave}) => {
+  return(
+    <Paper shadow='sm' withBorder>
+    <Box p='xl'>
+      {children}
+    </Box>
+    <Box sx={(theme) => ({display: 'grid', gridTemplateColumns: '1fr 1fr', padding: `${theme.spacing.sm}px ${theme.spacing.xl}px`, backgroundColor: theme.colors.gray[1]})}>
+          <Button sx={{justifySelf: 'start'}} variant='subtle' color='dark' onClick={reset}>Reset</Button>
+          <Button sx={{justifySelf: 'end'}} disabled={disabled} color='violet' onClick={onSave}
+          >Save</Button>
+    </Box>
+  </Paper>
+  )
+}
+
+const FormHeader = ({title, subtitle}) => {
+  return (
+    <Box py='xl'>
+    <Text weight={700} size='xl'>{title}</Text>
+    <Text color='dimmed' size='sm'>{subtitle}</Text>
+  </Box>
+  )
+}
+
 
 export default function EditRetailer({slug}) {
 
+  const router = useRouter()
+  const [initialRetailer, setInitialRetailer] = useState(null)
   const [retailer, setRetailer] = useState({})
   const [changed, setChanged] = useState(false)
-  const [timeTest, setTimeTest] = useState(null)
 
   const daysOfTheWeek = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ]
 
-  useEffect(() => {
-    console.log(retailer)
-  },[retailer])
+  //update retailer in firestore
+  const updateRetailer = async () => {
+    await createDocument('retailers', retailer.id, retailer)
+    router.reload(window.location.pathname)
+  }
 
   useEffect(() => {
 
@@ -27,58 +77,14 @@ export default function EditRetailer({slug}) {
         querySnapshot.forEach((doc) => {
           data.push({id: doc.id, ...doc.data()});
           });
-
+        setInitialRetailer(data[0])
         setRetailer(data[0])
       }
     }
 
     getRetailer()
 
-  }, [slug])
-
-  const SectionWrapper = ({children}) => {
-    return(
-      <Box 
-        sx={{
-          display: 'grid', 
-          gridTemplateColumns: '1fr 3fr', 
-          gap: '2rem',
-          '@media (max-width: 768px)': {
-            gridTemplateColumns: '1fr',
-            gap: '0'
-          }
-        }}
-      >
-        {children}
-      </Box>
-    )
-  }
-
-
-
-  const FormWrapper = ({children}) => {
-    return(
-      <Paper shadow='sm' withBorder>
-      <Box p='xl'>
-        {children}
-      </Box>
-      <Box sx={(theme) => ({display: 'grid', gridTemplateColumns: '1fr 1fr', padding: `${theme.spacing.sm}px ${theme.spacing.xl}px`, backgroundColor: theme.colors.gray[1]})}>
-            <Button sx={{justifySelf: 'start'}} variant='subtle' color='dark'>Reset</Button>
-            <Button sx={{justifySelf: 'end'}} disabled={!changed} color='violet'>Save</Button>
-      </Box>
-    </Paper>
-    )
-  }
-
-  const FormHeader = ({title, subtitle}) => {
-    return (
-      <Box py='xl'>
-      <Text weight={700} size='xl'>{title}</Text>
-      <Text color='dimmed' size='sm'>{subtitle}</Text>
-    </Box>
-    )
-  }
-    
+  }, [slug])    
 
   if(!retailer){
     return(
@@ -93,51 +99,57 @@ export default function EditRetailer({slug}) {
     <Container size='xl' p='xl' sx={{height: '100%'}}>
 
 
-      <SectionWrapper>
-        <FormHeader
-          title='Contact Information'
-          subtitle='Update contact information for retailer'
-        />
-        <FormWrapper>
-            <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
-              <TextInput
-                label="Website"
-                value={retailer.website}
-                onChange={(event) => {
-                  setRetailer({...retailer, website: event.currentTarget.value})
-                  setChanged(true)
-                }}
-              />
-              <TextInput
-                label='Address'
-                value={retailer.address}
-                onChange={(event) => {
-                  setRetailer({...retailer, address: event.currentTarget.value})
-                  setChanged(true)
-                }}
-              />
+<SectionWrapper>
 
-              <TextInput
-                label="Phone"
-                value={retailer.phone}
-                onChange={(event) => {
-                  setRetailer({...retailer, phone: event.currentTarget.value})
-                  setChanged(true)
-                }}
-              />
+    <FormHeader
+      title='Contact Information'
+      subtitle='Update contact information for retailer'
+    />
+              <FormWrapper
+                disabled={!changed}
+                onSave={updateRetailer}
+                reset={() => setRetailer(initialRetailer)}
+              >
 
-              <TextInput
-                label="Email"
-                value={retailer.email}
-                onChange={(event) => {
-                  setRetailer({...retailer, email: event.currentTarget.value})
-                  setChanged(true)
-                }}
-              />
-              
-            </Box>
-        </FormWrapper>
-      </SectionWrapper>
+                <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
+                  <TextInput
+                    label="Website"
+                    value={retailer.website}
+                    onChange={(event) => {
+                      setRetailer({...retailer, website: event.currentTarget.value})
+                      setChanged(true)
+                    }}
+                  />
+                  <TextInput
+                    label='Address'
+                    value={retailer.address}
+                    onChange={(event) => {
+                      setRetailer({...retailer, address: event.currentTarget.value})
+                      setChanged(true)
+                    }}
+                  />
+
+                  <TextInput
+                    label="Phone"
+                    value={retailer.phone}
+                    onChange={(event) => {
+                      setRetailer({...retailer, phone: event.currentTarget.value})
+                      setChanged(true)
+                    }}
+                  />
+
+                  <TextInput
+                    label="Email"
+                    value={retailer.email}
+                    onChange={(event) => {
+                      setRetailer({...retailer, email: event.currentTarget.value})
+                      setChanged(true)
+                    }}
+                  />
+                  
+                </Box>
+              </FormWrapper>
+</SectionWrapper>
 
       <Divider my='xl' />
 
@@ -147,7 +159,11 @@ export default function EditRetailer({slug}) {
           title='Hours'
           subtitle='Update open hours for retailer'
         />
-        <FormWrapper>
+        <FormWrapper
+          disabled={!changed}
+          onSave={updateRetailer}
+          reset={() => setRetailer(initialRetailer)}
+        >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
             {
               ('hours' in retailer) &&
@@ -245,7 +261,11 @@ export default function EditRetailer({slug}) {
           subtitle='Update brands carried by retailer'
         />
 
-        <FormWrapper>
+        <FormWrapper
+          disabled={!changed}
+          onSave={updateRetailer}
+          reset={() => setRetailer(initialRetailer)}
+        >
           <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '.5rem',
             '@media (max-width: 768px)': {
               gridTemplateColumns: '1fr 1fr'
@@ -282,7 +302,11 @@ export default function EditRetailer({slug}) {
           subtitle='Update services provided by retailer'
         />
 
-        <FormWrapper>
+        <FormWrapper
+          disabled={!changed}
+          onSave={updateRetailer}
+          reset={() => setRetailer(initialRetailer)}
+        >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
             {
               ('services' in retailer) &&
@@ -314,7 +338,11 @@ export default function EditRetailer({slug}) {
           title='Shopping Options'
           subtitle='Update shopping options provided by retailer'
         />
-        <FormWrapper>
+        <FormWrapper
+          disabled={!changed}
+          onSave={updateRetailer}
+          reset={() => setRetailer(initialRetailer)}
+        >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
             {
               ('shoppingOptions' in retailer) &&
@@ -345,7 +373,11 @@ export default function EditRetailer({slug}) {
     title='Support'
     subtitle='Update support options'
   />
-  <FormWrapper>
+  <FormWrapper
+    disabled={!changed}
+    onSave={updateRetailer}
+    reset={() => setRetailer(initialRetailer)}
+  >
     <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
       {
         ('support' in retailer) &&
@@ -377,7 +409,11 @@ export default function EditRetailer({slug}) {
     title='Social Media'
     subtitle='Update social media accounts'
   />
-  <FormWrapper>
+  <FormWrapper
+    disabled={!changed}
+    onSave={updateRetailer}
+    reset={() => setRetailer(initialRetailer)}
+  >
     <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
       {
         ('socialMedia' in retailer) &&
