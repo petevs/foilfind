@@ -191,6 +191,28 @@ export default function EditRetailer({slug}) {
         </Paper>
       </Box>
 
+
+      <Divider my='xl' />
+
+
+      <Box sx={{
+        display: 'grid', 
+        gridTemplateColumns: '1fr 3fr', 
+        gap: '2rem',
+        '@media (max-width: 768px)': {
+          gridTemplateColumns: '1fr',
+        }
+      }}
+    >
+        <Box py='xl'>
+          <Text weight={700} size='xl'>Services</Text>
+          <Text color='dimmed' size='sm'>Update open hours for retailer</Text>
+        </Box>
+        <Paper shadow='sm' withBorder p='xl'>
+          services will go here
+        </Paper>
+      </Box>
+
     </Container>
   )
 

@@ -4,6 +4,7 @@ import { query, collection, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import Link from 'next/link';
 import { Button, Text } from '@mantine/core';
+import BasicShell from '../../../components/shells/BasicShell';
 
 
 
@@ -45,11 +46,11 @@ export default function RetailersPage(props) {
   console.log(props)
 
   return(
-    <>
+    <BasicShell>
     <Text>      Website: {props.retailer.website}</Text>
       <Link href={`${props.retailer.path}/edit`} passHref>
         <Button>Edit</Button>
       </Link>
-    </>
+    </BasicShell>
   )
 }
