@@ -40,6 +40,7 @@ export default function Shell({children}){
               <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
                 <Link href='/retailers'>Retailers</Link>
                 <Link href='/brands'>Brands</Link>
+                <Link href='/sign-in'>Sign In</Link>
               </Box>
             </Box>
             </Box>
