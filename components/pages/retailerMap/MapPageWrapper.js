@@ -112,9 +112,6 @@ export default function MapPageWrapper({ parsedRetailers }) {
     }
   })
 
-
-  console.log(listingDetail)
-
   return (
     <>
       <Box sx={wrapper}>

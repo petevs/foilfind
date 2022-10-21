@@ -1,5 +1,5 @@
-import { getCollection } from '../helpers/firebaseHelpers'
-import MapPageWrapper from '../components/pages/retailerMap/MapPageWrapper';
+import { getCollection } from '../../helpers/firebaseHelpers'
+import MapPageWrapper from '../../components/pages/retailerMap/MapPageWrapper';
 
 
 export async function getStaticProps() {

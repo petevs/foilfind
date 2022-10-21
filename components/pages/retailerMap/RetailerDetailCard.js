@@ -1,8 +1,12 @@
 import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton } from "@mantine/core"
 import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import { useContext } from 'react'
+import { UserContext } from '../../../state/UserContext'
 
 
 const RetailerDetailCard = ({retailer}) => {
+
+  const { userDetails } = useContext(UserContext);
 
 
   const checkOfferings = () => {
@@ -48,9 +52,6 @@ const RetailerDetailCard = ({retailer}) => {
   }
 
   const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-
-  console.log(retailer)
-
 
   const checkAllCategory = (category, fields) => {
     const checks = fields.map(field => retailer[category][field])
@@ -123,21 +124,14 @@ const RetailerDetailCard = ({retailer}) => {
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Call</Text>
           </Box>
-            <UnstyledButton sx={{display: 'grid', justifyItems: 'center'}}
+          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+            <ActionIcon color='dark' radius='xl' size='lg' variant='outline' disabled={!retailer.address}
               onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`, "_blank")}
-              disabled={!retailer.address}
             >
-              <ActionIcon 
-                color='dark' 
-                radius='xl' 
-                size='lg' 
-                variant='outline'
-                disabled={!retailer.address}
-              >
-                <IconMapPin size={16} />
-              </ActionIcon>
-              <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
-            </UnstyledButton>
+              <IconMapPin size={16} />
+            </ActionIcon>
+            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
+          </Box>
 
           <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
@@ -268,6 +262,11 @@ const RetailerDetailCard = ({retailer}) => {
               }
             </Group>
           </>
+        }
+        {
+          userDetails.role === 'admin'
+          &&
+          <Button fullWidth my='xl'>Edit Details</Button>
         }
     </>
   )

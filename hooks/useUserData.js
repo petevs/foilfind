@@ -8,7 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 export function useUserData() {
   const [user] = useAuthState(auth);
   const [username, setUsername] = useState(null);
-  // const [userDetails, setUserDetails] = useState({})
+  const [userDetails, setUserDetails] = useState({})
 
   useEffect(() => {
     // turn off realtime subscription
@@ -19,10 +19,11 @@ export function useUserData() {
       const ref = doc(db, 'users', user.uid);
       unsubscribe = onSnapshot(ref, (doc) => {
         setUsername(doc.data()?.username);
-        // setUserDetails({
-        //   photoURL: doc.data().photoURL,
-        //   displayName: doc.data().displayName,
-        // });
+        setUserDetails({
+          role: doc.data()?.role,
+          email: doc.data()?.email,
+          username: doc.data()?.username,
+        });
       });
     } else {
       setUsername(null);
@@ -31,5 +32,5 @@ export function useUserData() {
     return unsubscribe;
   }, [user]);
 
-  return { user, username };
+  return { user, username, userDetails };
 }
