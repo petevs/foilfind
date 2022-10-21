@@ -25,7 +25,7 @@ export default function ShellHeader(){
               height: `${theme.other.headerHeight}px`,
               '@media (max-width: 768px)': {
                 height: `${theme.other.headerHeight}px`,
-                position: 'fixed',
+                // position: 'fixed',
                 width: '100%',
               }
             })}

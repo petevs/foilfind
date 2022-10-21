@@ -1,4 +1,4 @@
-import { Box, Checkbox, Container, Group, JsonInput } from "@mantine/core";
+import { Box, Button, Checkbox, Container, Group, JsonInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -36,6 +36,50 @@ export default function EditRetailer({slug}) {
 
   }, [slug])
 
+  const SectionWrapper = ({children}) => {
+    return(
+      <Box 
+        sx={{
+          display: 'grid', 
+          gridTemplateColumns: '1fr 3fr', 
+          gap: '2rem',
+          '@media (max-width: 768px)': {
+            gridTemplateColumns: '1fr',
+            gap: '0'
+          }
+        }}
+      >
+        {children}
+      </Box>
+    )
+  }
+
+
+
+  const FormWrapper = ({children}) => {
+    return(
+      <Paper shadow='sm' withBorder>
+      <Box p='xl'>
+        {children}
+      </Box>
+      <Box sx={(theme) => ({display: 'grid', gridTemplateColumns: '1fr 1fr', padding: `${theme.spacing.sm}px ${theme.spacing.xl}px`, backgroundColor: theme.colors.gray[1]})}>
+            <Button sx={{justifySelf: 'start'}} variant='subtle' color='dark'>Reset</Button>
+            <Button sx={{justifySelf: 'end'}} disabled={!changed} color='violet'>Save</Button>
+      </Box>
+    </Paper>
+    )
+  }
+
+  const FormHeader = ({title, subtitle}) => {
+    return (
+      <Box py='xl'>
+      <Text weight={700} size='xl'>{title}</Text>
+      <Text color='dimmed' size='sm'>{subtitle}</Text>
+    </Box>
+    )
+  }
+    
+
   if(!retailer){
     return(
       <Container>
@@ -49,94 +93,95 @@ export default function EditRetailer({slug}) {
     <Container size='xl' p='xl' sx={{height: '100%'}}>
 
 
-      <Box 
-        sx={{
-          display: 'grid', 
-          gridTemplateColumns: '1fr 3fr', 
-          gap: '2rem',
-          '@media (max-width: 768px)': {
-            gridTemplateColumns: '1fr',
-          }
-        }}
-      >
-        <Box py='xl'>
-          <Text weight={700} size='xl'>Contact Information</Text>
-          <Text color='dimmed' size='sm'>Update contact information for retailer</Text>
-        </Box>
-        <Paper shadow='sm' withBorder p='xl'>
-          <Box sx={{display: 'grid', gridAutFlow: 'row', gap: '1rem'}}>
-            <TextInput
-              label="Website"
-              value={retailer.website}
-              onChange={(event) => {
-                setRetailer({...retailer, website: event.currentTarget.value})
-                setChanged(true)
-              }}
-            />
-            <TextInput
-              label='Address'
-              value={retailer.address}
-              onChange={(event) => {
-                setRetailer({...retailer, address: event.currentTarget.value})
-                setChanged(true)
-              }}
-            />
+      <SectionWrapper>
+        <FormHeader
+          title='Contact Information'
+          subtitle='Update contact information for retailer'
+        />
+        <FormWrapper>
+            <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
+              <TextInput
+                label="Website"
+                value={retailer.website}
+                onChange={(event) => {
+                  setRetailer({...retailer, website: event.currentTarget.value})
+                  setChanged(true)
+                }}
+              />
+              <TextInput
+                label='Address'
+                value={retailer.address}
+                onChange={(event) => {
+                  setRetailer({...retailer, address: event.currentTarget.value})
+                  setChanged(true)
+                }}
+              />
 
-            <TextInput
-              label="Phone"
-              value={retailer.phone}
-              onChange={(event) => {
-                setRetailer({...retailer, phone: event.currentTarget.value})
-                setChanged(true)
-              }}
-            />
+              <TextInput
+                label="Phone"
+                value={retailer.phone}
+                onChange={(event) => {
+                  setRetailer({...retailer, phone: event.currentTarget.value})
+                  setChanged(true)
+                }}
+              />
 
-            <TextInput
-              label="Email"
-              value={retailer.email}
-              onChange={(event) => {
-                setRetailer({...retailer, email: event.currentTarget.value})
-                setChanged(true)
-              }}
-            />
-            
-          </Box>
-        </Paper>
-      </Box>
+              <TextInput
+                label="Email"
+                value={retailer.email}
+                onChange={(event) => {
+                  setRetailer({...retailer, email: event.currentTarget.value})
+                  setChanged(true)
+                }}
+              />
+              
+            </Box>
+        </FormWrapper>
+      </SectionWrapper>
 
       <Divider my='xl' />
 
 
-      <Box sx={{
-        display: 'grid', 
-        gridTemplateColumns: '1fr 3fr', 
-        gap: '2rem',
-        '@media (max-width: 768px)': {
-          gridTemplateColumns: '1fr',
-        }
-      }}
-    >
-        <Box py='xl'>
-          <Text weight={700} size='xl'>Hours</Text>
-          <Text color='dimmed' size='sm'>Update open hours for retailer</Text>
-        </Box>
-        <Paper shadow='sm' withBorder p='xl'>
-          <Box sx={{display: 'grid', gridAutFlow: 'row', gap: '1rem'}}>
-            <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto 1fr', gap: '.5rem', alignItems: 'center'}}>
-              <Text></Text>
-              <Text size='xs' transform='uppercase' align='center'>Closed</Text>
-              <Text></Text>
-              <Text></Text>
-              <Text></Text>
-            </Box>
+      <SectionWrapper>
+        <FormHeader
+          title='Hours'
+          subtitle='Update open hours for retailer'
+        />
+        <FormWrapper>
+          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
             {
               ('hours' in retailer) &&
               daysOfTheWeek.map((day, index) => {
                 return(
-                  <Box key={index} sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto 1fr', gap: '.5rem', alignItems: 'center'}}>
-                    <Text transform='capitalize'>{day}</Text>
-                    <Box sx={{justifySelf: 'center'}}>
+                  <Box key={index} sx={{
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr 1fr auto 1fr', 
+                    gap: '.5rem', 
+                    alignItems: 'center',
+                    '@media (max-width: 768px)': {
+                      gridTemplateColumns: '1fr auto 1fr',
+                      gap: '1rem'
+                    }
+                  }}>
+                    <Text
+                      size='md'
+                      sx={{
+                        '@media (max-width: 768px)': {
+                          gridColumn: '1 / 2',
+                        }}
+                      } 
+                      transform='capitalize'
+                      >
+                        {day}
+                      </Text>
+                    <Box sx={{justifySelf: 'center',
+                      '@media (max-width: 768px)': {
+                        gridColumn: '3',
+                        justifySelf: 'end'
+                      }
+                  }}>
                       <Checkbox
+                        label={'Closed'}
                         checked={retailer.hours?.[day]['closed']}
                         onChange={(event) => {
                           setRetailer({...retailer, hours: {...retailer.hours, [day]: {...retailer.hours[day], closed: event.currentTarget.checked}}})
@@ -188,30 +233,174 @@ export default function EditRetailer({slug}) {
               })
             }            
           </Box>
-        </Paper>
-      </Box>
+        </FormWrapper>
+      </SectionWrapper>
+
+      <Divider my='xl' />
+
+
+      <SectionWrapper>
+        <FormHeader
+          title='Brands'
+          subtitle='Update brands carried by retailer'
+        />
+
+        <FormWrapper>
+          <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '.5rem',
+            '@media (max-width: 768px)': {
+              gridTemplateColumns: '1fr 1fr'
+            }
+        }}>
+            {
+              ('brands' in retailer) &&
+              Object.keys(retailer.brands).map((brand, index) => {
+                return(
+                      <Checkbox
+                        key={brand}
+                        label={brand.charAt(0).toUpperCase() + brand.slice(1)}
+                        checked={retailer.brands[brand]}
+                        onChange={(event) => {
+                          setRetailer({...retailer, brands: {...retailer.brands, [brand]: event.currentTarget.checked}})
+                          setChanged(true)
+                        }}
+                      />
+                )
+              }
+              )
+            }
+          </Box>
+        </FormWrapper>
+      </SectionWrapper>
 
 
       <Divider my='xl' />
 
 
-      <Box sx={{
-        display: 'grid', 
-        gridTemplateColumns: '1fr 3fr', 
-        gap: '2rem',
-        '@media (max-width: 768px)': {
-          gridTemplateColumns: '1fr',
+      <SectionWrapper>
+        <FormHeader
+          title='Services'
+          subtitle='Update services provided by retailer'
+        />
+
+        <FormWrapper>
+          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
+            {
+              ('services' in retailer) &&
+              Object.keys(retailer.services).map((service, index) => {
+                return(
+                      <Checkbox
+                        key={service}
+                        label={service.charAt(0).toUpperCase() + service.slice(1)}
+                        checked={retailer.services[service]}
+                        onChange={(event) => {
+                          setRetailer({...retailer, services: {...retailer.services, [service]: event.currentTarget.checked}})
+                          setChanged(true)
+                        }}
+                      />
+                )
+              }
+              )
+            }
+          </Box>
+        </FormWrapper>
+      </SectionWrapper>
+
+
+      <Divider my='xl' />
+
+
+      <SectionWrapper>
+        <FormHeader
+          title='Shopping Options'
+          subtitle='Update shopping options provided by retailer'
+        />
+        <FormWrapper>
+          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
+            {
+              ('shoppingOptions' in retailer) &&
+              Object.keys(retailer.shoppingOptions).map((option, index) => {
+                return(
+                      <Checkbox
+                        key={option}
+                        label={option.charAt(0).toUpperCase() + option.slice(1)}
+                        checked={retailer.shoppingOptions[option]}
+                        onChange={(event) => {
+                          setRetailer({...retailer, shoppingOptions: {...retailer.shoppingOptions, [option]: event.currentTarget.checked}})
+                          setChanged(true)
+                        }}
+                      />
+                )
+              }
+              )
+            }
+          </Box>
+        </FormWrapper>
+      </SectionWrapper>
+
+      <Divider my='xl' />
+
+
+<SectionWrapper>
+  <FormHeader
+    title='Support'
+    subtitle='Update support options'
+  />
+  <FormWrapper>
+    <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
+      {
+        ('support' in retailer) &&
+        Object.keys(retailer.support).map((supportType, index) => {
+          return(
+                <Checkbox
+                  key={supportType}
+                  label={supportType.charAt(0).toUpperCase() + supportType.slice(1)}
+                  checked={retailer.support[supportType]}
+                  onChange={(event) => {
+                    setRetailer({...retailer, support: {...retailer.support, [supportType]: event.currentTarget.checked}})
+                    setChanged(true)
+                  }}
+                />
+          )
         }
-      }}
-    >
-        <Box py='xl'>
-          <Text weight={700} size='xl'>Services</Text>
-          <Text color='dimmed' size='sm'>Update open hours for retailer</Text>
-        </Box>
-        <Paper shadow='sm' withBorder p='xl'>
-          services will go here
-        </Paper>
-      </Box>
+        )
+      }
+    </Box>
+  </FormWrapper>
+</SectionWrapper>
+
+
+<Divider my='xl' />
+
+
+<SectionWrapper>
+  <FormHeader
+    title='Social Media'
+    subtitle='Update social media accounts'
+  />
+  <FormWrapper>
+    <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem'}}>
+      {
+        ('socialMedia' in retailer) &&
+        Object.keys(retailer.socialMedia).map((socialMediaType, index) => {
+          return(
+                <TextInput
+                  key={socialMediaType}
+                  label={socialMediaType.charAt(0).toUpperCase() + socialMediaType.slice(1)}
+                  value={retailer.socialMedia[socialMediaType]}
+                  onChange={(event) => {
+                    setRetailer({...retailer, socialMedia: {...retailer.socialMedia, [socialMediaType]: event.currentTarget.value}})
+                    setChanged(true)
+                  }}
+                />
+          )
+        }
+        )
+      }
+    </Box>
+  </FormWrapper>
+</SectionWrapper>
+
+
 
     </Container>
   )
