@@ -12,6 +12,10 @@ import {
 } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
+import { auth } from '../firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 
 
@@ -29,6 +33,34 @@ export default function SignInPage() {
       password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const router = useRouter();
+
+  const createUser = async (email, password) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+    router.push('/')
+  }
+
+  const signIn = async (email, password) => {
+    await signInWithEmailAndPassword(auth, email, password)
+    router.push('/')
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { hasErrors } = form.validate();
+    
+    if(hasErrors) {
+      return;
+    }
+
+    if (type === 'login') {
+      signIn(form.values.email, form.values.password)
+    }
+    if (type === 'register') {
+      createUser(form.values.email, form.values.password)
+    }
+  };
 
 
   return (
@@ -60,11 +92,12 @@ export default function SignInPage() {
       }
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <form onSubmit={(e) => handleSubmit(e)} onReset={form.onReset}>
         <TextInput 
           label="Email" 
           placeholder="you@mantine.dev" 
           required 
-          error={form.errors.email && form.touched.email ? form.errors.email : null}
+          error={form.errors.email && 'Invalid email'}
           value={form.values.email}
           onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
         />
@@ -72,26 +105,24 @@ export default function SignInPage() {
           label="Password" 
           placeholder="Your password" 
           required mt="md" 
-          error={form.errors.password && form.touched.password ? form.errors.password : null}
+          error={form.errors.password && 'Password should include at least 6 characters'}
           value={form.values.password}
           onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
         />
         <Group position="apart" mt="md">
           <Checkbox label="Remember me" />
-          <Anchor onClick={(event) => event.preventDefault()} href="#" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>{
-          type === 'login' ? (
-            <Button fullWidth mt="md">
-              Sign in
-            </Button>
-          ) : (
-            <Button fullWidth mt="md">
-              Sign up
-            </Button>
-          )
-        }
+          <Link href="/forgot-password" passHref>
+            <Anchor size="sm">
+              Forgot password?
+            </Anchor>
+          </Link>
+        </Group>
+        <Button fullWidth mt='md' type='submit'>
+          {
+          type === 'login' ? 'Sign in' : 'Create account'
+          }
+        </Button>
+        </form>
       </Paper>
     </Container>
     </div>

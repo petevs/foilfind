@@ -1,8 +1,19 @@
-import { Box, Container, Divider, Text } from "@mantine/core"
+import { Box, Button, Container, Divider, Text } from "@mantine/core"
 import Link from "next/link"
 import Logo from "./Logo"
+import { useContext } from 'react'
+import { UserContext } from '../state/UserContext'
+import { auth } from "../firebase"
 
 export default function Shell({children}){
+
+  const { user } = useContext(UserContext)
+
+  //log out user from firebase auth
+  const logout = async () => {
+    await auth.signOut()
+  }
+
   return(
     <>
       <Box
@@ -40,7 +51,18 @@ export default function Shell({children}){
               <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
                 <Link href='/retailers'>Retailers</Link>
                 <Link href='/brands'>Brands</Link>
-                <Link href='/sign-in'>Sign In</Link>
+                {
+                  user ? (
+                    <>
+                      <Link href='/profile'>Profile</Link>
+                      <Button variant='outline' color='violet' size='sm' onClick={logout}>Logout</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href='/sign-in'>Sign In</Link>
+                    </>
+                  )
+                }
               </Box>
             </Box>
             </Box>
