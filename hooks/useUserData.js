@@ -20,8 +20,9 @@ export function useUserData() {
       unsubscribe = onSnapshot(ref, (doc) => {
         setUsername(doc.data()?.username);
         setUserDetails({
-          photoURL: doc.data().photoURL,
-          displayName: doc.data().displayName,
+          role: doc.data()?.role,
+          email: doc.data()?.email,
+          username: doc.data()?.username,
         });
       });
     } else {

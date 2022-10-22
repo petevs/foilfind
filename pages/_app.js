@@ -1,8 +1,7 @@
 import '../styles/globals.css'
-import { AppShell, Container, MantineProvider, TypographyStylesProvider } from '@mantine/core'
+import { MantineProvider, TypographyStylesProvider } from '@mantine/core'
 import { theme } from '../theme'
 import { cache } from '../emotion-cache'
-import Shell from '../components/Shell'
 import { UserContext } from '../state/UserContext'
 import { useUserData } from '../hooks/useUserData'
 
@@ -21,9 +20,7 @@ function MyApp({ Component, pageProps }) {
         >
           {/* <UserContext.Provider value={userData}> */}
           <TypographyStylesProvider>
-            <Shell>
               <Component {...pageProps} />
-            </Shell>
           </TypographyStylesProvider>
           {/* </UserContext.Provider> */}
       </MantineProvider>

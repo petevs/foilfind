@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { IconExternalLink } from "@tabler/icons";
 import Head from "next/head";
+import BasicShell from "../components/shells/BasicShell";
 
 //get static props for brands from firebase
 export async function getStaticProps() {
@@ -62,7 +63,7 @@ export default function Brands(props) {
 
 
   return (
-    <>
+    <BasicShell>
       <Head>
         <title>Find Wing Foil Brands - Search and filter through all the wing foil brands</title>
         <meta name="title" content="Find Wing Foil Brands - Search and filter through all the wing foil brands" />
@@ -164,6 +165,6 @@ export default function Brands(props) {
             </Box>
           </Box>
       </Box>
-    </>
+    </BasicShell>
   )
 }
