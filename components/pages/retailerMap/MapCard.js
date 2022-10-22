@@ -16,6 +16,25 @@ const MapCard = ({listing, mouseEnter, mouseLeave, setListingDetail}) => {
     }
   })
 
+  const checkOfferings = () => {
+    const offerings = []
+    if (listing.shoppingOptions.shopInStore) {
+      offerings.push('Storefront')
+    }
+    if (listing.shoppingOptions.orderOnline) {
+      offerings.push('Online Shop')
+    }
+    if (listing.services.rentals) {
+      offerings.push('Rentals')
+    }
+    if (listing.services.lessons) {
+      offerings.push('Lessons')
+    }
+
+    //add a · in between each offering
+    return offerings.join(' · ')
+  }
+
   return (
     // <Link href={`/retailers/${listing.path}`}>
     //   <a target="_blank" style={{textDecoration: 'none'}}>
@@ -29,7 +48,7 @@ const MapCard = ({listing, mouseEnter, mouseLeave, setListingDetail}) => {
             <Box p='sm' sx={cardWrapper}>
               <Box>
                 <Text weight={600}>{listing.name}</Text>
-                <Text size='sm' color='gray'>Retailer</Text>
+                <Text size='sm' color='gray'>{checkOfferings()}</Text>
               </Box>
             </Box>
           </Paper>

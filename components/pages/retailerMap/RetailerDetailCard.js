@@ -8,11 +8,13 @@ const RetailerDetailCard = ({retailer}) => {
 
   const { userDetails } = useContext(UserContext);
 
-
   const checkOfferings = () => {
     const offerings = []
-    if (retailer.services.sales) {
+    if (retailer.shoppingOptions.shopInStore) {
       offerings.push('Storefront')
+    }
+    if (retailer.shoppingOptions.orderOnline) {
+      offerings.push('Online Shop')
     }
     if (retailer.services.rentals) {
       offerings.push('Rentals')
@@ -55,8 +57,11 @@ const RetailerDetailCard = ({retailer}) => {
 
   const checkAllCategory = (category, fields) => {
     const checks = fields.map(field => retailer[category][field])
-    return checks.every(check => check)
+    const pass = checks.every(check => check === '')
+    return !pass
   }
+
+  console.log(retailer)
 
   return (
     <>

@@ -67,6 +67,8 @@ export default function EditRetailer({slug}) {
     router.reload(window.location.pathname)
   }
 
+  console.log(retailer)
+
   useEffect(() => {
 
     const getRetailer = async () => {
