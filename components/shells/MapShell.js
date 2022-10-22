@@ -12,7 +12,9 @@ export default function MapShell({children}){
           gridTemplateRows: `${theme.other.headerHeight}px calc(100vh - ${theme.other.headerHeight}px)`,
         })}
       >
-          <ShellHeader />
+          <ShellHeader 
+            fixed={true}
+          />
 
           <Box component='main'>
             {children}

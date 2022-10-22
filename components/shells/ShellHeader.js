@@ -6,7 +6,7 @@ import { UserContext } from '../../state/UserContext'
 import { auth } from "../../firebase"
 
 
-export default function ShellHeader(){
+export default function ShellHeader({fixed}){
 
   const { user } = useContext(UserContext)
 
@@ -25,7 +25,7 @@ export default function ShellHeader(){
               height: `${theme.other.headerHeight}px`,
               '@media (max-width: 768px)': {
                 height: `${theme.other.headerHeight}px`,
-                // position: 'fixed',
+                position: fixed ? 'fixed' : 'relative',
                 width: '100%',
               }
             })}
@@ -46,7 +46,7 @@ export default function ShellHeader(){
               <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
                 <Link href='/retailers'>Retailers</Link>
                 <Link href='/brands'>Brands</Link>
-                {
+                {/* {
                   user ? (
                     <>
                       <Link href='/profile'>Profile</Link>
@@ -57,7 +57,7 @@ export default function ShellHeader(){
                       <Link href='/sign-in'>Sign In</Link>
                     </>
                   )
-                }
+                } */}
               </Box>
             </Box>
             </Box>
