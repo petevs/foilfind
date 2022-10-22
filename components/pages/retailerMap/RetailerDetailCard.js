@@ -61,8 +61,6 @@ const RetailerDetailCard = ({retailer}) => {
     return !pass
   }
 
-  console.log(retailer)
-
   return (
     <>
           <Text sx={{fontSize: '1.6rem'}} weight={700} mt='lg'>{retailer.name}</Text>

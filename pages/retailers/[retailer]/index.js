@@ -43,8 +43,6 @@ export default function RetailersPage(props) {
   const router = useRouter()
   const { retailer } = router.query
 
-  console.log(props)
-
   return(
     <BasicShell>
     <Text>      Website: {props.retailer.website}</Text>

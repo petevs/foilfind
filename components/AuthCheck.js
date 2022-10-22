@@ -5,8 +5,6 @@ import { UserContext } from '../state/UserContext';
 const AuthCheck = (props) => {
   const { user, username } = useContext(UserContext);
 
-  console.log(user)
-
   return (<div>
     hi
   </div>)
