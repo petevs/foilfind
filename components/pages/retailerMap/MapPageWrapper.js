@@ -10,15 +10,18 @@ import SidebarToggle from "./SidebarToggle";
 import ListingDrawer from "./ListingDrawer";
 import RetailerDetailCard from "./RetailerDetailCard";
 import { IconChevronLeft, IconX } from "@tabler/icons";
+import { useRouter } from 'next/router'
 
-export default function MapPageWrapper({ parsedRetailers }) {
+export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage }) {
 
 
   const [showList, setShowList] = useState(true)
   const mapRef = useRef(null)
   const [filteredListings, setFilteredListings] = useState(parsedRetailers)
-  const [highlightedListing, setHighlightedListing] = useState(null)
-  const [listingDetail, setListingDetail] = useState(null)
+  const [highlightedListing, setHighlightedListing] = useState(selectedRetailer || null)
+  const [listingDetail, setListingDetail] = useState(selectedRetailer || null)
+
+  const router = useRouter()
 
   const [viewState, setViewState] = useLocalStorage({
     key: 'viewState',
@@ -115,10 +118,14 @@ export default function MapPageWrapper({ parsedRetailers }) {
   return (
     <>
       <Box sx={wrapper}>
-        <SidebarToggle 
-          showList={showList}
-          setShowList={setShowList}
-        />
+        {
+          !retailerPage && (
+          <SidebarToggle 
+            showList={showList}
+            setShowList={setShowList}
+          />
+          )
+        }
         {
           showList && (
             <Box sx={(theme) => ({
@@ -140,10 +147,18 @@ export default function MapPageWrapper({ parsedRetailers }) {
                         }
                       }}
                       spacing='xs' 
-                      onClick={() => setListingDetail(null)}
+                      onClick={() => {
+                        if(retailerPage){
+                          router.push('/retailers')
+                          return
+                        }
+                        setListingDetail(null)
+                      }}
                     >
                       <IconChevronLeft size={14} />
-                      <Text weight={600}>Back to Results</Text>
+                      <Text weight={600}>
+                        Back to All Listings
+                      </Text>
                     </Group>
                     <Divider mt='md' />
                   </Box>

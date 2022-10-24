@@ -8,8 +8,6 @@ import { UserContext } from '../../../state/UserContext'
 
 const RetailerDetailCard = ({retailer}) => {
 
-  console.log(retailer)
-
   const { userDetails } = useContext(UserContext);
 
   const checkOfferings = () => {
