@@ -1,6 +1,8 @@
-import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton } from "@mantine/core"
+import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor } from "@mantine/core"
 import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import Link from "next/link"
 import { useContext } from 'react'
+import { sortArray } from "../../../helpers/formatters"
 import { UserContext } from '../../../state/UserContext'
 
 
@@ -55,7 +57,7 @@ const RetailerDetailCard = ({retailer}) => {
         array.push(key)
       }
     }
-    return array
+    return sortArray(array)
   }
 
   const convertFirestoreTimestampToTime = (timestamp) => {
@@ -211,11 +213,19 @@ const RetailerDetailCard = ({retailer}) => {
         }
         <Divider my='lg' />
         <Text size='md' mb='md' weight={700}>Brands Carried</Text>
-        <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 50%)'}}>
+        <Box sx={(theme) => ({display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 50%)', '& a': {color: theme.colors.gray}})}>
           {
             createArrayIfTrue(retailer.brands).map(brand => (
                 <Box key={brand}>
-                  <Text size='sm' key={brand} color='dark'>{brand}</Text>
+                  <Link href={`/brands/${retailer.brands[brand].path}`} passHref>
+                    <Anchor 
+                      component='a' 
+                      size='sm' 
+                      key={brand}
+                    >
+                      {brand}
+                    </Anchor>
+                  </Link>
                 </Box>
             ))
           }
