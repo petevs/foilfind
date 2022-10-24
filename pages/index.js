@@ -57,6 +57,18 @@ export default function Home(props) {
             {
               title: 'Silent Sports',
               path: '/silent-sports'
+            },
+            {
+              title: 'Real Watersports',
+              path: '/real-watersports'
+            },
+            {
+              title: 'Wind Spirit',
+              path: '/wind-spirit'
+            },
+            {
+              title: 'North Shore Ski & Board',
+              path: '/north-shore-ski-&-board'
             }
           ]}
         />
