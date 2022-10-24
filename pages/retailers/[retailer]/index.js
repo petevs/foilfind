@@ -5,6 +5,8 @@ import { db } from '../../../firebase';
 import Link from 'next/link';
 import { Button, Text } from '@mantine/core';
 import BasicShell from '../../../components/shells/BasicShell';
+import MapShell from '../../../components/shells/MapShell';
+import MapPageWrapper from '../../../components/pages/retailerMap/MapPageWrapper';
 
 
 
@@ -28,10 +30,13 @@ export async function getStaticProps({ params }) {
     });
 
   const retailer = data[0];
+  const allRetailers = JSON.stringify(data)
+
 
   return {
     props: {
       retailer,
+      allRetailers
     },
   }
 }
@@ -41,14 +46,16 @@ export default function RetailersPage(props) {
 
   //get slug from url
   const router = useRouter()
-  const { retailer } = router.query
+  const { retailer, allRetailers } = props
+  const parsedRetailers = JSON.parse(allRetailers)
 
   return(
-    <BasicShell>
-    <Text>      Website: {props.retailer.website}</Text>
-      <Link href={`${props.retailer.path}/edit`} passHref>
-        <Button>Edit</Button>
-      </Link>
-    </BasicShell>
+    <MapShell>
+      <MapPageWrapper
+        parsedRetailers={parsedRetailers}
+        selectedRetailer={retailer}
+        retailerPage={true}
+      />
+    </MapShell>
   )
 }

@@ -1,10 +1,12 @@
 import { Card, Text, Box, Divider, Chip, Button, Title } from "@mantine/core";
-import { getCollection } from "../helpers/firebaseHelpers";
+import { getCollection } from "../../helpers/firebaseHelpers";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { IconExternalLink } from "@tabler/icons";
+import { IconExternalLink, IconLink } from "@tabler/icons";
 import Head from "next/head";
-import BasicShell from "../components/shells/BasicShell";
+import BasicShell from "../../components/shells/BasicShell";
+import { useRouter } from "next/router";
+import { createSlug} from "../../helpers/formatters";
 
 //get static props for brands from firebase
 export async function getStaticProps() {
@@ -19,6 +21,8 @@ export async function getStaticProps() {
 export default function Brands(props) {
 
   const { brands } = props;
+
+  const router = useRouter();
 
   const [filteredBrands, setFilteredBrands] = useState(brands);
 
@@ -140,22 +144,36 @@ export default function Brands(props) {
                           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]}`,
                         })
                       }>
-                        <Button
-                          onClick={() => {window.open(brand.url, '_blank')}}
-                          size='xs'
-                          variant='subtle'
-                          leftIcon={<IconExternalLink size={14} />}
-                          fullWidth
-                          disabled={!brand.url}
-                          sx={(theme) => ({
-                            '&:hover': {
-                              color: theme.colors.blue[6],
-                            }
-                          })
-                        }
+                        <Box
+                          sx={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr auto 1fr'
+                          }}
                         >
+                          <Button
+                            size='xs'
+                            variant='subtle'
+                            leftIcon={<IconLink size={14} />}
+                            onClick={() => { router.push(`/brands/${createSlug(brand.id)}`) }}
+                          >Learn More</Button>
+                          <Divider orientation='vertical' />
+                          <Button
+                            onClick={() => {window.open(brand.url, '_blank')}}
+                            size='xs'
+                            variant='subtle'
+                            leftIcon={<IconExternalLink size={14} />}
+                            fullWidth
+                            disabled={!brand.url}
+                            sx={(theme) => ({
+                              '&:hover': {
+                                color: theme.colors.blue[6],
+                              }
+                            })
+                          }
+                          >
                           Website
                         </Button>
+                        </Box>
                       </Card.Section>
                     </Card>
                   )

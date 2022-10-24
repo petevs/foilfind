@@ -3,7 +3,10 @@ export const theme = {
     sizes: {
       h1: {
         marginTop: 0
-      }
+      },
+      h2: {
+        marginTop: 0
+      },
     }
   },
   other: {
