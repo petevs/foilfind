@@ -8,3 +8,22 @@ export const toTitleCase = (str) => {
 export const toKebabCase = (str) => {
     return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 }
+
+// create a function that takes in a string and returns a kebab case string
+
+export const createSlug = (str) => {
+    return str.toLowerCase().replaceAll(' ', '-');
+}
+
+// sort array of strings
+export const sortArray = (arr) => {
+    return arr.sort((a, b) => {
+        if (a < b) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        return 0;
+    });
+}

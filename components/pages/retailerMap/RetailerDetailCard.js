@@ -6,6 +6,8 @@ import { UserContext } from '../../../state/UserContext'
 
 const RetailerDetailCard = ({retailer}) => {
 
+  console.log(retailer)
+
   const { userDetails } = useContext(UserContext);
 
   const checkOfferings = () => {
@@ -27,10 +29,29 @@ const RetailerDetailCard = ({retailer}) => {
     return offerings.join(' · ')
   }
 
+  const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+
+  //check if retailer has hours, if not then return false
+  const checkHasHours = () => {
+    const days = []
+    daysOfTheWeek.forEach(day => {
+      if( !retailer.hours[day].open && !retailer.hours[day].close && !retailer.hours[day].closed) {
+       days.push(false)
+      }
+      else {
+        days.push(true)
+      }
+    })
+    
+    return ! days.every(check => check === false) 
+
+  }
+
+
   const createArrayIfTrue = (obj) => {
     const array = []
     for (const key in obj) {
-      if (obj[key]) {
+      if (obj[key].carry) {
         array.push(key)
       }
     }
@@ -52,8 +73,6 @@ const RetailerDetailCard = ({retailer}) => {
     const strTime = hours12 + ':' + minutesFormatted + ' ' + ampm
     return strTime
   }
-
-  const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
   const checkAllCategory = (category, fields) => {
     const checks = fields.map(field => retailer[category][field])
@@ -167,25 +186,29 @@ const RetailerDetailCard = ({retailer}) => {
           fullWidth
           onClick={() => window.open(retailer.website, "_blank")}
           >Vist Website</Button>
-
-        <Divider my='lg' />
-        <Text size='md' mb='md' weight={700}>Hours of Operation</Text>
         {
-          daysOfTheWeek.map((day) => (
-            <Box
-              key={day}
-              sx={{display: 'grid', gridTemplateColumns: '1fr 2fr'}}
-            >
-              <Text size='sm' transform='capitalize' color='dimmed'>{day}</Text>
-              {
-                retailer.hours[day].closed ?
-                <Text size='sm'>Closed</Text>
-                :
-                <Text size='sm'>{convertFirestoreTimestampToTime(retailer.hours[day].open)} to {convertFirestoreTimestampToTime(retailer.hours[day].close)}</Text>
-              }
-            </Box>
-        ))
-      }
+          checkHasHours() && 
+          <>
+            <Divider my='lg' />
+            <Text size='md' mb='md' weight={700}>Hours of Operation</Text>
+            {
+              daysOfTheWeek.map((day) => (
+                <Box
+                  key={day}
+                  sx={{display: 'grid', gridTemplateColumns: '1fr 2fr'}}
+                >
+                  <Text size='sm' transform='capitalize' color='dimmed'>{day}</Text>
+                  {
+                    retailer.hours[day].closed ?
+                    <Text size='sm'>Closed</Text>
+                    :
+                    <Text size='sm'>{convertFirestoreTimestampToTime(retailer.hours[day].open)} to {convertFirestoreTimestampToTime(retailer.hours[day].close)}</Text>
+                  }
+                </Box>
+            ))
+          }
+        </>
+        }
         <Divider my='lg' />
         <Text size='md' mb='md' weight={700}>Brands Carried</Text>
         <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 50%)'}}>

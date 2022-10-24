@@ -6,6 +6,7 @@ import { TextInput, Paper, Text, Divider } from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
 import { createDocument } from "../../../helpers/firebaseHelpers";
 import { useRouter } from "next/router";
+import { sortArray } from "../../../helpers/formatters";
 
 const SectionWrapper = ({children}) => {
   return(
@@ -273,14 +274,21 @@ export default function EditRetailer({slug}) {
         }}>
             {
               ('brands' in retailer) &&
-              Object.keys(retailer.brands).map((brand, index) => {
+              sortArray(Object.keys(retailer.brands)).map((brand, index) => {
                 return(
                       <Checkbox
                         key={brand}
                         label={brand.charAt(0).toUpperCase() + brand.slice(1)}
-                        checked={retailer.brands[brand]}
+                        checked={retailer.brands[brand].carry}
                         onChange={(event) => {
-                          setRetailer({...retailer, brands: {...retailer.brands, [brand]: event.currentTarget.checked}})
+                          setRetailer({
+                            ...retailer, 
+                            brands: {
+                              ...retailer.brands, 
+                              [brand]: {
+                                ...retailer.brands[brand],
+                                carry: event.currentTarget.checked
+                              }}})
                           setChanged(true)
                         }}
                       />
