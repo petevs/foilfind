@@ -63,11 +63,7 @@ export default function BrandProducts(props){
 
   useEffect(() => {
     const filtered = products.filter((product) => {
-      if(categories[product.category]){
-        return true;
-      } else {
-        return false;
-      }
+      return categories[product.category];
     })
     setFilteredProducts(filtered);
   },[categories, products])
