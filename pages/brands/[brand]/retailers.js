@@ -5,6 +5,8 @@ import { query, collection, where, getDocs } from "firebase/firestore";
 import { getCollection } from "../../../helpers/firebaseHelpers";
 import BrandHeader from "../../../components/BrandHeader";
 import BrandContentShell from "../../../components/BrandContentShell";
+import MapShell from "../../../components/shells/MapShell";
+import MapPageWrapper from "../../../components/pages/retailerMap/MapPageWrapper";
 
 // get static paths for all brands
 export async function getStaticPaths() {
@@ -52,13 +54,10 @@ export default function BrandProducts(props){
   return (
     <BasicShell>
       <BrandHeader brand={brand.brand} active='retailers'/>
-      <BrandContentShell>
-        {
-          retailers.map((retailer) => (
-            <Text key={retailer.name}>{retailer.name}</Text>
-          ))
-        }
-      </BrandContentShell>
+          <MapPageWrapper
+            parsedRetailers={retailers}
+            brandPage={true}
+          />
     </BasicShell>
   )
 }

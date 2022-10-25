@@ -1,10 +1,11 @@
 import BasicShell from "../../../components/shells/BasicShell"
-import { Container, Text } from "@mantine/core"
+import { Card, Container, Text, Box, Checkbox, Skeleton } from "@mantine/core"
 import { db } from "../../../firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { getCollection } from "../../../helpers/firebaseHelpers";
 import BrandHeader from "../../../components/BrandHeader";
 import BrandContentShell from "../../../components/BrandContentShell";
+import { useState, useEffect } from "react";
 
 // get static paths for all brands
 export async function getStaticPaths() {
@@ -51,15 +52,73 @@ export default function BrandProducts(props){
 
   const { brand, products } = props;
 
+
+  const [categories, setCategories] = useState({
+    'foils': true,
+    'wings': true,
+    'boards': true,
+  })
+
+  const [filteredProducts, setFilteredProducts] = useState(products);
+
+  useEffect(() => {
+    const filtered = products.filter((product) => {
+      if(categories[product.category]){
+        return true;
+      } else {
+        return false;
+      }
+    })
+    setFilteredProducts(filtered);
+  },[categories, products])
+
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <BasicShell>
       <BrandHeader brand={brand.brand} active='products'/>
       <BrandContentShell>
-        {
-          products.map((product) => (
-            <Text key={product.name}>{product.name}</Text>
-          ))
-        }
+        <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2rem'}}>
+          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem', alignContent: 'start'}}>
+              {
+                Object.keys(categories).map((category) => (
+                  <Checkbox
+                    key={category}
+                    label={capitalizeFirstLetter(category)}
+                    checked={brand[category] ? categories[category] : false}
+                    onChange={(event) => {
+                      setCategories({ ...categories, [category]: event.currentTarget.checked });
+                    }}
+                    disabled={!brand[category]}
+                  />
+                ))
+              }
+    
+          </Box>
+          <Box>
+            {
+              filteredProducts.map((product) => (
+                <Card key={product.id} shadow="sm" padding="md" radius="md" style={{marginBottom: '1rem'}} withBorder>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: 'auto 1fr',
+                      gap: '1rem'
+                    }}
+                  >
+                    <Skeleton radius="md" style={{width: '150px', height: '150px'}} />
+                    <Box p='md'>
+                      <Text weight={500}>{product.name}</Text>
+                    </Box>
+                  </Box>
+                </Card>
+              ))
+            }
+          </Box>
+        </Box>
       </BrandContentShell>
     </BasicShell>
   )

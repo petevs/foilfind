@@ -12,7 +12,7 @@ import RetailerDetailCard from "./RetailerDetailCard";
 import { IconChevronLeft, IconX } from "@tabler/icons";
 import { useRouter } from 'next/router'
 
-export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage }) {
+export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
 
 
   const [showList, setShowList] = useState(true)
@@ -119,7 +119,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     <>
       <Box sx={wrapper}>
         {
-          !retailerPage && (
+          (!retailerPage && !brandPage) && (
           <SidebarToggle 
             showList={showList}
             setShowList={setShowList}
