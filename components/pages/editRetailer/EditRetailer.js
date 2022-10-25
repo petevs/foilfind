@@ -7,51 +7,9 @@ import { TimeInput } from "@mantine/dates";
 import { createDocument } from "../../../helpers/firebaseHelpers";
 import { useRouter } from "next/router";
 import { sortArray } from "../../../helpers/formatters";
-
-const SectionWrapper = ({children}) => {
-  return(
-    <Box 
-      sx={{
-        display: 'grid', 
-        gridTemplateColumns: '1fr 3fr', 
-        gap: '2rem',
-        '@media (max-width: 768px)': {
-          gridTemplateColumns: '1fr',
-          gap: '0'
-        }
-      }}
-    >
-      {children}
-    </Box>
-  )
-}
-
-
-
-const FormWrapper = ({children, disabled, reset, onSave}) => {
-  return(
-    <Paper shadow='sm' withBorder>
-    <Box p='xl'>
-      {children}
-    </Box>
-    <Box sx={(theme) => ({display: 'grid', gridTemplateColumns: '1fr 1fr', padding: `${theme.spacing.sm}px ${theme.spacing.xl}px`, backgroundColor: theme.colors.gray[1]})}>
-          <Button sx={{justifySelf: 'start'}} variant='subtle' color='dark' onClick={reset}>Reset</Button>
-          <Button sx={{justifySelf: 'end'}} disabled={disabled} color='violet' onClick={onSave}
-          >Save</Button>
-    </Box>
-  </Paper>
-  )
-}
-
-const FormHeader = ({title, subtitle}) => {
-  return (
-    <Box py='xl'>
-    <Text weight={700} size='xl'>{title}</Text>
-    <Text color='dimmed' size='sm'>{subtitle}</Text>
-  </Box>
-  )
-}
-
+import FormHeader from "./FormHeader";
+import FormWrapper from "./FormWrapper";
+import SectionWrapper from "./SectionWrapper";
 
 export default function EditRetailer({slug}) {
 
@@ -86,6 +44,8 @@ export default function EditRetailer({slug}) {
     getRetailer()
 
   }, [slug])    
+
+  console.log(retailer)
 
   if(!retailer){
     return(
