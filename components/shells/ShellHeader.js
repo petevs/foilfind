@@ -58,8 +58,6 @@ export default function ShellHeader({fixed}){
 
   const router = useRouter()
 
-  console.log(router.asPath)
-
   return(
     <Box 
             component='header'  

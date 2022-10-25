@@ -1,5 +1,5 @@
 import BasicShell from "../../components/shells/BasicShell";
-import { Container, Box, TextInput, Text, Divider, Checkbox } from "@mantine/core";
+import { Container, Box, TextInput, Text, Divider, Checkbox, Button } from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
 import { retailerSchema } from "../../schemas/retailer";
 import SectionWrapper from "../../components/pages/editRetailer/SectionWrapper";
@@ -26,6 +26,21 @@ export default function AddNewRetailer() {
     router.reload(window.location.pathname)
   }
 
+  //function to geocode address using opencage api
+  const geocodeAddress = async () => {
+    const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${retailer.address}&key=${process.env.NEXT_PUBLIC_OPEN_CAGE_API_KEY}`)
+    const data = await response.json()
+    const { lat, lng } = data.results[0].geometry
+    const place = data.results[0].components
+    setRetailer({
+      ...retailer,
+      latitude: lat,
+      longitude: lng,
+      place: place
+    })
+  }
+
+
   return (
     <BasicShell>
       <Container size='xl' p='xl' sx={{height: '100%'}}>
@@ -43,6 +58,27 @@ export default function AddNewRetailer() {
 
             <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
               <TextInput
+                label='Retailer ID'
+                placeholder='Retailer ID'
+                value={retailer.id}
+                onChange={(e) => setRetailer({...retailer, id: e.currentTarget.value})}
+                required
+              />
+              <TextInput
+                label='Retailer Name'
+                placeholder='Retailer Name'
+                value={retailer.name}
+                onChange={(e) => setRetailer({...retailer, name: e.currentTarget.value})}
+                required
+              />
+              <TextInput
+                label='Retailer Path'
+                placeholder='Retailer Path'
+                value={retailer.path}
+                onChange={(e) => setRetailer({...retailer, path: e.currentTarget.value})}
+                required
+              />
+              <TextInput
                 label="Website"
                 value={retailer.website}
                 onChange={(event) => {
@@ -58,6 +94,25 @@ export default function AddNewRetailer() {
                   setChanged(true)
                 }}
               />
+              <Button size='xs' onClick={() => geocodeAddress()}>Geocode Address</Button>
+              <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                <TextInput
+                  label='lat'
+                  value={retailer.lat}
+                  onChange={(event) => {
+                    setRetailer({...retailer, lat: event.currentTarget.value})
+                    setChanged(true)
+                  }}
+                />
+                <TextInput
+                  label='lng'
+                  value={retailer.lng}
+                  onChange={(event) => {
+                    setRetailer({...retailer, lng: event.currentTarget.value})
+                    setChanged(true)
+                  }}
+                />
+              </Box>
 
               <TextInput
                 label="Phone"
