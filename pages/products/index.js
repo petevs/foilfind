@@ -48,7 +48,8 @@ export default function ProductsHome(props){
                 >
                   <Skeleton radius="md" style={{width: '150px', height: '150px'}} />
                   <Box p='md'>
-                    <Text weight={500}>{product.name}</Text>
+                    <Text weight={500} size='lg'>{product.name}</Text>
+                    <Text transform='uppercase' color='dimmed' size='sm'>{product.category} · {product.brand}</Text>
                   </Box>
                 </Box>
               </Card>

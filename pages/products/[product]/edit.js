@@ -1,10 +1,13 @@
 import BasicShell from "../../../components/shells/BasicShell";
-import { Container } from "@mantine/core";
+import { Box, Button, Container, Paper, Text } from "@mantine/core";
 import { useRouter } from "next/router";
 import ProductForm from "../../../components/productForms/ProductForm"
 import { getCollection } from "../../../helpers/firebaseHelpers";
 import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { useContext } from 'react'
+import { UserContext } from "../../../state/UserContext";
+import { IconChevronLeft } from "@tabler/icons";
 
 
 export async function getStaticPaths() {
@@ -48,11 +51,40 @@ export async function getStaticProps({ params }){
 
 export default function EditProductPage(props) {
 
+  const { userDetails } = useContext(UserContext);
+  const router = useRouter();
+
   return (
     <BasicShell>
       <Container size='xl' p='lg'>
-        <h1>{props.product.id}</h1>
-        <ProductForm {...props} />
+        {
+          userDetails && userDetails.role === 'admin' ?
+          <>
+            <h1>{props.product.id}</h1>
+            <ProductForm brands={props.brands} product={props.product} /> 
+          </> 
+          : 
+          <Box sx={(theme) => ({
+            minHeight: `calc(100vh - ${theme.other.headerHeight}px)`,
+          })}>
+            <Paper withBorder shadow='md'>
+              <Box
+                sx={{height: '300px', display: 'grid', gridAutoFlow: 'row', gap: '1rem', placeItems: 'center', alignContent: 'center'}}
+              >
+                <Text>
+
+                Sorry you are not authorized to view this page.
+                </Text>
+                <Button
+                  size='xs'
+                  variant='light'
+                  leftIcon={<IconChevronLeft size={16} />}
+                  onClick={() => router.back()}
+                >Go Back</Button>
+              </Box>
+            </Paper>
+          </Box>
+        }
       </Container>
     </BasicShell>
   )
