@@ -3,39 +3,50 @@ import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { TextInput, Select, Container, Box, Divider, MultiSelect, NumberInput, Text, Accordion, Textarea, Button, Paper } from "@mantine/core"
 import { useState, useEffect } from "react"
+import { createDocument } from "../../helpers/firebaseHelpers"
+import { useRouter } from "next/router"
 
 export default function ProductForm(props) {
 
-  const { brands } = props
+  const { product } = props
+
+  const router = useRouter()
 
   const initialProductInfo = {
-    name: '',
-    category: '',
-    brand: '',
+    id: product.id || '',
+    name: product.name || '',
+    category: product.category || '',
+    brand: product.brand || '',
   }
 
+  const riderWeights = [
+    { label: 'Light', value: 'light' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Heavy', value: 'heavy' },
+  ]
+
+  const riderSkillLevels = [
+    { label: 'Beginner', value: 'beginner' },
+    { label: 'Intermediate', value: 'intermediate' },
+    { label: 'Advanced', value: 'advanced' },
+  ]
+
+  const disciplines = [
+    { label: 'Wing', value: 'wing' },
+    { label: 'Kite', value: 'kite'},
+    { label: 'Wake', value: 'wake' },
+    { label: 'Surf', value: 'surf' },
+    { label: 'SUP', value: 'sup' },
+    { label: 'Wind', value: 'wind'},
+    { label: 'Tow', value: 'tow'}
+  ]
 
   const initialFoilKitSpecs = {
-    style: '',
-    riderWeight: {
-      light: false,
-      medium: false,
-      heavy: false,
-    },
-    riderSkillLevel: {
-      beginner: false,
-      intermediate: false,
-      advanced: false,
-      expert: false,
-    },
-    constructionMaterial: '',
-    disciplines: {
-      'wing': false,
-      'kite': false,
-      'wake': false,
-      'surf': false,
-      'tow': false,
-    },
+    style: product.style || '',
+    riderWeight: product.riderWeight || '',
+    riderSkillLevel: product.riderSkillLevel || [],
+    constructionMaterial: product.constructionMaterial || '',
+    disciplines: product.disciplines || [],
     frontWing: {
       areaCM: 0,
       weightGrams: 0,
@@ -76,29 +87,35 @@ export default function ProductForm(props) {
     link: ''
   }
 
+  const createSlug = (str) => {
+    return str.toLowerCase().replaceAll(" ", "-").replaceAll("'", "-").replaceAll("\"", "");
+  };
+  
+
   const [productInfo, setProductInfo] = useState(initialProductInfo)
   const [productSpecs, setProductSpecs] = useState(initialFoilKitSpecs)
   const [productImages, setProductImages] = useState([])
   const [productVideos, setProductVideos] = useState([])
-  const [productReviews, setProductReviews] = useState([initialReview])
+  const [productReviews, setProductReviews] = useState([])
   const [productLinks, setProductLinks] = useState([])
 
-  // capitalize first letter of each word in a string
-  const capitalize = (str) => {
-    return str.replace(/\w\S*/g, (txt) => {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  const updateProduct = async () => {
+    await createDocument('products', (product.id === '' ? productInfo.name : product.id), {
+      ...productInfo,
+      ...productSpecs,
+      path: createSlug(productInfo.name),
     })
+    router.push('/products')
+
   }
 
-  const updatefrontWingArea = (e) => {
-    setProductSpecs({...productSpecs, frontWing: {...productSpecs.frontWing, areaCM: e.currentTarget.value}})
+  if(!props){
+    return (
+      <>
+        loading...
+      </>
+    )
   }
-
-  useEffect(() => {
-    console.log(productSpecs)
-  }, [productSpecs])
-
-
 
   return (
     <>
@@ -106,7 +123,7 @@ export default function ProductForm(props) {
         <FormHeader title="Add New Product" />
         <FormWrapper
           // disabled={!allFieldsFilled}
-          // onSave={updateProduct}
+          onSave={updateProduct}
           // reset={() => setProduct(initial)}
         >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
@@ -123,6 +140,7 @@ export default function ProductForm(props) {
             value={productInfo.category}
             data={[
               { value: 'foils', label: 'Foils' },
+              { value: 'foil kits', label: 'Foil Kits' },
               { value: 'wings', label: 'Wings' },
               { value: 'boards', label: 'Boards'}
             ]}
@@ -147,7 +165,9 @@ export default function ProductForm(props) {
 
       <SectionWrapper>
         <FormHeader title="Foil Kit Specs" />
-        <FormWrapper>
+        <FormWrapper 
+          onSave={updateProduct}
+        >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
           <Select
             label="Style"
@@ -162,7 +182,7 @@ export default function ProductForm(props) {
             label="Rider Weight"
             placeholder="Select rider weight"
             value={productSpecs.riderWeight}
-            data={Object.keys(initialFoilKitSpecs.riderWeight).map(key => ({ label: capitalize(key), value: key }))}
+            data={riderWeights}
             onChange={(e) => setProductSpecs({...productSpecs, riderWeight: e})}
             searchable
             required
@@ -171,7 +191,7 @@ export default function ProductForm(props) {
             label="Rider Skill Level"
             placeholder="Select rider skill level"
             value={productSpecs.riderSkillLevel}
-            data={Object.keys(initialFoilKitSpecs.riderSkillLevel).map(key => ({ label: capitalize(key), value: key }))}
+            data={riderSkillLevels}
             onChange={(e) => setProductSpecs({...productSpecs, riderSkillLevel: e})}
             searchable
             required
@@ -180,7 +200,7 @@ export default function ProductForm(props) {
             label="Disciplines"
             placeholder="Select disciplines"
             value={productSpecs.disciplines}
-            data={Object.keys(initialFoilKitSpecs.disciplines).map(key => ({ label: capitalize(key), value: key }))}
+            data={disciplines}
             onChange={(e) => setProductSpecs({...productSpecs, disciplines: e})}
             searchable
             required
@@ -201,7 +221,9 @@ export default function ProductForm(props) {
 
           <SectionWrapper>
             <FormHeader title="Measurements" />
-            <FormWrapper>
+            <FormWrapper 
+              onSave={updateProduct}
+            >
 
           <Accordion sx={(theme) => ({
             margin: '0 -1.5rem', 
