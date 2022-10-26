@@ -1,4 +1,4 @@
-import { Container, Select, TextInput, Box } from "@mantine/core"
+import { Container, Select, TextInput, Box, Divider } from "@mantine/core"
 import FormHeader from "../../components/pages/editRetailer/FormHeader"
 import FormWrapper from "../../components/pages/editRetailer/FormWrapper"
 import SectionWrapper from "../../components/pages/editRetailer/SectionWrapper"
@@ -7,6 +7,9 @@ import { useState } from "react"
 import { getCollection } from "../../helpers/firebaseHelpers"
 import { createDocument } from "../../helpers/firebaseHelpers"
 import { useRouter } from "next/router"
+import FoilKitSpecs from "../../components/productForms/FoilKitSpecs"
+import useFormTest from "../../components/productForms/useFormTest"
+import ProductForm from "../../components/productForms/ProductForm"
 
 
 export async function getStaticProps(){
@@ -34,6 +37,7 @@ export default function AddNewProductPage(props){
   }
 
   const [product, setProduct] = useState(initial)
+  const { formState, TestForm } = useFormTest()
 
 
   const updateProduct = async () => {
@@ -48,7 +52,8 @@ export default function AddNewProductPage(props){
   return (
     <BasicShell>
       <Container size='xl' p='lg'>
-        <SectionWrapper>
+        <ProductForm {...props} />
+        {/* <SectionWrapper>
           <FormHeader title="Add New Product" />
           <FormWrapper
             disabled={!allFieldsFilled}
@@ -88,6 +93,14 @@ export default function AddNewProductPage(props){
           </Box>
           </FormWrapper>
         </SectionWrapper>
+        <Divider my='xl' />
+        <SectionWrapper>
+          <FormHeader title="Specs" />
+          <FormWrapper>
+            <FoilKitSpecs />
+            <TestForm />
+          </FormWrapper>
+        </SectionWrapper> */}
       </Container>
     </BasicShell>
   )
