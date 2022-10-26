@@ -16,6 +16,7 @@ import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import BasicShell from '../components/shells/BasicShell';
 
 
 
@@ -64,8 +65,8 @@ export default function SignInPage() {
 
 
   return (
-    <div>
-      <Container size={420} my={40}>
+    <BasicShell>
+      <Container size={420} my={40} sx={(theme) => ({minHeight: `calc(100vh - ${theme.other.headerHeight}px)`})}>
       <Title
         align="center"
         sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
@@ -125,6 +126,6 @@ export default function SignInPage() {
         </form>
       </Paper>
     </Container>
-    </div>
+    </BasicShell>
   );
 }
