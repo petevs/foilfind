@@ -25,7 +25,7 @@ export default function ProductsHome(props){
 
   return (
     <BasicShell>
-      <Container>
+      <Container py='xl'>
         <h1>Products Home</h1>
         {
           props.products.map(product => {
