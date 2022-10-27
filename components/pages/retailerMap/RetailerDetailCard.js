@@ -1,14 +1,17 @@
 import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor } from "@mantine/core"
 import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useContext } from 'react'
 import { sortArray } from "../../../helpers/formatters"
+import useCheckAdmin from "../../../hooks/useCheckAdmin"
 import { UserContext } from '../../../state/UserContext'
 
 
 const RetailerDetailCard = ({retailer}) => {
 
-  const { userDetails } = useContext(UserContext);
+  const { isAdmin }   = useCheckAdmin()
+  const router = useRouter()
 
   const checkOfferings = () => {
     const offerings = []
@@ -298,9 +301,17 @@ const RetailerDetailCard = ({retailer}) => {
           </>
         }
         {
-          userDetails.role === 'admin'
+          isAdmin
           &&
-          <Button fullWidth my='xl'>Edit Details</Button>
+          <Box sx={{display: 'grid', justifyContent: 'start', marginTop: '3rem'}}>
+            <Button fullWidth my='xl' size='xs' variant='subtle'
+              onClick={() => {
+                router.push('/retailers/' + retailer.path + '/edit')
+              }}
+            >
+              Edit Details
+            </Button>
+          </Box>
         }
     </>
   )

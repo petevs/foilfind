@@ -1,4 +1,4 @@
-import { Box, UnstyledButton, Container, Divider, Text } from "@mantine/core"
+import { Box, UnstyledButton, Container, Divider, Text, Button } from "@mantine/core"
 import Link from "next/link"
 import Logo from "../Logo"
 import { useContext } from 'react'
@@ -89,18 +89,19 @@ export default function ShellHeader({fixed}){
               <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
                 <HeaderLink text='Retailers' path='/retailers' currentURL={router.asPath} />
                 <HeaderLink text='Brands' path='/brands' currentURL={router.asPath} />
-                {/* {
+                <HeaderLink text='Products' path='/products' currentURL={router.asPath} />
+                {
                   user ? (
                     <>
-                      <Link href='/profile'>Profile</Link>
-                      <Button variant='outline' color='violet' size='sm' onClick={logout}>Logout</Button>
+                      <HeaderLink text='Profile' path='/profile' currentURL={router.asPath}>Profile</HeaderLink>
+                      <Button onClick={logout}>Logout</Button>
                     </>
                   ) : (
                     <>
-                      <Link href='/sign-in'>Sign In</Link>
+                      <Button component={Link} href='/sign-in'>Sign In</Button>
                     </>
                   )
-                } */}
+                }
               </Box>
             </Box>
             </Box>
