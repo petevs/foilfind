@@ -13,14 +13,14 @@ import {
 import { useToggle } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { auth } from '../firebase'
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import BasicShell from '../components/shells/BasicShell';
 
 
 
-export default function SignInPage() {
+export default function SignUpPage() {
 
   const [type, toggle] = useToggle(['login', 'register']);
   const form = useForm({
@@ -37,8 +37,8 @@ export default function SignInPage() {
 
   const router = useRouter();
 
-  const signIn = async (email, password) => {
-    await signInWithEmailAndPassword(auth, email, password)
+  const createUser = async (email, password) => {
+    await createUserWithEmailAndPassword(auth, email, password)
     router.push('/')
   }
 
@@ -49,9 +49,8 @@ export default function SignInPage() {
     if(hasErrors) {
       return;
     }
-
-    signIn(form.values.email, form.values.password)
- 
+    
+    createUser(form.values.email, form.values.password)
   };
 
 
@@ -62,15 +61,14 @@ export default function SignInPage() {
         align="center"
         sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
       >
-        Welcome Back!
+        Sign Up
       </Title>
         <Text color="dimmed" size="sm" align="center" mt={5}>
-          Do not have an account yet?{' '}
-          <Link href="/sign-up">
-          Create account
+          Already have an account?{' '}
+          <Link href='/sign-in'>
+            Sign in
           </Link>
         </Text>
-
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={(e) => handleSubmit(e)} onReset={form.onReset}>
         <TextInput 
