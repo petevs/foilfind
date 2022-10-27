@@ -59,7 +59,7 @@ export default function ShellHeader({fixed}){
   const router = useRouter()
 
   return(
-    <Box sx={(theme) => ({width: '100%', overflow: 'hidden', borderBottom: `1px solid ${theme.colors.gray[3]}`})}>
+    <Box sx={(theme) => ({width: '100%', borderBottom: fixed ? 'none' : `1px solid ${theme.colors.gray[3]}`})}>
       <HeaderLayout 
         fixed={fixed}
       />

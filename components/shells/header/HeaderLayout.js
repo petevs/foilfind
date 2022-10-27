@@ -67,7 +67,7 @@ const HeaderLayout = ({fixed}) => {
             />
           </Box>
         </Box>
-        <Box sx={{position: 'relative', width: '100%', overflow: 'hidden'}}>
+        <Box sx={{position: 'relative', width: '100%', overflowX: 'hidden'}}>
           <Links />
         </Box>
       </Box>
