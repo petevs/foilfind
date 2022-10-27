@@ -1,10 +1,10 @@
 import { Box, UnstyledButton, Container, Divider, Text, Button } from "@mantine/core"
 import Link from "next/link"
-import Logo from "../Logo"
 import { useContext } from 'react'
 import { UserContext } from '../../state/UserContext'
 import { auth } from "../../firebase"
 import { useRouter } from "next/router"
+import HeaderLayout from './header/HeaderLayout'
 
 const HeaderLink = ({text, path, currentURL}) => {
 
@@ -59,51 +59,10 @@ export default function ShellHeader({fixed}){
   const router = useRouter()
 
   return(
-    <Box 
-            component='header'  
-            sx={(theme) => ({
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              borderBottom: `1px solid ${theme.colors.gray[2]}`,
-              height: `${theme.other.headerHeight}px`,
-              '@media (max-width: 768px)': {
-                height: `${theme.other.headerHeight}px`,
-                position: fixed ? 'fixed' : 'relative',
-                width: '100%',
-              }
-            })}
-          >
-            <Box sx={(theme) => ({backgroundColor: theme.colors.violet[9], display: 'grid', alignItems: 'center'})}>
-              <Text size='xs' weight={500} align='center' color='white'>This Site is Currently Under Construction</Text>
-            </Box>
-            <Box 
-              px='md'
-              sx={{
-                display: 'grid', 
-                gridTemplateColumns: 'auto 1fr',
-                alignItems: 'center',
-                columnGap: '1rem',
-              }}
-            >
-              <Logo />
-              <Box sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'end'}}>
-                <HeaderLink text='Retailers' path='/retailers' currentURL={router.asPath} />
-                <HeaderLink text='Brands' path='/brands' currentURL={router.asPath} />
-                <HeaderLink text='Products' path='/products' currentURL={router.asPath} />
-                {
-                  user ? (
-                    <>
-                      <HeaderLink text='Profile' path='/profile' currentURL={router.asPath}>Profile</HeaderLink>
-                      <Button onClick={logout}>Logout</Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button component={Link} href='/sign-in'>Sign In</Button>
-                    </>
-                  )
-                }
-              </Box>
-            </Box>
-            </Box>
+    <Box sx={(theme) => ({width: '100%', overflow: 'hidden', borderBottom: `1px solid ${theme.colors.gray[3]}`})}>
+      <HeaderLayout 
+        fixed={fixed}
+      />
+    </Box>
   )
 }
