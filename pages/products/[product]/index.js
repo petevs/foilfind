@@ -1,8 +1,10 @@
-import { Box, Container, Title } from "@mantine/core"
+import { Box, Container, Title, Button } from "@mantine/core"
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import BasicShell from "../../../components/shells/BasicShell";
 import { db } from "../../../firebase";
 import { getCollection } from "../../../helpers/firebaseHelpers";
+import useCheckAdmin from "../../../hooks/useCheckAdmin";
+import { useRouter } from "next/router";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -41,12 +43,20 @@ export async function getStaticProps({ params }) {
 
 export default function ProductPage(props) {
 
-  console.log(props)
+  const { isAdmin, user } = useCheckAdmin();
+  const router = useRouter();
 
   return (
     <BasicShell>
       <Container size='xl' p='lg'>
         <Title order={1}>{props.product.name}</Title>
+        {
+          isAdmin && (
+            <Button
+              onClick={() => router.push(`${router.asPath}/edit`)}
+            >Edit</Button>
+          )
+        }
       </Container>
     </BasicShell>
   )

@@ -1,8 +1,9 @@
-import { Container, Card, Box, Skeleton, Text } from "@mantine/core";
+import { Container, Card, Box, Skeleton, Text, Button } from "@mantine/core";
 import Link from "next/link";
 import BasicShell from "../../components/shells/BasicShell";
 import { getCollection } from "../../helpers/firebaseHelpers";
 import { toKebabCase } from "../../helpers/formatters";
+import useCheckAdmin from "../../hooks/useCheckAdmin";
 
 
 //get static props
@@ -19,8 +20,6 @@ export async function getStaticProps() {
 }
 
 export default function ProductsHome(props){
-
-  console.log(props)
 
 
   return (
