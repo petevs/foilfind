@@ -49,6 +49,12 @@ const initialProductInfo = (product) =>  ({
   brand: product?.brand || '',
 })
 
+const initialWingSpecs = (product) => {
+  return {
+    size: product?.size || '',
+    weight: product?.weight || '',
+  }
+}
 
 
 const constructionMaterials = [
@@ -84,4 +90,4 @@ const disciplines = [
   { label: 'Tow', value: 'tow'}
 ]
 
-export { initialFoilKitSpecs, initialBoardSpecs, initialProductInfo, constructionMaterials, styles, riderWeights, riderSkillLevels, disciplines }
+export { initialFoilKitSpecs, initialBoardSpecs, initialWingSpecs, initialProductInfo, constructionMaterials, styles, riderWeights, riderSkillLevels, disciplines }

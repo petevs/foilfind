@@ -25,7 +25,6 @@ const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
             data={styles}
             onChange={(e) => setProductSpecs({...productSpecs, style: e})}
             searchable
-            required
           />
           <MultiSelect
             label="Rider Weight"
@@ -34,7 +33,6 @@ const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
             data={riderWeights}
             onChange={(e) => setProductSpecs({...productSpecs, riderWeight: e})}
             searchable
-            required
           />
           <MultiSelect
             label="Rider Skill Level"
@@ -43,7 +41,6 @@ const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
             data={riderSkillLevels}
             onChange={(e) => setProductSpecs({...productSpecs, riderSkillLevel: e})}
             searchable
-            required
           />
           <MultiSelect
             label="Disciplines"
@@ -52,7 +49,6 @@ const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
             data={disciplines}
             onChange={(e) => setProductSpecs({...productSpecs, disciplines: e})}
             searchable
-            required
           />
           <Select
             label="Construction Material"

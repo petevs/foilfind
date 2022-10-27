@@ -7,10 +7,12 @@ import { createDocument } from "../../helpers/firebaseHelpers"
 import { useRouter } from "next/router"
 import FoilKitSpecs from "./FoilKitSpecs"
 import ProductReviewsForm from "./ProductReviewsForm"
-import { initialFoilKitSpecs, initialBoardSpecs, initialProductInfo } from "./productSchemas"
+import { initialFoilKitSpecs, initialBoardSpecs, initialProductInfo, initialWingSpecs } from "./productSchemas"
 import ProductBasicInfo from "./ProductBasicInfo"
 import BoardSpecs from "./BoardSpecs"
 import ProductIncludedForm from "./ProductIncludedForm"
+import BrandDescription from "./BrandDescription"
+import WingSpecs from "./WingSpecs"
 
 
 export default function ProductForm(props) {
@@ -25,18 +27,34 @@ export default function ProductForm(props) {
   
 
   const [productInfo, setProductInfo] = useState(initialProductInfo(product))
-  const [included, setIncluded] = useState(product?.included || '')
+  const [included, setIncluded] = useState(initialWingSpecs(product))
   const [foilKitSpecs, setFoilKitSpecs] = useState(initialFoilKitSpecs(product))
   const [boardSpecs, setBoardSpecs] = useState(initialBoardSpecs(product))
+  const [wingSpecs, setWingSpecs] = useState(product?.wingSpecs || '')
   const [productImages, setProductImages] = useState([])
   const [productVideos, setProductVideos] = useState([])
   const [productReviews, setProductReviews] = useState([])
   const [productLinks, setProductLinks] = useState([])
 
   const updateProduct = async () => {
+
+    const specs = () => {
+      //switch based on productInfo.category
+      switch (productInfo.category) {
+        case 'foils':
+          return foilKitSpecs
+        case 'boards':
+          return boardSpecs
+        case 'wings':
+          return wingSpecs
+        default:
+          return
+    }
+  }
+
     await createDocument('products', (product.id === '' ? productInfo.name : product.id), {
       ...productInfo,
-      ...foilKitSpecs,
+      ...specs(),
       path: createSlug(productInfo.name),
     })
     router.push('/products')
@@ -59,13 +77,11 @@ export default function ProductForm(props) {
         onSave={updateProduct}
         brands={props.brands}
       />
-
-      <Divider my='xl' />
-      <ProductIncludedForm
+      {/* <ProductIncludedForm
         included={included}
         setIncluded={setIncluded}
         onSave={updateProduct}
-      />
+      /> */} 
 
       {
         //If foils category selected then show foil specs form
@@ -88,12 +104,24 @@ export default function ProductForm(props) {
         />
 
       }
-      
 
+
+    {
+      // If wings category selected then show wing specs form
+      productInfo.category === 'wings' &&
+      <WingSpecs
+        productSpecs={wingSpecs}
+        setProductSpecs={setWingSpecs}
+        onSave={updateProduct}
+      />
+
+    }
+      
+{/* 
       <ProductReviewsForm
         productReviews={productReviews}
         setProductReviews={setProductReviews}
-      />
+      /> */}
 
 
 

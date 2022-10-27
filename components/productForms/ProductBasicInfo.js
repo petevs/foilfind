@@ -4,6 +4,25 @@ import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Select, TextInput } from "@mantine/core"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
+
+
+  const subcategories = {
+    foils: [
+      {label: 'Foil Kits', value: 'foil kits'},
+      {label: 'Front Wings', value: 'front wings'},
+      {label: 'Tail Wings', value: 'tail wings'},
+      {label: 'Masts', value: 'masts'},
+      {label: 'Fuselages', value: 'fuselages'},
+      {label: 'Accessories', value: 'accessories'},
+      {label: 'Hardware', value: 'hardware'}
+    ],
+    boards: [
+      { label: 'Inflatable Boards', value: 'inflatable boards' },
+      { label: 'Hard Boards', value: 'hard boards' },
+    ],
+  }
+
+
   return (
     <>
       <SectionWrapper>
@@ -22,6 +41,15 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
             required
           />
           <Select
+            label="Brand"
+            placeholder="Select brand"
+            value={productInfo.brand}
+            data={brands}
+            onChange={(e) => setProductInfo({...productInfo, brand: e})}
+            searchable
+            required
+          />
+          <Select
             label="Category"
             placeholder="Select category"
             value={productInfo.category}
@@ -35,35 +63,17 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
             searchable
             required
           />
-          <Select
-            label="Subcategory"
-            placeholder="Select subcategory"
-            value={productInfo.subCategory}
-            data={[
-              { value: '', label: 'None' },
-              { value: 'foil kits', label: 'Foil Kits' },
-              { value: 'masts', label: 'Masts'},
-              { value: 'front wings', label: 'Front Wings' },
-              { value: 'tail wings', label: 'Tail Wings' },
-              { value: 'fuselages', label: 'Fuselages' },
-              { value: 'foil hardware', label: 'Foil Hardware' },
-              { value: 'foil accessories', label: 'Foil Accessories' },
-              { value: 'inflatable boards', label: 'Inflatable Boards' },
-              { value: 'hard boards', label: 'Hard Boards' },
-            ]}
-            onChange={(e) => setProductInfo({...productInfo, subCategory: e})}
-            searchable
-          />
-
-          <Select
-            label="Brand"
-            placeholder="Select brand"
-            value={productInfo.brand}
-            data={brands}
-            onChange={(e) => setProductInfo({...productInfo, brand: e})}
-            searchable
-            required
-          />
+          {
+            subcategories[productInfo.category] &&
+            <Select
+              label="Subcategory"
+              placeholder="Select subcategory"
+              value={productInfo.subCategory}
+              data={subcategories[productInfo.category] || []}
+              onChange={(e) => setProductInfo({...productInfo, subCategory: e})}
+              searchable
+            />
+          }
         </Box>
         </FormWrapper>
       </SectionWrapper>

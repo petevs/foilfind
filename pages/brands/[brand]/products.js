@@ -6,6 +6,7 @@ import { getCollection } from "../../../helpers/firebaseHelpers";
 import BrandHeader from "../../../components/BrandHeader";
 import BrandContentShell from "../../../components/BrandContentShell";
 import { useState, useEffect } from "react";
+import ProductCard from "../../../components/ProductCard";
 
 // get static paths for all brands
 export async function getStaticPaths() {
@@ -101,20 +102,7 @@ export default function BrandProducts(props){
           <Box>
             {
               filteredProducts.map((product) => (
-                <Card key={product.id} shadow="sm" padding="md" radius="md" style={{marginBottom: '1rem'}} withBorder>
-                  <Box
-                    sx={{
-                      display: 'grid',
-                      gridTemplateColumns: 'auto 1fr',
-                      gap: '1rem'
-                    }}
-                  >
-                    <Skeleton radius="md" style={{width: '150px', height: '150px'}} />
-                    <Box p='md'>
-                      <Text weight={500}>{product.name}</Text>
-                    </Box>
-                  </Box>
-                </Card>
+                <ProductCard key={product.id} product={product} />
               ))
             }
           </Box>
