@@ -2,12 +2,16 @@ import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Select, MultiSelect, Text, Button, Accordion, NumberInput, Divider } from "@mantine/core"
-import { styles, riderWeights, riderSkillLevels, disciplines, constructionMaterials } from "../productForms/productSchemas"
+import { styles, riderWeights, riderSkillLevels, disciplines, constructionMaterials, initialFoilKitSpecs } from "../productForms/productSchemas"
+
 
 const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
+
+
+
   return (
     <>
-    
+    <Divider my='xl' />
     <SectionWrapper>
         <FormHeader title="Foil Kit Specs" />
         <FormWrapper 

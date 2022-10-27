@@ -7,6 +7,11 @@ import { createDocument } from "../../helpers/firebaseHelpers"
 import { useRouter } from "next/router"
 import FoilKitSpecs from "./FoilKitSpecs"
 import ProductReviewsForm from "./ProductReviewsForm"
+import { initialFoilKitSpecs, initialBoardSpecs, initialProductInfo } from "./productSchemas"
+import ProductBasicInfo from "./ProductBasicInfo"
+import BoardSpecs from "./BoardSpecs"
+import ProductIncludedForm from "./ProductIncludedForm"
+
 
 export default function ProductForm(props) {
 
@@ -14,56 +19,15 @@ export default function ProductForm(props) {
 
   const router = useRouter()
 
-  const initialProductInfo = {
-    id: product.id || '',
-    name: product.name || '',
-    category: product.category || '',
-    subCategory: product.subCategory || '',
-    brand: product.brand || '',
-  }
-
-  const initialFoilKitSpecs = {
-    style: product.style || '',
-    riderWeight: product.riderWeight || '',
-    riderSkillLevel: product.riderSkillLevel || [],
-    constructionMaterial: product.constructionMaterial || '',
-    disciplines: product.disciplines || [],
-    frontWing: {
-      areaCM: 0,
-      weightGrams: 0,
-      wingSpanMillimeters: 0,
-      ar: 0,
-    },
-    tailWing: {
-      areaCM: 0,
-      weightGrams: 0,
-      wingSpanMillimeters: 0,
-    },
-    fuselage: {
-      lengthCM: 0,
-      weightGrams: 0,
-    },
-    mast: {
-      lengthCM: 0,
-      weightGrams: 0,
-    }
-  }
-
-  const initialReview = {
-    title: '',
-    content: '',
-    rating: 0,
-    source: '',
-    link: ''
-  }
-
   const createSlug = (str) => {
     return str.toLowerCase().replaceAll(" ", "-").replaceAll("'", "-").replaceAll("\"", "");
   };
   
 
-  const [productInfo, setProductInfo] = useState(initialProductInfo)
-  const [productSpecs, setProductSpecs] = useState(initialFoilKitSpecs)
+  const [productInfo, setProductInfo] = useState(initialProductInfo(product))
+  const [included, setIncluded] = useState(product?.included || '')
+  const [foilKitSpecs, setFoilKitSpecs] = useState(initialFoilKitSpecs(product))
+  const [boardSpecs, setBoardSpecs] = useState(initialBoardSpecs(product))
   const [productImages, setProductImages] = useState([])
   const [productVideos, setProductVideos] = useState([])
   const [productReviews, setProductReviews] = useState([])
@@ -72,7 +36,7 @@ export default function ProductForm(props) {
   const updateProduct = async () => {
     await createDocument('products', (product.id === '' ? productInfo.name : product.id), {
       ...productInfo,
-      ...productSpecs,
+      ...foilKitSpecs,
       path: createSlug(productInfo.name),
     })
     router.push('/products')
@@ -89,74 +53,43 @@ export default function ProductForm(props) {
 
   return (
     <>
-      <SectionWrapper>
-        <FormHeader title="Add New Product" />
-        <FormWrapper
-          // disabled={!allFieldsFilled}
-          onSave={updateProduct}
-          // reset={() => setProduct(initial)}
-        >
-          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
-          <TextInput
-            label="Product Name"
-            placeholder="Enter product name"
-            value={productInfo.name}
-            onChange={(e) => setProductInfo({...productInfo, name: e.currentTarget.value})}
-            required
-          />
-          <Select
-            label="Category"
-            placeholder="Select category"
-            value={productInfo.category}
-            data={[
-              { value: 'foils', label: 'Foils' },
-              { value: 'wings', label: 'Wings' },
-              { value: 'boards', label: 'Boards'},
-              { value: 'accessories', label: 'Accessories' },
-            ]}
-            onChange={(e) => setProductInfo({...productInfo, category: e})}
-            searchable
-            required
-          />
-          <Select
-            label="Subcategory"
-            placeholder="Select subcategory"
-            value={productInfo.subCategory}
-            data={[
-              { value: '', label: 'None' },
-              { value: 'foil kits', label: 'Foil Kits' },
-              { value: 'masts', label: 'Masts'},
-              { value: 'front wings', label: 'Front Wings' },
-              { value: 'tail wings', label: 'Tail Wings' },
-              { value: 'fuselages', label: 'Fuselages' },
-              { value: 'foil hardware', label: 'Foil Hardware' },
-              { value: 'foil accessories', label: 'Foil Accessories' },
-              { value: 'inflatable boards', label: 'Inflatable Boards' },
-              { value: 'hard boards', label: 'Hard Boards' },
-            ]}
-            onChange={(e) => setProductInfo({...productInfo, subCategory: e})}
-            searchable
-          />
-
-          <Select
-            label="Brand"
-            placeholder="Select brand"
-            value={productInfo.brand}
-            data={props.brands}
-            onChange={(e) => setProductInfo({...productInfo, brand: e})}
-            searchable
-            required
-          />
-        </Box>
-        </FormWrapper>
-      </SectionWrapper>
+      <ProductBasicInfo
+        productInfo={productInfo}
+        setProductInfo={setProductInfo}
+        onSave={updateProduct}
+        brands={props.brands}
+      />
 
       <Divider my='xl' />
-      
-      <FoilKitSpecs
-        productSpecs={productSpecs}
-        setProductSpecs={setProductSpecs}
+      <ProductIncludedForm
+        included={included}
+        setIncluded={setIncluded}
+        onSave={updateProduct}
       />
+
+      {
+        //If foils category selected then show foil specs form
+
+        productInfo.category === 'foils' &&
+        <FoilKitSpecs
+          productSpecs={foilKitSpecs}
+          setProductSpecs={setFoilKitSpecs}
+          onSave={updateProduct}
+        />
+      }
+
+      {
+        // If boards category selected then show board specs form
+        productInfo.category === 'boards' &&
+        <BoardSpecs
+          productSpecs={foilKitSpecs}
+          setProductSpecs={setFoilKitSpecs}
+          onSave={updateProduct}
+        />
+
+      }
+      
+
       <ProductReviewsForm
         productReviews={productReviews}
         setProductReviews={setProductReviews}
