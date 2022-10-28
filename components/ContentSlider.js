@@ -59,16 +59,18 @@ const ContentSlider = ({ title, cards, parentPath }) => {
                                 justifyContent: 'center', 
                                 height: '144px', 
                                 width: '144px',
-                                backgroundColor: theme.colors.dark[7],
-                                border: `1px solid ${theme.colors.dark[4]}`,
+                                backgroundColor: theme.colors.gray[2],
+                                color: theme.colors.gray[6],
                                 '&:hover': {
                                     cursor: 'pointer',
+                                    border: `1px solid ${theme.colors.dark[1]}`,
+                                    color: theme.colors.dark[3]
                                 }
                             })}
                             radius='md'
 
                         >
-                                <Text align='center' weight={700} sx={{color: 'rgb(193, 194, 197)'}}>{card.title}</Text>
+                                <Text align='center' weight={600}>{card.title}</Text>
                         </Card>
                         </Link>
                     ))

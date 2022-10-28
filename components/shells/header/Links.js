@@ -1,7 +1,12 @@
 import { Anchor, Box, Button, ScrollArea, Text } from "@mantine/core"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 const Links = () => {
+
+    const router = useRouter()
+
+    console.log(router.asPath)
 
     const style = (theme) => ({
         display: 'grid',
@@ -38,14 +43,15 @@ const Links = () => {
                         <Link key={index} href={item.href}>
                             <Text
                                 size='sm'
-                                color='dark'
+                                color={item.href === router.asPath ? 'blue': 'dark'}
                                 sx={(theme) => ({
+                                    fontWeight: item.href === router.asPath ? 600 : 400,
                                     '& a': {
-                                        color: 'gray'
+                                        color: 'gray',
                                     },
                                     '&:hover': {
                                         color: theme.colors.blue[5],
-                                        textDecoration: 'underline',
+                                        textDecoration: 'none',
                                         cursor: 'pointer'
                                     }
                                 })}

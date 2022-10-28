@@ -8,6 +8,7 @@ import { db } from "../../../firebase";
 import { useContext } from 'react'
 import { UserContext } from "../../../state/UserContext";
 import { IconChevronLeft } from "@tabler/icons";
+import EditProduct from "../../../components/productForms/EditProduct";
 
 
 export async function getStaticPaths() {
@@ -61,8 +62,8 @@ export default function EditProductPage(props) {
           userDetails && userDetails.role === 'admin' ?
           <>
             <h1>{props.product.id}</h1>
-            <ProductForm brands={props.brands} product={props.product} /> 
-          </> 
+            <EditProduct brands={props.brands} product={props.product} />
+          </>
           : 
           <Box sx={(theme) => ({
             minHeight: `calc(100vh - ${theme.other.headerHeight}px)`,

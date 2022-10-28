@@ -1,6 +1,7 @@
 import { Box, Text } from "@mantine/core"
 import Link from "next/link"
 import FoilFindLogo from "../../FoilFindLogo"
+import FFLogo from "../../FFLogo"
 
 const Logo = () => {
 
@@ -21,9 +22,9 @@ const Logo = () => {
                 }
             }}
         >
-        <FoilFindLogo 
-                width='100'
-        />
+                <FoilFindLogo 
+                    width='100'
+                />
         </Box>
         </Link>
     )

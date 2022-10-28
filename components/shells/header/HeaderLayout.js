@@ -51,7 +51,7 @@ const HeaderLayout = ({fixed}) => {
       }>
         <Box sx={(theme) => ({
           display: 'grid',
-          gridTemplateColumns: '1fr 2fr 1fr',
+          gridTemplateColumns: '1fr 1fr 1fr',
           alignItems: 'center',
         })}
         >
