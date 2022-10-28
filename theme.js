@@ -5,7 +5,7 @@ export const theme = {
   globalStyles: (theme) => ({
     'a:hover' : {
         textDecoration: 'none !important',
-      }
+      },
   }),
   headings: {
     sizes: {
