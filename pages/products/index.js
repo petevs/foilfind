@@ -16,6 +16,7 @@ import ProductKCard from "../../components/productPage/ProductKCard";
 import HideMobileBox from "../../components/HideMobileBox";
 import CategoryHeader from "../../components/CategoryHeader";
 import CategorySlider from "../../components/CategorySlider";
+import { NextLink } from "@mantine/next";
 
 
 //get static props
@@ -50,7 +51,7 @@ export default function ProductsHome(props){
           subhead='Everything about foil gear explained'
           head='Find Foil Answers'
           buttonText='Learn More'
-          bgImg='https://www.armstrongfoils.com/media/1896/hs-1850-website-header-1-2400x950.jpg?anchor=centermode&mode=crop&width=2200&height=900'
+          bgImg='https://images.unsplash.com/photo-1471079688237-3ac9a55f1d6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2luZCUyMG9jZWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'
         />
         <Box mt='xl'>
           <Title order={1}>Products</Title>
@@ -69,24 +70,33 @@ export default function ProductsHome(props){
         >
         {
             productCategories.map(category => (
-              <Link key={category} href={`/products/category/${category}`}>
-                <UnstyledButton>
-                  <Box sx={(theme) => ({
-                    height: '206px', 
-                    backgroundColor: theme.colors.gray[2], 
-                    backgroundSize: 'cover', 
-                    backgroundPosition: 'center',
-                    borderRadius: theme.radius.md
-                  })}>
-                  </Box>
+              <Link key={category} href={`/products/category/${category}`} passHref>
+                <Box 
+                  component='a' 
+                  key={category}
+                >
+                  <Box>
+                    <Box sx={(theme) => ({
+                      height: '206px', 
+                      backgroundColor: theme.colors.gray[2], 
+                      backgroundSize: 'cover', 
+                      backgroundPosition: 'center',
+                      borderRadius: theme.radius.md,
+                      '&:hover': {
+                        border: `1px solid ${theme.colors.dark[2]}`,
+                      }
+                    })}>
+                    </Box>
                   <Text 
                     align='center' 
                     transform='capitalize'
                     mt='sm'
+                    color='dark'
                   >
                     {category}
                   </Text>
-                </UnstyledButton>
+                  </Box>
+                </Box>
               </Link>
             ))
           }
