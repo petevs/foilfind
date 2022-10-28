@@ -61,7 +61,7 @@ const MenuBox = ({ desktop }) => {
 
             {
                 user && (
-                        <Menu width={200} shadow="md" position='bottom-end' ZIndex={6}>
+                        <Menu width={200} shadow="md" position='bottom-end' zIndex={6}>
                             <Menu.Target>
                                 <Avatar 
                                     radius='xl'

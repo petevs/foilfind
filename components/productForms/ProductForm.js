@@ -52,7 +52,7 @@ export default function ProductForm(props) {
     }
   }
 
-    await createDocument('products', (product.id === '' ? productInfo.name : product.id), {
+    await createDocument('products', ((product?.id === '' || !product) ? productInfo.name : product.id), {
       ...productInfo,
       ...specs(),
       path: createSlug(productInfo.name),

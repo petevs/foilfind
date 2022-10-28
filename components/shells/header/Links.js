@@ -6,8 +6,6 @@ const Links = () => {
 
     const router = useRouter()
 
-    console.log(router.asPath)
-
     const style = (theme) => ({
         display: 'grid',
         gridArea: 'links',
@@ -29,7 +27,7 @@ const Links = () => {
         { title: 'Products', href: '/products'},
         { title: 'Retailers', href: '/retailers'},
         { title: 'Brands', href: '/brands'},
-        { title: 'Vacations', href: '/#'},
+        { title: 'Stays', href: '/#'},
         { title: 'Rentals', href: '/#'},
         { title: 'Lessons', href: '/#'},
         { title: 'Learn', href: '/#'},
