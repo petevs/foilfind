@@ -61,36 +61,36 @@ const MenuBox = ({ desktop }) => {
 
             {
                 user && (
-                    <Menu width={200} shadow="md" position='bottom-end' ZIndex={6}>
-                        <Menu.Target>
-                            <Avatar 
-                                radius='xl'
-                                src={userDetails?.avatar}
-                                size='sm'
-                            />
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                            <Menu.Item component={NextLink} href='/profile'>
-                                Profile
-                            </Menu.Item>
-                            <Menu.Item component={NextLink} href='/#'>
-                                Settings
-                            </Menu.Item>
-                            <Divider />
-                            <Menu.Item
-                                icon={<IconLogout size={14} />}
-                            >
-                                <UnstyledButton
-                                    onClick={() => logout()}
-                                    sx={(theme) => ({
-                                        fontSize: theme.fontSizes.sm,
-                                    })}
+                        <Menu width={200} shadow="md" position='bottom-end' ZIndex={6}>
+                            <Menu.Target>
+                                <Avatar 
+                                    radius='xl'
+                                    src={userDetails?.avatar}
+                                    size='sm'
+                                />
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Menu.Item component={NextLink} href='/profile'>
+                                    Profile
+                                </Menu.Item>
+                                <Menu.Item component={NextLink} href='/#'>
+                                    Settings
+                                </Menu.Item>
+                                <Divider />
+                                <Menu.Item
+                                    icon={<IconLogout size={14} />}
                                 >
-                                    Sign out
-                                </UnstyledButton>
-                            </Menu.Item>
-                        </Menu.Dropdown>
-                    </Menu>
+                                    <UnstyledButton
+                                        onClick={() => logout()}
+                                        sx={(theme) => ({
+                                            fontSize: theme.fontSizes.sm,
+                                        })}
+                                    >
+                                        Sign out
+                                    </UnstyledButton>
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
                 )
             }
 
