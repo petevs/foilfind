@@ -11,49 +11,50 @@ import { IconChevronLeft } from "@tabler/icons";
 import EditProduct from "../../../components/productForms/EditProduct";
 
 
-export async function getStaticPaths() {
-  // get all products
-  const products = await getCollection("products");
+// export async function getStaticPaths() {
+//   // get all products
+//   const products = await getCollection("products");
 
-  // create paths for each product
-  const paths = products.map((product) => ({
-    params: { product: product.path },
-  }));
+//   // create paths for each product
+//   const paths = products.map((product) => ({
+//     params: { product: product.path },
+//   }));
 
-  return { paths, fallback: false };
-}
-
-
-
-export async function getStaticProps({ params }){
-
-  const brands = await getCollection('brands')
-  const brandList = brands.map(brand => brand.brand)
+//   return { paths, fallback: false };
+// }
 
 
-  // get product
-  const q = query(collection(db, 'products'), where('path', '==', params.product));
-  const querySnapshot = await getDocs(q);
-  const data = [];
-  querySnapshot.forEach((doc) => {
-    data.push({id: doc.id, ...doc.data()});
-    });
 
-  const product = data[0];
+// export async function getStaticProps({ params }){
 
-  return {
-    props: {
-      brands: brandList,
-      product
-    }
-  }
-}
+//   const brands = await getCollection('brands')
+//   const brandList = brands.map(brand => brand.brand)
+
+
+//   // get product
+//   const q = query(collection(db, 'products'), where('path', '==', params.product));
+//   const querySnapshot = await getDocs(q);
+//   const data = [];
+//   querySnapshot.forEach((doc) => {
+//     data.push({id: doc.id, ...doc.data()});
+//     });
+
+//   const product = data[0];
+
+//   return {
+//     props: {
+//       brands: brandList,
+//       product
+//     }
+//   }
+// }
 
 
 export default function EditProductPage(props) {
 
   const { userDetails } = useContext(UserContext);
   const router = useRouter();
+  const { product } = router.query;
 
   return (
     <BasicShell>
@@ -61,8 +62,7 @@ export default function EditProductPage(props) {
         {
           userDetails && userDetails.role === 'admin' ?
           <>
-            <h1>{props.product.id}</h1>
-            <EditProduct brands={props.brands} product={props.product} />
+            <EditProduct slug={product} />
           </>
           : 
           <Box sx={(theme) => ({

@@ -61,7 +61,7 @@ export default function ProductForm(props) {
 
   }
 
-  if(!props){
+  if(!product){
     return (
       <>
         loading...
