@@ -11,28 +11,14 @@ import { IconChevronLeft } from "@tabler/icons";
 import EditProduct from "../../../components/productForms/EditProduct";
 
 
-export async function getStaticPaths() {
-  // get all products
-  const products = await getCollection("products");
-
-  // create paths for each product
-  const paths = products.map((product) => ({
-    params: { product: product.path },
-  }));
-
-  return { paths, fallback: false };
-}
-
-
-
-export async function getStaticProps({ params }){
+export async function getServerSideProps(props){
 
   const brands = await getCollection('brands')
   const brandList = brands.map(brand => brand.brand)
 
 
   // get product
-  const q = query(collection(db, 'products'), where('path', '==', params.product));
+  const q = query(collection(db, 'products'), where('path', '==', props.query.product));
   const querySnapshot = await getDocs(q);
   const data = [];
   querySnapshot.forEach((doc) => {
