@@ -30,6 +30,7 @@ const Links = () => {
         { title: 'Stays', href: '/#'},
         { title: 'Rentals', href: '/#'},
         { title: 'Lessons', href: '/#'},
+        { title: 'Events', href: '/#'},
         { title: 'Resources', href: '/resources'},
         { title: 'Learn', href: '/#'},
         { title: 'Community', href: '/#'},
