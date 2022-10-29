@@ -6,7 +6,7 @@ export default function AddNewRetailerPage(){
     return (
         <BasicShell>
             <Container size='xl' py='xl'>
-                <h1>Add New Retailer</h1>
+                <h1>Add New Resource</h1>
                 <ResourcesForm />
             </Container>
         </BasicShell>
