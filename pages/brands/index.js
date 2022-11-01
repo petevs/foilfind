@@ -1,4 +1,4 @@
-import { Card, Text, Box, Divider, Chip, Button, Title } from "@mantine/core";
+import { Card, Text, Box, Divider, Chip, Button, Title, Container } from "@mantine/core";
 import { getCollection } from "../../helpers/firebaseHelpers";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import Head from "next/head";
 import BasicShell from "../../components/shells/BasicShell";
 import { useRouter } from "next/router";
 import { createSlug} from "../../helpers/formatters";
+import BrandTable from "../../components/table/BrandTable";
 
 //get static props for brands from firebase
 export async function getStaticProps() {
@@ -86,7 +87,14 @@ export default function Brands(props) {
         <meta property="twitter:description" content="Search and filter through all the wing foiling brands with your criteria." />
         <meta property="twitter:image" content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png" />
       </Head>
-      <Box sx={(theme) => ({
+      <Box>
+        <BrandTable
+          data={filteredBrands}
+          columns={['brand', 'categories']}
+        />
+      </Box>
+
+      {/* <Box sx={(theme) => ({
         '@media (max-width: 768px)': {
           position: 'absolute',
           top: `${theme.other.headerHeight}px`,
@@ -182,7 +190,8 @@ export default function Brands(props) {
               }
             </Box>
           </Box>
-      </Box>
+      </Box> */}
+
     </BasicShell>
   )
 }

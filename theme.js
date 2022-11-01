@@ -10,7 +10,8 @@ export const theme = {
   headings: {
     sizes: {
       h1: {
-        marginTop: 0
+        marginTop: 0,
+        marginBottom: 0,
       },
       h2: {
         marginTop: 0
