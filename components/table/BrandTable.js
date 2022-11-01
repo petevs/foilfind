@@ -1,12 +1,39 @@
 import { Table, Box, createStyles, Container, Paper, Text, Checkbox, Divider, Button, Title, ActionIcon, Indicator, Modal, MultiSelect, TextInput } from "@mantine/core"
 import { IconAdjustments, IconAdjustmentsHorizontal, IconChevronRight, IconFilter, IconPlus, IconSearch, IconX } from "@tabler/icons"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import useCheckAdmin from "../../hooks/useCheckAdmin"
 
 
-const BrandTable = ({columns, data}) => {
+const BrandTable = ({brands}) => {
 
   const [opened, setOpened] = useState(false)
+  const columns = ['brands', 'categories']
+  const { isAdmin } = useCheckAdmin()
+
+  const categories = ['foils', 'wings', 'boards']
+  const createCategories = (brand) => {
+    const brandCategories = []
+    categories.forEach(category => {
+      if (brand[category]) {
+        brandCategories.push(category)
+      }
+    })
+    return brandCategories
+  }
+
+  const [filteredBrands, setFilteredBrands] = useState(brands.map(brand => ({
+    ...brand,
+    categories: createCategories(brand)
+  })))
+
+  const initialFilters = {
+    categories: [],
+  }
+
+  const [filters, setFilters] = useState(initialFilters)
+
+  const [search, setSearch] = useState('')
 
   const checkOfferings = (brand) => {
     const offerings = []
@@ -25,43 +52,89 @@ const BrandTable = ({columns, data}) => {
   }
 
 
+  const [resultTotal, setResultTotal] = useState(filteredBrands.length)
+
+  const numFilters = () => {
+    let num = 0
+    filters.categories.forEach(category => num++)
+    return num
+  }
+
+
+  useEffect(() => {
+
+
+    const filtered = brands.reduce((acc, brand) => {
+
+      //if no filters then push brand and return acc
+      if(filters.categories.length === 0 && search === '') {
+        acc.push(brand)
+        return acc
+      }
+
+      // if not all filter cateogires in brand categores skip
+      if(!(filters.categories.every(category => brand[category]))) {
+        return acc
+      }
+
+      //if search is not in brand name skip
+      if(!brand.brand.toLowerCase().includes(search.toLowerCase())) {
+        return acc
+      }
+
+      acc.push(brand)
+      return acc
+
+    }, []) 
+
+
+    setFilteredBrands(filtered)
+
+  }, [filters, brands, search])
+
   return (
     <>
       <Modal
         opened={opened}
+        size='lg'
         onClose={() => setOpened(false)}
         withCloseButton={false}
         sx={{
-          '& root': {
+          '& .mantine-Modal-modal': {
             padding: 0
           }
         }}
       >
           <Box>
-            <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'center'}} py='sm' px='md'>
+            <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'center'}} py='md' px='lg'>
               <IconX onClick={() => setOpened(false)} size={16} />
               <Text weight={600} align='center'>Filters</Text>
             </Box>
             <Divider />
           </Box>
         <Box
-          py='sm'
-          px='md'
+          py='md'
+          px='lg'
           sx={{
             display: 'grid',
             gridAutoFlow: 'row',
-            gap: '1rem'
+            gap: '1rem',
+            height: '50vh',
+            alignContent: 'start',
+            overflowY: 'scroll'
           }}
         >
         <MultiSelect
           size='sm'
           label="Categories"
           placeholder="Filter by category"
+          value={filters.categories}
           data={[
             { label: 'Foils', value: 'foils' },
             { label: 'Wings', value: 'wings' },
             { label: 'Boards', value: 'boards' },
           ]}
+          onChange={(value) => setFilters({ ...filters, categories: value })}
         />
         <MultiSelect
           size='sm'
@@ -76,9 +149,13 @@ const BrandTable = ({columns, data}) => {
         />
         </Box>
         <Divider mt='sm' />
-        <Box py='sm' px='md' sx={{display: 'grid', gridTemplateColumns: 'auto auto', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Button size='sm' color='dark' variant='subtle' compact>Clear All</Button>
-          <Button size='sm' color='dark'>Show 54 Brands</Button>
+        <Box py='md' px='lg' sx={{display: 'grid', gridTemplateColumns: 'auto auto', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Button size='sm' color='dark' variant='subtle' compact
+            onClick={() => setFilters(initialFilters)}
+          >Clear All</Button>
+          <Button size='sm' color='dark'
+            onClick={() => setOpened(false)}
+          >Show {filteredBrands.length} Brands</Button>
         </Box>
       </Modal>
       <Container size='xl' p='xl'>
@@ -92,9 +169,13 @@ const BrandTable = ({columns, data}) => {
             <Title order={1}>Brands</Title>
             <Text size='sm' color='dimmed'>A list of all the brands</Text>
           </Box>
-          <Box sx={{display: 'grid', gridTemplateColumns: 'auto auto', gap: '1rem'}}>
-            <Button size='xs' color='dark' variant='subtle'>Add New</Button>
-            <Indicator label='3' size={22} color='dark' withBorder>
+          <Box sx={{display: 'grid', gridTemplateColumns: isAdmin ? 'auto auto' : 'auto', gap: '1rem'}}>
+            {
+              isAdmin && (
+                <Button size='xs' color='dark' variant='subtle'>Add New</Button>
+              )
+            }
+            <Indicator label={numFilters()} showZero size={22} color='dark' withBorder>
               <Button 
                 size='xs'
                 variant='default' 
@@ -109,9 +190,18 @@ const BrandTable = ({columns, data}) => {
             placeholder='Search by any field'
             icon={<IconSearch size={16} />}
             mb='md'
+            value={search}
+            onChange={(event) => setSearch(event.currentTarget.value)}
           />
           <Paper withBorder radius='md'>
-            <Box sx={{display: 'grid', gridTemplateColumns: `repeat(${columns.length}, 1fr) 100px 18px`, padding: '.75rem 1.5rem', backgroundColor: '#F9FAFB', borderRadius: '8px 8px 0 0', gap: '1rem'}}>
+            <Box sx={{
+              display: 'grid', 
+              gridTemplateColumns: isAdmin ? `repeat(${columns.length}, 1fr) 100px 18px` : `repeat(${columns.length}, 1fr) 18px`,
+              padding: '.75rem 1.5rem', 
+              backgroundColor: '#F9FAFB', 
+              borderRadius: '8px 8px 0 0', 
+              gap: '1rem'
+            }}>
               {
                 columns.map((header, index) => (
                   <Text key={index} size='md' transform='capitalize' weight={600}>
@@ -122,7 +212,7 @@ const BrandTable = ({columns, data}) => {
             </Box>
             <Divider />
               {
-                data.map((row, index) => (
+                filteredBrands.map((row, index) => (
                   <Link key={index} href={`/brands/${row.path}`}>
                     <Box sx={(theme) => ({
                       '& :hover': {
@@ -136,7 +226,7 @@ const BrandTable = ({columns, data}) => {
                       <Box
                         sx={(theme) => ({
                           display: 'grid', 
-                          gridTemplateColumns: `repeat(${columns.length}, 1fr) 100px 18px`, 
+                          gridTemplateColumns: isAdmin ? `repeat(${columns.length}, 1fr) 100px 18px` : `repeat(${columns.length}, 1fr) 18px`,
                           padding: '.75rem 1.5rem', 
                           borderBottom: `1px solid ${theme.colors.gray[2]}`,
                           alignItems: 'center',
@@ -145,10 +235,13 @@ const BrandTable = ({columns, data}) => {
                       >
                         <Text weight={600} size='md'>{row.brand}</Text>
                         <Text transform='capitalize' color='dimmed'>{checkOfferings(row)}</Text>
-                        <Button variant='subtle' size='sm' onClick={(e) => {
-                          e.preventDefault()
-                          alert('hey')
-                        }}>Edit</Button>
+                        {
+                          isAdmin &&
+                          <Button variant='subtle' size='sm' onClick={(e) => {
+                            e.preventDefault()
+                            alert('hey')
+                          }}>Edit</Button>
+                        }
                         <IconChevronRight size={18} color='gray' />
                       </Box>
                     </Box>
