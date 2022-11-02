@@ -73,7 +73,7 @@ export default function SignUpPage() {
         <form onSubmit={(e) => handleSubmit(e)} onReset={form.onReset}>
         <TextInput 
           label="Email" 
-          placeholder="you@mantine.dev" 
+          placeholder="you@website.com" 
           required 
           error={form.errors.email && 'Invalid email'}
           value={form.values.email}
