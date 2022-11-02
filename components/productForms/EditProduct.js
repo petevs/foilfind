@@ -8,6 +8,8 @@ const EditProduct = (props) => {
 
   const [product, setProduct] = useState(props.product)
 
+  console.log(props)
+
   useEffect(() => {
 
     const getProduct = async () => {
