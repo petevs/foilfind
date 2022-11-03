@@ -1,8 +1,10 @@
 import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor } from "@mantine/core"
 import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import { deleteDoc } from "firebase/firestore"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useContext } from 'react'
+import { deleteDocument } from "../../../helpers/firebaseHelpers"
 import { sortArray } from "../../../helpers/formatters"
 import useCheckAdmin from "../../../hooks/useCheckAdmin"
 import { UserContext } from '../../../state/UserContext'
@@ -34,8 +36,17 @@ const RetailerDetailCard = ({retailer}) => {
 
   const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
+  const checkforHTTP = () => {
+    if (retailer.website.includes('http')) {
+      return retailer.website
+    } else {
+      return `https://${retailer.website}`
+    }
+  }
+
   //check if retailer has hours, if not then return false
   const checkHasHours = () => {
+    if(retailer?.hideHours){ return false }
     const days = []
     daysOfTheWeek.forEach(day => {
       if( !retailer.hours[day].open && !retailer.hours[day].close && !retailer.hours[day].closed) {
@@ -181,14 +192,16 @@ const RetailerDetailCard = ({retailer}) => {
 
         </Box>
        
-
-        <Button 
-          variant='outline' 
-          color='dark' 
-          radius='xl' 
-          fullWidth
-          onClick={() => window.open(retailer.website, "_blank")}
-          >Vist Website</Button>
+        {
+          retailer.website &&
+          <Button
+            variant='outline' 
+            color='dark' 
+            radius='xl' 
+            fullWidth
+            onClick={() => window.open(checkforHTTP(), '_blank')}
+            >Vist Website</Button>
+        }
         {
           checkHasHours() && 
           <>
@@ -303,7 +316,7 @@ const RetailerDetailCard = ({retailer}) => {
         {
           isAdmin
           &&
-          <Box sx={{display: 'grid', justifyContent: 'start', marginTop: '3rem'}}>
+          <Box sx={{display: 'grid', justifyContent: 'start', gridTemplateColumns: '1fr 1fr', alignItems: 'center'}}>
             <Button fullWidth my='xl' size='xs' variant='subtle'
               onClick={() => {
                 router.push('/retailers/' + retailer.path + '/edit')
@@ -311,6 +324,14 @@ const RetailerDetailCard = ({retailer}) => {
             >
               Edit Details
             </Button>
+            {/* <Button size='xs' color='red' variant='subtle'
+              onClick={() => {
+                deleteDocument('retailers', retailer.id)
+                router.push('/retailers')
+              }}
+            >
+              Delete
+            </Button> */}
           </Box>
         }
     </>

@@ -32,10 +32,15 @@ export default function AddNewRetailer() {
     const data = await response.json()
     const { lat, lng } = data.results[0].geometry
     const place = data.results[0].components
+    console.log(data)
     setRetailer({
       ...retailer,
       latitude: lat,
       longitude: lng,
+      geo: {
+        latitude: lat,
+        longitude: lng
+      },
       place: place
     })
   }

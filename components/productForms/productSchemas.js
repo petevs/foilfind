@@ -47,6 +47,7 @@ const initialProductInfo = (product) =>  ({
   category: product?.category || '',
   subCategory: product?.subCategory || '',
   brand: product?.brand || '',
+  releaseYear: product?.releaseYear || '',
 })
 
 const initialWingSpecs = (product) => {

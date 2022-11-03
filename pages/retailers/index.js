@@ -7,7 +7,9 @@ import MapShell from '../../components/shells/MapShell';
 export async function getStaticProps() {
   const rawRetailers = await getCollection('retailers');
 
-  const retailers = JSON.stringify(rawRetailers)
+  const northAmericaRetailers = rawRetailers.filter(retailer => (retailer.place.country_code === 'us' || retailer.place.country_code === '' || retailer.place.country_code === 'ca'));
+
+  const retailers = JSON.stringify(northAmericaRetailers.filter(retailer => retailer?.hideRetailer !== true));
 
   return {
     props: {

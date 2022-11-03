@@ -74,6 +74,12 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
               searchable
             />
           }
+          <TextInput
+            label="Release Year"
+            placeholder="Enter release year"
+            value={productInfo.releaseYear}
+            onChange={(e) => setProductInfo({...productInfo, releaseYear: e.currentTarget.value})}
+          />
         </Box>
         </FormWrapper>
       </SectionWrapper>
