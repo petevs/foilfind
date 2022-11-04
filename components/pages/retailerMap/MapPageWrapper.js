@@ -1,4 +1,4 @@
-import { Box, Text, ActionIcon, Group, Divider } from "@mantine/core";
+import { Box, Text, ActionIcon, Group, Divider, Title } from "@mantine/core";
 import ReactMapGl, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css"
 import { useLocalStorage } from '@mantine/hooks';
@@ -105,10 +105,19 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     return false
   }
 
+  const headerHeight = '100px'
+
+  const headerBox = (theme) => ({
+    height: headerHeight,
+    padding: `${theme.spacing.md}px`,
+    borderBottom: `1px solid ${theme.colors.gray[2]}`,
+    borderTop: `1px solid ${theme.colors.gray[2]}`,
+  })
+
   const wrapper = (theme) => ({
     display: 'grid',
     gridTemplateColumns: showList ? '375px 1fr' : '1fr',
-    height: `calc(100vh - ${theme.other.headerHeight}px)`,
+    height: `calc(100vh - ${theme.other.headerHeight}px - ${headerHeight})`,
     overflow: 'hidden',
     '@media (max-width: 768px)': {
       gridTemplateColumns: '1fr'
@@ -117,12 +126,16 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
 
   return (
     <>
+      <Box sx={headerBox}>
+        <Text size='xl' weight={700}>Find Foil Shops</Text>
+      </Box>
       <Box sx={wrapper}>
         {
           (!retailerPage && !brandPage) && (
           <SidebarToggle 
             showList={showList}
             setShowList={setShowList}
+            headerHeight={headerHeight}
           />
           )
         }
