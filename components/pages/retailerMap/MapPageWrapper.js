@@ -12,12 +12,16 @@ import RetailerDetailCard from "./RetailerDetailCard";
 import { IconChevronLeft, IconX } from "@tabler/icons";
 import { useRouter } from 'next/router'
 import RetailerMapFilters from "./RetailerMapFilters";
+import { filterListingsReducer } from "./filterListingsReducer";
 
 export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
 
 
   const initialFilters = {
     onlineShop: false,
+    storefront: false,
+    lessons: false,
+    rentals: false,
   }
 
 
@@ -54,12 +58,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
       const bounds = mapRef.current.getMap().getBounds()
       const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
       
-      const withFilters = newFiltered.filter(retailer => {
-        if (filters.onlineShop){
-          return retailer.shoppingOptions.orderOnline
-        }
-        return true
-      })
+      const withFilters = filterListingsReducer(newFiltered, filters)
 
       setFilteredListings(withFilters)
     }
@@ -122,7 +121,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     return false
   }
 
-  const headerHeight = '100px'
+  const headerHeight = '125px'
 
   const headerBox = (theme) => ({
     height: headerHeight,
@@ -144,7 +143,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   return (
     <>
       <Box sx={headerBox}>
-        <Text size='xl' weight={700}>Find Foil Shops</Text>
+        <Title order={1}>Find Foil Shops</Title>
         <RetailerMapFilters
           filters={filters}
           setFilters={setFilters}
