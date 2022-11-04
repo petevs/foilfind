@@ -23,6 +23,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     lessons: false,
     rentals: false,
     featured: false,
+    openNow: false,
     brands: []
   }
 
@@ -123,16 +124,17 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     return false
   }
 
-  const headerHeight = '95px'
+  const headerHeight = '50px'
 
   const headerBox = (theme) => ({
     height: headerHeight,
-    padding: `${theme.spacing.md}px`,
-    borderBottom: `1px solid ${theme.colors.gray[2]}`,
-    borderTop: `1px solid ${theme.colors.gray[2]}`,
+    padding: `0 ${theme.spacing.md}px`,
+    // borderBottom: `1px solid ${theme.colors.gray[5]}`,
+    borderTop: `1px solid ${theme.colors.gray[5]}`,
     display: 'grid',
     gridTemplateColumns: 'auto 1fr',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: theme.colors.gray[2],
   })
 
   const wrapper = (theme) => ({
@@ -148,11 +150,6 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   return (
     <>
       <Box sx={headerBox}>
-        <Box>
-
-          <Title order={1}>Find Foil Shops</Title>
-          <Text size="sm" color="dimmed">Find foil shops</Text>
-        </Box>
         <RetailerMapFilters
           filters={filters}
           setFilters={setFilters}

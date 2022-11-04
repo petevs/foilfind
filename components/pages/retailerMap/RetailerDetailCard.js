@@ -94,6 +94,35 @@ const RetailerDetailCard = ({retailer}) => {
     return !pass
   }
 
+  const convertToToday = (seconds) => {
+    const date = new Date(seconds * 1000);
+    const today = new Date();
+    today.setHours(date.getHours());
+    today.setMinutes(date.getMinutes());
+    today.setSeconds(date.getSeconds());
+    return today;
+};
+
+  const checkIfOpen = (listing) => {
+    const daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; 
+    const date = new Date();
+    const dayNum = date.getDay();
+    const day = daysOfTheWeek[dayNum].toLowerCase();
+
+    const open = convertToToday(listing.hours[day].open.seconds);
+    const close = convertToToday(listing.hours[day].close.seconds);
+    const now = date
+    
+    if(listing.hours[day].closed === true){
+        return false
+    }
+
+    return now > open && now < close 
+
+  }
+
+console.log(checkIfOpen(retailer))
+
   return (
     <>
           <Text sx={{fontSize: '1.6rem'}} weight={700} mt='lg'>{retailer.name}</Text>
