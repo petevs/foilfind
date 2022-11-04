@@ -11,8 +11,16 @@ import ListingDrawer from "./ListingDrawer";
 import RetailerDetailCard from "./RetailerDetailCard";
 import { IconChevronLeft, IconX } from "@tabler/icons";
 import { useRouter } from 'next/router'
+import RetailerMapFilters from "./RetailerMapFilters";
 
 export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
+
+
+  const initialFilters = {
+    onlineShop: false,
+  }
+
+
 
 
   const [showList, setShowList] = useState(true)
@@ -20,6 +28,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   const [filteredListings, setFilteredListings] = useState(parsedRetailers)
   const [highlightedListing, setHighlightedListing] = useState(selectedRetailer || null)
   const [listingDetail, setListingDetail] = useState(selectedRetailer || null)
+  const [filters, setFilters] = useState(initialFilters)
 
   const router = useRouter()
 
@@ -44,10 +53,18 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
       mapRef.current.resize()
       const bounds = mapRef.current.getMap().getBounds()
       const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
-      setFilteredListings(newFiltered)
+      
+      const withFilters = newFiltered.filter(retailer => {
+        if (filters.onlineShop){
+          return retailer.shoppingOptions.orderOnline
+        }
+        return true
+      })
+
+      setFilteredListings(withFilters)
     }
 
-  },[showList, viewState, parsedRetailers])
+  },[showList, viewState, parsedRetailers, filters])
 
   const [currentListing, setCurrentListing] = useState(null)
   const [hoveredListing, setHoveredListing] = useState(null)
@@ -128,6 +145,10 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     <>
       <Box sx={headerBox}>
         <Text size='xl' weight={700}>Find Foil Shops</Text>
+        <RetailerMapFilters
+          filters={filters}
+          setFilters={setFilters}
+        />
       </Box>
       <Box sx={wrapper}>
         {
