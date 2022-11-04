@@ -9,6 +9,8 @@ export async function getStaticProps() {
 
   const retailers = JSON.stringify(rawRetailers);
 
+  //find all the unique brands in retailers
+
   return {
     props: {
       retailers,

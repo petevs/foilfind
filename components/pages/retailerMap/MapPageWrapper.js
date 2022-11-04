@@ -22,6 +22,8 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     storefront: false,
     lessons: false,
     rentals: false,
+    featured: false,
+    brands: []
   }
 
 
