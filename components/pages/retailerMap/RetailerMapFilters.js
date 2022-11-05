@@ -2,7 +2,62 @@ import { Chip, MultiSelect, Indicator, Button, TextInput, UnstyledButton, Menu, 
 import { Box } from '@mantine/core'
 import { IconAdjustmentsHorizontal, IconChevronDown, IconChevronUp, IconSearch, IconSortAscending } from '@tabler/icons'
 import { useState } from 'react'
+import DropdownChip from './DropdownChip'
 import { getBrands } from './filterListingsReducer'
+
+
+const BrandsDropdownContent = ({filters, setFilters}) => {
+    return (
+        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', columnGap: '1.5rem', rowGap: '.5rem'}}>
+        {
+            Object.keys(filters.brands).map(brand => (
+                <Checkbox
+                    key={brand}
+                    label={brand}
+                    checked={filters.brands[brand]}
+                    onChange={(event) => setFilters({...filters, brands: {...filters.brands, [brand]: event.target.checked}})}
+                />
+            ))
+        }
+    </Box>
+    )
+}
+
+const ShoppingOptionsDropdown = ({filters, setFilters}) => {
+    return (
+        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', columnGap: '1.5rem', rowGap: '.5rem'}}>
+        {
+            Object.keys(filters.shoppingOptions).map(option => (
+                <Checkbox
+                    key={option}
+                    label={option}
+                    checked={filters.shoppingOptions[option]}
+                    onChange={(event) => setFilters({...filters, shoppingOptions: {...filters.shoppingOptions, [option]: event.target.checked}})}
+                />
+            ))
+        }
+    </Box>
+    )
+}
+
+const SupportOptionsDropdown = ({filters, setFilters}) => {
+    return (
+        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', columnGap: '1.5rem', rowGap: '.5rem'}}>
+        {
+            Object.keys(filters.support).map(option => (
+                <Checkbox
+                    key={option}
+                    label={option}
+                    checked={filters.support[option]}
+                    onChange={(event) => setFilters({...filters, support: {...filters.support, [option]: event.target.checked}})}
+                />
+            ))
+        }
+    </Box>
+    )
+}
+
+
 
 const RetailerMapFilters = ({filters, setFilters}) => {
 
@@ -16,15 +71,15 @@ const RetailerMapFilters = ({filters, setFilters}) => {
     ]
 
     const dropdowns = [
-        {label: 'Brands', value: 'brands'},
-        // {label: 'Sort By', value: 'sortBy'},
-        // {label: 'Amenities', value: 'amenities'},
+        {label: 'Brands', value: 'brands', content: <BrandsDropdownContent filters={filters} setFilters={setFilters} />},
+        {label: 'Shopping Options', value: 'shoppingOptions', content: <ShoppingOptionsDropdown filters={filters} setFilters={setFilters} />},
+        {label: 'Support', value: 'support', content: <SupportOptionsDropdown filters={filters} setFilters={setFilters} />},
     ]
 
     const [dropdownMenus, setDropdownMenus] = useState({
         brands: false,
-        sortBy: false,
-        amenities: false,
+        shoppingOptions: false,
+        support: false,
     })
 
 
@@ -48,46 +103,12 @@ const RetailerMapFilters = ({filters, setFilters}) => {
             }
             {
                 dropdowns.map(dropdown => (
-                <Menu key={dropdown.label} opened={dropdownMenus[dropdown]} onChange={(e) => setDropdownMenus({...dropdownMenus, [dropdown]: e})}>
-                    <Menu.Target>
-                        <UnstyledButton
-                            sx={(theme) => ({
-                                fontSize: theme.fontSizes.sm,
-                                border: '1px solid',
-                                borderColor: getBrands(filters.brands).length > 0  ? theme.colors.dark[5] : theme.colors.dark[0],
-                                padding: `0 ${theme.spacing.md}px`,
-                                borderRadius: theme.radius.xl,
-                                backgroundColor: dropdownMenus[dropdown] ? theme.colors.dark[5] : 'white',
-                                color: dropdownMenus[dropdown] ? 'white' : theme.colors.dark[5],
-                                marginTop: '2px'
-                            })}
-                        >
-                            <Box
-                                sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center', gap: '.25rem'}}
-                            >
-                            {dropdown.label}
-                            {
-                                dropdownMenus[dropdown] ? <IconChevronUp size={16} /> : <IconChevronDown size={16} />
-                            }
-                            </Box>
-                        </UnstyledButton>
-                    </Menu.Target>
-
-                    <Menu.Dropdown>
-                        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', columnGap: '1.5rem', rowGap: '.5rem'}}>
-                            {
-                                Object.keys(filters.brands).map(brand => (
-                                    <Checkbox
-                                        key={brand}
-                                        label={brand}
-                                        checked={filters.brands[brand]}
-                                        onChange={(event) => setFilters({...filters, brands: {...filters.brands, [brand]: event.target.checked}})}
-                                    />
-                                ))
-                            }
-                        </Box>
-                    </Menu.Dropdown>
-                </Menu>
+                    <DropdownChip
+                        key={dropdown.label}
+                        label={dropdown.label}
+                    >
+                        {dropdown.content}
+                    </DropdownChip>
                 ))
             }
     </Box>

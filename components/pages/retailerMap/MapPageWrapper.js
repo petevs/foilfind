@@ -48,7 +48,23 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     rentals: false,
     featured: false,
     openNow: false,
-    brands: brandsObject
+    brands: brandsObject,
+    shoppingOptions: {
+        orderByEmail: false,
+        shipToHome: false,
+        orderOnline: false,
+        shopInStore: false,
+        pickUpInStore: false,
+        orderByPhone: false
+    },
+    support: {
+        inStore: false,
+        byText: false,
+        byEmail: false,
+        byPhone: false,
+        liveChat: false,
+        liveVideoChat: false
+    },
   }
 
 
