@@ -1,5 +1,5 @@
-import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor } from "@mantine/core"
-import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import { Title, Box, Tooltip, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor, Menu, Popover, TextInput, CopyButton } from "@mantine/core"
+import { IconBrandFacebook, IconCopy, IconCheck, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
 import { deleteDoc } from "firebase/firestore"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -121,7 +121,14 @@ const RetailerDetailCard = ({retailer}) => {
 
   }
 
-console.log(checkIfOpen(retailer))
+  const aStyle = (theme) => ({
+    '& div': {
+      color: theme.colors.dark
+    },
+    '& div:hover': {
+      color: theme.colors.blue[5]
+    }
+  })
 
   return (
     <>
@@ -183,7 +190,7 @@ console.log(checkIfOpen(retailer))
           </ActionIcon> */}
         {/* </Box> */}
         <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'space-between', padding: '1rem 0'}}>
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+        <Box component='a' href={`tel:${retailer.phone}`} sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
               <IconPhone size={16} />
             </ActionIcon>
@@ -205,12 +212,37 @@ console.log(checkIfOpen(retailer))
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Review</Text>
           </Box>
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
-            <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
-              <IconShare size={16} />
-            </ActionIcon>
-            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Share</Text>
-          </Box>
+          <Popover shadow='lg' position="top-start">
+            <Popover.Target>
+              <Box sx={{display: 'grid', justifyItems: 'center'}}>
+                <ActionIcon variant='outline' color='dark' radius='xl' size='lg'>
+                  <IconShare size={16} />
+                </ActionIcon>
+                <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Share</Text>
+              </Box>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Box sx={(theme) => ({padding: '0 theme.spacing.md'})}>
+                <Text size='sm' mb='xs' weight={600}>Share</Text>
+                <Box sx={{display: 'grid', gridTemplateColumns: 'auto auto', gap: '.5rem', alignItems: 'center'}}>
+                  <TextInput
+                    value={`https://foilfind.com/retailers/${retailer.path}`}
+                    readOnly
+                    sx={{width: '275px'}}
+                  />
+                <CopyButton value={`https://foilfind.com/retailers/${retailer.path}`} timeout={2000}>
+                  {({ copied, copy }) => (
+                    <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                      <ActionIcon color={copied ? 'blue' : 'gray'} onClick={copy}>
+                        {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                      </ActionIcon>
+                  </Tooltip>
+                  )}
+                </CopyButton>
+              </Box>
+              </Box>
+            </Popover.Dropdown>
+          </Popover>
 
           <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
@@ -224,11 +256,15 @@ console.log(checkIfOpen(retailer))
         {
           retailer.website &&
           <Button
+            component='a'
+            href={retailer.website}
+            target='_blank'
             variant='outline' 
             color='dark' 
             radius='xl' 
             fullWidth
-            onClick={() => window.open(checkforHTTP(), '_blank')}
+            sx={(theme) => ({ '& span': {color: theme.colors.dark}})}
+            // onClick={() => window.open(checkforHTTP(), '_blank')}
             >Vist Website</Button>
         }
         {
@@ -277,31 +313,46 @@ console.log(checkIfOpen(retailer))
         <Text size='md' mb='md' weight={700}>Contact</Text>
         {
           retailer.phone &&
-          <Group mb='xs'>
-            <IconPhone size={16} />
-            <Text size='sm'>{retailer.phone}</Text>
-          </Group>
+          <Box component='a' href={`tel:${retailer.phone}`} sx={aStyle}>
+            <Group mb='xs'>
+              <IconPhone size={16} />
+              <Text size='sm'>{retailer.phone}</Text>
+            </Group>
+          </Box>
         }
         {
           retailer.website && 
-          <Group mb='xs'>
-            <IconLink size={16} />
-            <Text size='sm'>{retailer.website}</Text>
-          </Group>
+          <Box component='a' href={retailer.website} target='_blank' sx={aStyle}>
+            <Group mb='xs'>
+              <IconLink size={16} />
+              <Text size='sm'>{retailer.website}</Text>
+            </Group>
+        </Box>
         }
         {
           retailer.email &&
-          <Group mb='xs'>
-            <IconMail size={16} />
-            <Text size='sm'>{retailer.email}</Text>
-          </Group>
+          <Box component='a' href={`mailto:${retailer.email}`} sx={aStyle}>
+            <Group mb='xs'>
+              <IconMail size={16} />
+              <Text size='sm'>{retailer.email}</Text>
+            </Group>
+          </Box>
         }
         {
           retailer.address &&
-          <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}>
-            <IconMapPin size={16} />
-            <Box>
-              <Text size='sm'>{retailer.address}</Text>
+          <Box
+            href={`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`}
+            target='_blank' 
+            component='a' 
+            sx={aStyle}
+          >
+            <Box
+              sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}
+            >
+              <IconMapPin size={16} />
+              <Box>
+                <Text size='sm'>{retailer.address}</Text>
+              </Box>
             </Box>
           </Box>
         }

@@ -13,7 +13,7 @@ const camelToTitleCase = (str) => {
 
 const BrandsDropdownContent = ({filters, setFilters}) => {
     return (
-        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', columnGap: '1.5rem', rowGap: '.5rem'}}>
+        <Box p='lg' sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', minWidth: '200px', maxHeight: '300px', overflowY: 'scroll', columnGap: '1.5rem', rowGap: '.5rem'}}>
         {
             Object.keys(filters.brands).map(brand => (
                 <Checkbox
