@@ -8,6 +8,7 @@ import { deleteDocument } from "../../../helpers/firebaseHelpers"
 import { sortArray } from "../../../helpers/formatters"
 import useCheckAdmin from "../../../hooks/useCheckAdmin"
 import { UserContext } from '../../../state/UserContext'
+import FavoriteRetailerButton from "./FavoriteRetailerButton"
 
 
 const RetailerDetailCard = ({retailer}) => {
@@ -244,12 +245,15 @@ const RetailerDetailCard = ({retailer}) => {
             </Popover.Dropdown>
           </Popover>
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+          {/* <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
               <IconHeart size={16} />
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Favorite</Text>
-          </Box>
+          </Box> */}
+          <FavoriteRetailerButton
+            retailerID={retailer.id}
+          />
 
         </Box>
        
