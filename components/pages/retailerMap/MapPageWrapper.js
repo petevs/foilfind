@@ -17,6 +17,30 @@ import { filterListingsReducer } from "./filterListingsReducer";
 export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
 
 
+  const brands = [
+    'Slingshot Sports',     'Duotone Sports',
+    'Armstrong',            'F-One',
+    'Naish Kiteboarding',   'Fanatic',
+    'Cabrinha',             'Ozone Kites',
+    'Star Board',           'Ocean Rodeo',
+    'Ride Engine',          'North Kiteboarding',
+    'Takuma',               'SIC Maui',
+    'Core Kiteboarding',    'KT Surfing',
+    'Reedin',               'AK Durable',
+    'Airush',               'Freedom Foil Boards',
+    'Eleveight Kites',      'Neilpryde',
+    'Axis',                 'Quatro Maui',
+    'Go Foil',              'Moses Hydrofoil',
+    'Appletree Surfboards', 'JP Australia',
+    'Aztron Sports',        'Maui Fin Company'
+  ]
+
+  const brandsObject = brands.reduce((obj, brand) => {
+    obj[brand] = false
+    return obj
+  }, {})
+
+
   const initialFilters = {
     onlineShop: false,
     storefront: false,
@@ -24,18 +48,17 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     rentals: false,
     featured: false,
     openNow: false,
-    brands: []
+    brands: brandsObject
   }
-
 
 
 
   const [showList, setShowList] = useState(true)
   const mapRef = useRef(null)
+  const [filters, setFilters] = useState(initialFilters)
   const [filteredListings, setFilteredListings] = useState(parsedRetailers)
   const [highlightedListing, setHighlightedListing] = useState(selectedRetailer || null)
   const [listingDetail, setListingDetail] = useState(selectedRetailer || null)
-  const [filters, setFilters] = useState(initialFilters)
 
   const router = useRouter()
 
@@ -49,7 +72,10 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   })
 
   const updateFilteredListings = (bounds) => {
-    const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
+
+    const withFilters = filterListingsReducer(parsedRetailers, filters)
+
+    const newFiltered = withFilters.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
 
     setFilteredListings(newFiltered)
   }
@@ -59,11 +85,12 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     if (mapRef.current){
       mapRef.current.resize()
       const bounds = mapRef.current.getMap().getBounds()
-      const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
-      
-      const withFilters = filterListingsReducer(newFiltered, filters)
+      const withFilters = filterListingsReducer(parsedRetailers, filters)
 
-      setFilteredListings(withFilters)
+      const newFiltered = withFilters.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
+      
+
+      setFilteredListings(newFiltered)
     }
 
   },[showList, viewState, parsedRetailers, filters])
@@ -116,25 +143,33 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
 
 
   const highlightCluster = (clustID) => {
-    const storesInside = supercluster.getLeaves(clustID).map(item => item.properties.name)
-    if(storesInside.includes(highlightedListing)){
-      return true
+    try{
+      const storesInside = supercluster.getLeaves(clustID).map(item => item.properties.name)
+      if(storesInside.includes(highlightedListing)){
+        return true
+      }
+  
+      return false
+    } catch (e){
+      return false
     }
-
-    return false
   }
 
-  const headerHeight = '50px'
+  const headerHeight = '120px'
 
   const headerBox = (theme) => ({
     height: headerHeight,
     padding: `0 ${theme.spacing.md}px`,
-    // borderBottom: `1px solid ${theme.colors.gray[5]}`,
-    borderTop: `1px solid ${theme.colors.gray[5]}`,
+    borderBottom: `1px solid ${theme.colors.gray[2]}`,
+    borderTop: `1px solid ${theme.colors.gray[2]}`,
     display: 'grid',
-    gridTemplateColumns: 'auto 1fr',
+    gridTemplateColumns: '1fr',
+    gap: '.5rem',
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[2],
+    alignContent: 'center',
+    '@media (max-width: 768px)': {
+      display: 'none'
+    }
   })
 
   const wrapper = (theme) => ({
@@ -150,6 +185,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   return (
     <>
       <Box sx={headerBox}>
+        <Title order={1}>Retailers</Title>
         <RetailerMapFilters
           filters={filters}
           setFilters={setFilters}
@@ -271,7 +307,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
                     style={{
                       width: `${10 + (pointCount / points.length) * 20}px`,
                       height: `${10 + (pointCount / points.length) * 20}px`,
-                      background: highlightCluster(cluster.id) ? '#FA5252' : '#2C2E33'
+                      background: highlightCluster(cluster?.id) ? '#FA5252' : '#2C2E33'
                     }}
                     onClick={() => {
                       const expansionZoom = Math.min(
