@@ -3,8 +3,13 @@ import { Box } from '@mantine/core'
 import { IconAdjustmentsHorizontal, IconChevronDown, IconChevronUp, IconSearch, IconSortAscending } from '@tabler/icons'
 import { useState } from 'react'
 import DropdownChip from './DropdownChip'
-import { getBrands } from './filterListingsReducer'
+import { getBrands, getFilters } from './filterListingsReducer'
 
+//camel case to title case function 
+const camelToTitleCase = (str) => {
+    return str.replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function(str){ return str.toUpperCase(); })
+}
 
 const BrandsDropdownContent = ({filters, setFilters}) => {
     return (
@@ -30,7 +35,7 @@ const ShoppingOptionsDropdown = ({filters, setFilters}) => {
             Object.keys(filters.shoppingOptions).map(option => (
                 <Checkbox
                     key={option}
-                    label={option}
+                    label={camelToTitleCase(option)}
                     checked={filters.shoppingOptions[option]}
                     onChange={(event) => setFilters({...filters, shoppingOptions: {...filters.shoppingOptions, [option]: event.target.checked}})}
                 />
@@ -47,7 +52,7 @@ const SupportOptionsDropdown = ({filters, setFilters}) => {
             Object.keys(filters.support).map(option => (
                 <Checkbox
                     key={option}
-                    label={option}
+                    label={camelToTitleCase(option)}
                     checked={filters.support[option]}
                     onChange={(event) => setFilters({...filters, support: {...filters.support, [option]: event.target.checked}})}
                 />
@@ -85,7 +90,7 @@ const RetailerMapFilters = ({filters, setFilters}) => {
 
   return (
     <Box 
-        sx={{display: 'grid', gridAutoFlow: 'column', gap: '.5rem', justifyContent: 'start'}}
+        sx={{display: 'grid', gridAutoFlow: 'column', gap: '1rem', justifyContent: 'start'}}
     >
             {
                 chips.map(chip => (
@@ -106,6 +111,7 @@ const RetailerMapFilters = ({filters, setFilters}) => {
                     <DropdownChip
                         key={dropdown.label}
                         label={dropdown.label}
+                        active={getFilters(filters[dropdown.value]).length}
                     >
                         {dropdown.content}
                     </DropdownChip>

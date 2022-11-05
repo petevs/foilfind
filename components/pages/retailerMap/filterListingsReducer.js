@@ -48,6 +48,17 @@ const getBrandsFromCurrent = (currrent) => {
     return brands;
 };
 
+//make list if items if true from Object
+export const getFilters = (filterObject) => {
+    const filterOptions = [];
+    for (const option in filterObject) {
+        if (filterObject[option]) {
+            filterOptions.push(option);
+        }
+    }
+    return filterOptions;
+};
+
 
 
 export const filterListingsReducer = (arr, filters) => {
@@ -83,6 +94,16 @@ export const filterListingsReducer = (arr, filters) => {
         const currentBrands = getBrandsFromCurrent(curr);
 
         if(brandFilters.length > 0 && !brandFilters.every(brand => currentBrands.includes(brand))){
+            return acc
+        }
+
+        const shoppingOptionsFilters = getFilters(filters?.shoppingOptions);
+        if(shoppingOptionsFilters.length > 0 && !shoppingOptionsFilters.every(option => curr.shoppingOptions[option])){
+            return acc
+        }
+
+        const supportOptionsFilters = getFilters(filters?.support);
+        if(supportOptionsFilters.length > 0 && !supportOptionsFilters.every(option => curr.support[option])){
             return acc
         }
 
