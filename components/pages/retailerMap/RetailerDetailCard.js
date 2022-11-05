@@ -9,6 +9,7 @@ import { sortArray } from "../../../helpers/formatters"
 import useCheckAdmin from "../../../hooks/useCheckAdmin"
 import { UserContext } from '../../../state/UserContext'
 import FavoriteRetailerButton from "./FavoriteRetailerButton"
+import ReviewButton from "./ReviewButton"
 
 
 const RetailerDetailCard = ({retailer}) => {
@@ -197,21 +198,22 @@ const RetailerDetailCard = ({retailer}) => {
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Call</Text>
           </Box>
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+          <Box
+                        component='a'
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`}
+                        target='_blank' 
+          sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline' disabled={!retailer.address}
-              onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`, "_blank")}
             >
               <IconMapPin size={16} />
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
           </Box>
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
-            <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
-              <IconStar size={16} />
-            </ActionIcon>
-            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Review</Text>
-          </Box>
+          <ReviewButton
+            retailerID={retailer.id}
+            retailerName={retailer.name}
+          />
 
           <Popover shadow='lg' position="top-start">
             <Popover.Target>
@@ -368,30 +370,38 @@ const RetailerDetailCard = ({retailer}) => {
             <Group spacing='sm'>
               {
                 retailer.socialMedia['facebook'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.facebook, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.facebook} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandFacebook size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['instagram'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.instagram, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.instagram} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandInstagram size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['twitter'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.twitter, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.twitter} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandTwitter size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['youtube'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.youtube, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.youtube} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandYoutube size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
             </Group>
