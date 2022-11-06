@@ -1,12 +1,15 @@
 import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
-import { Box, Paper, Button, Accordion, NumberInput, Divider, TextInput, Textarea } from "@mantine/core"
+import { Box, Paper, Button, Accordion, NumberInput, Divider, TextInput, Textarea, MultiSelect, Select } from "@mantine/core"
+import { retailerList } from './retailerList'
+import { DatePicker } from "@mantine/dates"
+
 
 const ProductReviewsForm = ({productReviews, setProductReviews}) => {
 
   const initialReview = {
-    title: '',
-    content: '',
+    reviewTitle: '',
+    review: '',
     rating: 0,
     source: '',
     link: ''
@@ -34,12 +37,25 @@ const ProductReviewsForm = ({productReviews, setProductReviews}) => {
                           min={0}
                           max={5}
                         />
-                        <TextInput
+                        <Select
                           label='Source'
                           placeholder='Enter source'
+                          data={retailerList}
+                          searchable
                           value={review.source}
-                          onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, source: e.currentTarget.value } : review))}
+                          onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, source: e } : review))}
                         />
+                        {/* <DatePicker
+                          label='Date'
+                          placeholder='Enter date'
+                          sx={{
+                            '& .mantine-DatePicker-calendarBase': {
+                              maxWidth: '300px'
+                            }
+                          }}
+                          value={review.date}
+                          onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, date: e } : review))}
+                        /> */}
                         <TextInput
                           label='Link'
                           placeholder='Enter link'
@@ -49,8 +65,8 @@ const ProductReviewsForm = ({productReviews, setProductReviews}) => {
                         <TextInput
                           label='Review Title'
                           placeholder='Enter review title'
-                          value={review.title}
-                          onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, title: e.currentTarget.value } : review))}
+                          value={review.reviewTitle}
+                          onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, reviewTitle: e.currentTarget.value } : review))}
                         />
                         <Textarea
                           label="Review"

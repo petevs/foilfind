@@ -13,6 +13,7 @@ import BoardSpecs from "./BoardSpecs"
 import ProductIncludedForm from "./ProductIncludedForm"
 import BrandDescription from "./BrandDescription"
 import WingSpecs from "./WingSpecs"
+import ProductInventory from "./ProductInventory"
 
 
 export default function ProductForm(props) {
@@ -33,8 +34,10 @@ export default function ProductForm(props) {
   const [wingSpecs, setWingSpecs] = useState(product?.wingSpecs || '')
   const [productImages, setProductImages] = useState([])
   const [productVideos, setProductVideos] = useState([])
-  const [productReviews, setProductReviews] = useState([])
+  const [productReviews, setProductReviews] = useState(product.reviews || [])
   const [productLinks, setProductLinks] = useState([])
+
+  
 
   const updateProduct = async () => {
 
@@ -55,6 +58,7 @@ export default function ProductForm(props) {
     await createDocument('products', ((product?.id === '' || !product) ? productInfo.name : product.id), {
       ...productInfo,
       ...specs(),
+      reviews: productReviews,
       path: createSlug(productInfo.name),
     })
     router.push('/products')
@@ -116,12 +120,14 @@ export default function ProductForm(props) {
       />
 
     }
+
+    <ProductInventory />
       
-{/* 
+
       <ProductReviewsForm
         productReviews={productReviews}
         setProductReviews={setProductReviews}
-      /> */}
+      />
 
 
 

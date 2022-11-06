@@ -259,7 +259,9 @@ export default function ProductCategoryPage(props) {
             <Box sx={{display: 'grid', gridTemplateColumns: isAdmin ? 'auto auto' : 'auto', gap: '1rem'}}>
               {
                 isAdmin && (
-                  <Button size='xs' color='dark' variant='subtle'>Add New</Button>
+                  <Link href='/products/add-new' passHref>
+                    <Button component='a' size='xs' color='dark' variant='subtle'>Add New</Button>
+                  </Link>
                 )
               }
               <Indicator label={0} showZero size={22} color='dark' withBorder>
