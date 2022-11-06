@@ -62,6 +62,18 @@ export default function ProductForm(props) {
     return totalStock
   }
 
+  const reviewSummary = () => {
+    let total = 0
+    productReviews.forEach(review => {
+      total += review.rating
+    })
+
+    return {
+      rating: total / productReviews.length,
+      numOfReviews: productReviews.length
+    }
+  }
+
   
   const updateProduct = async () => {
 
@@ -83,6 +95,7 @@ export default function ProductForm(props) {
       ...productInfo,
       ...specs(),
       reviews: productReviews,
+      reviewSummary: reviewSummary(),
       inventory: productInventory,
       priceRange: getPriceRange(),
       numOfInStock: getNumOfInStock(),

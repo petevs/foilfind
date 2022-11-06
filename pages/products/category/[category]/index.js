@@ -13,6 +13,7 @@ import { IconChevronRight, IconAdjustmentsHorizontal, IconSearch, IconStar, Icon
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import RatingsReadOnly from "../../../../components/RatingsReadOnly";
 
 export async function getStaticPaths(){
 
@@ -327,34 +328,17 @@ export default function ProductCategoryPage(props) {
                         display: 'none'
                       }
                     }}>
-                      <Box sx={{position: 'relative'}}>
-                        <Box
-                          sx={(theme) => ({
-                            '& svg': {
-                              fill: theme.colors.gray[3],
-                              stroke: 'none'
-                            }
-                          })}
-                        >
-                          {[1,2,3,4,5].map((star, index) => (
-                            <IconStar size={16} key={index} />
-                          ))}
-                        </Box>
-                        <Box sx={(theme) => ({
-                          position: 'absolute',
-                          top: 0,
-                          '& svg': {
-                            fill: theme.colors.yellow[5], 
-                            stroke: 'none'
-                          }})}>
-                          {
-                            ['full', 'full', 'full', 'half'].map((star, index) => (
-                              star === 'full' ? <IconStar size={16} key={index} /> : <IconStarHalf size={16} key={index} />
-                            ))
-                          }
-                        </Box>
-                      </Box>
-                      <Text size='xs' color='dimmed'>Based on 36 reviews</Text>
+                      <RatingsReadOnly
+                        rating={product?.reviewSummary?.rating || 0} 
+                      />
+                      <Text size='xs' color='dimmed'>
+                        {
+                          product?.reviewSummary?.numOfReviews > 0 ? 
+                          `Based on ${product?.reviewSummary?.numOfReviews} reviews`
+                          : 'No reviews yet'
+                        }
+                        
+                        </Text>
                     </Box>
 
                     <Box
@@ -364,8 +348,10 @@ export default function ProductCategoryPage(props) {
                         }
                       }}
                     >
-                      <Text size='md' weight={500}>$500 - $955</Text>
-                      <Text size='xs' color='dimmed'>New (5) · Used (3)</Text>
+                      <Text size='md' weight={500}>{product.priceRange ? `$${product.priceRange.minPrice} - $${product.priceRange.maxPrice}` : 'No Data'}</Text>
+                      <Text size='xs' color='dimmed'>
+                        Compare {product.numOfInStock} Retailers
+                      </Text>
                     </Box>
         
                     <Box sx={{justifySelf: 'end', alignSelf: 'center'}}>
