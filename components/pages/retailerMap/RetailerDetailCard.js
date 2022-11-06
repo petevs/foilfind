@@ -10,6 +10,7 @@ import useCheckAdmin from "../../../hooks/useCheckAdmin"
 import { UserContext } from '../../../state/UserContext'
 import FavoriteRetailerButton from "./FavoriteRetailerButton"
 import ReviewButton from "./ReviewButton"
+import ShareButton from "./ShareButton"
 
 
 const RetailerDetailCard = ({retailer}) => {
@@ -215,37 +216,9 @@ const RetailerDetailCard = ({retailer}) => {
             retailerName={retailer.name}
           />
 
-          <Popover shadow='lg' position="top-start">
-            <Popover.Target>
-              <Box sx={{display: 'grid', justifyItems: 'center'}}>
-                <ActionIcon variant='outline' color='dark' radius='xl' size='lg'>
-                  <IconShare size={16} />
-                </ActionIcon>
-                <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Share</Text>
-              </Box>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <Box sx={(theme) => ({padding: '0 theme.spacing.md'})}>
-                <Text size='sm' mb='xs' weight={600}>Share</Text>
-                <Box sx={{display: 'grid', gridTemplateColumns: 'auto auto', gap: '.5rem', alignItems: 'center'}}>
-                  <TextInput
-                    value={`https://foilfind.com/retailers/${retailer.path}`}
-                    readOnly
-                    sx={{width: '275px'}}
-                  />
-                <CopyButton value={`https://foilfind.com/retailers/${retailer.path}`} timeout={2000}>
-                  {({ copied, copy }) => (
-                    <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-                      <ActionIcon color={copied ? 'blue' : 'gray'} onClick={copy}>
-                        {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
-                      </ActionIcon>
-                  </Tooltip>
-                  )}
-                </CopyButton>
-              </Box>
-              </Box>
-            </Popover.Dropdown>
-          </Popover>
+          <ShareButton
+            retailerPath={retailer.path}
+          />
 
           {/* <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
@@ -399,7 +372,7 @@ const RetailerDetailCard = ({retailer}) => {
                 retailer.socialMedia['youtube'] && (
                   <Box component='a' href={retailer.socialMedia.youtube} target='_blank'>
                   <ActionIcon variant='outline' radius='xl'>
-                    <IconBrandYoutube size={16} />
+                    <IconBrandYoutube size={18} />
                   </ActionIcon>
                   </Box>
                 )

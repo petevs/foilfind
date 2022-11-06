@@ -66,6 +66,7 @@ const ReviewButton = ({ retailerID, retailerName }) => {
             onClose={() => setOpened(false)}
             title={`Write a Review for ${retailerName}`}
             size="lg"
+            closeOnClickOutside={false}
         >
             <Box sx={(theme) => ({display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '1rem', alignItems: 'center'})} pb='md'>
                 <Rating
@@ -87,9 +88,16 @@ const ReviewButton = ({ retailerID, retailerName }) => {
             />
 
             <Box
-                sx={{display: 'grid', gridTemplateColumns: '1fr'}}
+                sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}
                 pt='md'
             >
+                <Button
+                    sx={{justifySelf: 'start'}}
+                    onClick={() => setOpened(false)}
+                    variant='default'
+                >
+                    Cancel
+                </Button>
                 <Button
                     sx={{justifySelf: 'end'}}
                     color='dark'
