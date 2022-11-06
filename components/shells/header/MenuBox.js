@@ -70,7 +70,7 @@ const MenuBox = ({ desktop }) => {
                                 />
                             </Menu.Target>
                             <Menu.Dropdown>
-                                <Menu.Item component={NextLink} href='/profile'>
+                                <Menu.Item component={NextLink} href={`/${userDetails.username}`}>
                                     Profile
                                 </Menu.Item>
                                 <Menu.Item component={NextLink} href='/#'>
