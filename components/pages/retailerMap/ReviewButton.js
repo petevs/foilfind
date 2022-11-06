@@ -5,7 +5,7 @@ import { UserContext } from '../../../state/UserContext'
 import { updateDoc, doc, getDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 
-const ReviewButton = ({ retailerID, retailerName }) => {
+const ReviewButton = ({ retailerID, retailerName, retailerPath }) => {
 
     const { user, userDetails } = useContext(UserContext)
 
@@ -52,7 +52,9 @@ const ReviewButton = ({ retailerID, retailerName }) => {
                 ...retailerReviewsFirebase,
                 [retailerID]: {
                     rating,
-                    review
+                    review,
+                    path: retailerPath
+
                 }
             }
         })

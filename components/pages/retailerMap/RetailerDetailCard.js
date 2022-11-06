@@ -1,5 +1,5 @@
 import { Title, Box, Tooltip, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor, Menu, Popover, TextInput, CopyButton } from "@mantine/core"
-import { IconBrandFacebook, IconCopy, IconCheck, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import { IconBrandFacebook, IconEdit, IconCheck, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
 import { deleteDoc } from "firebase/firestore"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -214,6 +214,7 @@ const RetailerDetailCard = ({retailer}) => {
           <ReviewButton
             retailerID={retailer.id}
             retailerName={retailer.name}
+            retailerPath={retailer.path}
           />
 
           <ShareButton
@@ -383,23 +384,19 @@ const RetailerDetailCard = ({retailer}) => {
         {
           isAdmin
           &&
-          <Box sx={{display: 'grid', justifyContent: 'start', gridTemplateColumns: '1fr 1fr', alignItems: 'center'}}>
-            <Button fullWidth my='xl' size='xs' variant='subtle'
-              onClick={() => {
-                router.push('/retailers/' + retailer.path + '/edit')
-              }}
-            >
-              Edit Details
-            </Button>
-            {/* <Button size='xs' color='red' variant='subtle'
-              onClick={() => {
-                deleteDocument('retailers', retailer.id)
-                router.push('/retailers')
-              }}
-            >
-              Delete
-            </Button> */}
-          </Box>
+          <>
+            <Divider my='lg' />
+            <Box sx={{display: 'grid', justifyContent: 'start', gridTemplateColumns: '1fr', alignItems: 'center'}}>
+              <Button fullWidth size='xs' variant='filled' color='gray'
+                onClick={() => {
+                  router.push('/retailers/' + retailer.path + '/edit')
+                }}
+                leftIcon={<IconEdit size={16} />}
+              >
+                Edit Retailer
+              </Button>
+            </Box>
+          </>
         }
     </>
   )

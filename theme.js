@@ -17,7 +17,12 @@ export const theme = {
         marginBottom: 0,
       },
       h2: {
-        marginTop: 0
+        marginTop: 0,
+        marginBottom: 0
+      },
+      h3: {
+        marginTop: 0,
+        marginBottom: 0
       },
     }
   },
