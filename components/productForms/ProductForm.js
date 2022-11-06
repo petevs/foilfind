@@ -36,9 +36,33 @@ export default function ProductForm(props) {
   const [productVideos, setProductVideos] = useState([])
   const [productReviews, setProductReviews] = useState(product.reviews || [])
   const [productLinks, setProductLinks] = useState([])
+  const [productInventory, setProductInventory] = useState(product.inventory || [])
+
+  // function to get min and max price from productInventory
+
+  const getPriceRange = () => {
+    const prices = productInventory.map(item => item.price)
+    const minPrice = Math.min(...prices)
+    const maxPrice = Math.max(...prices)
+
+    return {
+      minPrice,
+      maxPrice
+    }
+  }
+
+  const getNumOfInStock = () => {
+    let totalStock = 0
+    productInventory.forEach(item => {
+      if(item.inStock){
+        totalStock += 1
+      }
+    })
+
+    return totalStock
+  }
 
   
-
   const updateProduct = async () => {
 
     const specs = () => {
@@ -59,9 +83,12 @@ export default function ProductForm(props) {
       ...productInfo,
       ...specs(),
       reviews: productReviews,
+      inventory: productInventory,
+      priceRange: getPriceRange(),
+      numOfInStock: getNumOfInStock(),
       path: createSlug(productInfo.name),
     })
-    router.push('/products')
+    router.push(`/products/${product.path}`)
 
   }
 
@@ -121,7 +148,10 @@ export default function ProductForm(props) {
 
     }
 
-    <ProductInventory />
+    <ProductInventory 
+      productInventory={productInventory}
+      setProductInventory={setProductInventory}
+    />
       
 
       <ProductReviewsForm
