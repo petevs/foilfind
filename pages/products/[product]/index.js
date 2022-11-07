@@ -156,7 +156,7 @@ export default function ProductPage(props) {
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Summary of What We{"'"}ve Found</Title>
               <Text color='dimmed'>
-                  Looking to add some excitement to your water activities? Look no further than the new watersports product! This product is sure to get your adrenaline pumping and heart racing. Whether you are looking to try something new or just want to add an extra thrill to your life, this product is perfect for you. So, come on in and take the plunge!
+                  {product.summary}
               </Text>
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Related Keywords</Title>
@@ -216,9 +216,7 @@ export default function ProductPage(props) {
               </Box> */}
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Description From {product.brand}</Title>
-              <Text color='dimmed'>
-                  Looking to add some excitement to your water activities? Look no further than the new watersports product! This product is sure to get your adrenaline pumping and heart racing. Whether you are looking to try something new or just want to add an extra thrill to your life, this product is perfect for you. So, come on in and take the plunge!
-              </Text>
+              {/* <div dangerouslySetInnerHTML={{ __html: product.brandDescription }} /> */}
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>What{"'s"} Included</Title>
               <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
@@ -423,7 +421,7 @@ export default function ProductPage(props) {
                 gap: '1rem',
               }}
             >
-              {
+              {/* {
                 relatedResources.map((item, index) => (
                   <ResourceCard
                     key={index}
@@ -432,7 +430,7 @@ export default function ProductPage(props) {
                     description={item.description}
                   />
                 ))
-              }
+              } */}
             </Box>
           </Box>
 
