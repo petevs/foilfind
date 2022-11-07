@@ -405,6 +405,9 @@ export default function ProductPage(props) {
             <Title order={3} style={{margin: '1rem 0'}}>Is This Foil Right For Me?</Title>
             <Divider mb='lg' />
 
+            <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
+            <Divider mb='lg' />
+
             <Title order={3} style={{margin: '1rem 0'}}>Questions & Answers</Title> 
             <Divider mb='lg' /> 
 
