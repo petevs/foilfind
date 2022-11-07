@@ -24,6 +24,10 @@ export const theme = {
         marginTop: 0,
         marginBottom: 0
       },
+      h4: {
+        marginTop: 0,
+        marginBottom: 0
+      },
     }
   },
   other: {
