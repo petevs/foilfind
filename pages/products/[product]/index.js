@@ -2,7 +2,7 @@ import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, 
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import BasicShell from "../../../components/shells/BasicShell";
 import { db } from "../../../firebase";
-import { getCollection } from "../../../helpers/firebaseHelpers";
+import { getCollection, getCollectionWhere } from "../../../helpers/firebaseHelpers";
 import useCheckAdmin from "../../../hooks/useCheckAdmin";
 import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../components/RatingsReadOnly";
@@ -38,9 +38,12 @@ export async function getStaticProps({ params }) {
 
   const product = data[0];
 
+  const relatedResources = await getCollectionWhere("resources", "relatedProducts", "array-contains", product.id);
+
   return {
     props: {
       product,
+      relatedResources
     },
   }
 }
@@ -96,7 +99,7 @@ export default function ProductPage(props) {
   const { isAdmin, user } = useCheckAdmin();
   const router = useRouter();
 
-  const { product } = props;
+  const { product, relatedResources } = props;
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
@@ -420,22 +423,16 @@ export default function ProductPage(props) {
                 gap: '1rem',
               }}
             >
-              <ResourceCard
-                title='How to Choose the Right Surfboard'
-                type='video'
-              />
-              <ResourceCard
-                title='How to Choose the Right Surfboard'
-                type='article'
-              />
-              <ResourceCard
-                title='How to Choose the Right Surfboard'
-                type='guide'
-              />
-              <ResourceCard
-                title='How to Choose the Right Surfboard'
-                type='guide'
-              />
+              {
+                relatedResources.map((item, index) => (
+                  <ResourceCard
+                    key={index}
+                    title={item.title}
+                    type='video'
+                    description={item.description}
+                  />
+                ))
+              }
             </Box>
           </Box>
 

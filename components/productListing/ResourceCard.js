@@ -1,7 +1,6 @@
 import { Box, Badge, Title , Text, Paper, Button} from '@mantine/core'
-import React from 'react'
 
-const ResourceCard = ({type, title,}) => {
+const ResourceCard = ({type, title,description}) => {
 
   const colorBasedOnType = () => {
     switch(type) {
@@ -21,7 +20,7 @@ const ResourceCard = ({type, title,}) => {
       <Box sx={{display: 'grid', alignItems: 'start', justifyItems: 'start'}}>
         <Badge color={colorBasedOnType()} mb='md'>{type}</Badge>
         <Title order={4}>{title}</Title>
-        <Text size='sm' color='dimmed'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam tincidunt, nunc nisl aliquam mauris, nec aliquam nisl nunc et nisl. Sed euismod, nunc ut aliquam tincidunt, nunc nisl aliquam mauris, nec aliquam nisl nunc et nisl.</Text>
+        <Text size='sm' color='dimmed'>{description}</Text>
         <Button mt='md' size='xs' radius='md' variant='default'>View Resource</Button>
       </Box>
     </Paper>

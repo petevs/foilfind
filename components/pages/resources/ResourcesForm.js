@@ -1,10 +1,28 @@
 import SectionWrapper from '../editRetailer/SectionWrapper'
 import FormHeader from '../editRetailer/FormHeader'
 import FormWrapper from '../editRetailer/FormWrapper'
-import { Container, Box, TextInput, Select } from '@mantine/core'
-import { useState } from 'react'
+import { Container, Box, TextInput, Select, MultiSelect } from '@mantine/core'
+import { useState, useEffect } from 'react'
+import { createDocument, getCollection } from '../../../helpers/firebaseHelpers'
+import { useRouter } from 'next/router'
 
-const ResourcesForm = () => {
+const ResourcesForm = (props) => {
+ 
+    const productList = props.products.map(product => {
+        return {
+            label: product.name,
+            value: product.id
+        }
+    })
+
+    const retailerList = props.retailers.map(retailer => {
+        return {
+            label: retailer.name,
+            value: retailer.id
+        }
+    })
+
+    const router = useRouter()
 
     const [resource, setResource] = useState({
         title: '',
@@ -13,6 +31,8 @@ const ResourcesForm = () => {
         type: '',
         tags: [],
         image: '',
+        relatedProducts: [],
+        relatedRetailers: []
     })
 
     const typesOfResources = [
@@ -24,13 +44,20 @@ const ResourcesForm = () => {
         { label: 'Other', value: 'other' },
     ]
 
+    const updateResource = async () => {
+        await createDocument('resources', resource.title, resource)
+        router.reload(window.location.pathname)
+    }
+
   return (
     <Container size='xl' py='xl'>
         <SectionWrapper>
                 <FormHeader 
                     title='Add New Resource'
                 />
-            <FormWrapper>
+            <FormWrapper
+                onSave={updateResource}
+            >
                 <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
                     <TextInput
                         label="Title"
@@ -56,6 +83,22 @@ const ResourcesForm = () => {
                         value={resource.type}
                         data={typesOfResources}
                         onChange={(e) => setResource({...resource, type: e})}
+                        searchable
+                    />
+                    <MultiSelect
+                        label='Related Products'
+                        placeholder='Select related products'
+                        value={resource.relatedProducts}
+                        data={productList}
+                        onChange={(e) => setResource({...resource, relatedProducts: e})}
+                        searchable
+                    />
+                    <MultiSelect
+                        label='Related Retailers'
+                        placeholder='Select related retailers'
+                        value={resource.relatedRetailers}
+                        data={retailerList}
+                        onChange={(e) => setResource({...resource, relatedRetailers: e})}
                         searchable
                     />
                     <TextInput

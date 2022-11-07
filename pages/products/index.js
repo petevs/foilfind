@@ -3,7 +3,7 @@ import Link from "next/link";
 import ContentSlider from "../../components/ContentSlider";
 import ProductCard from "../../components/ProductCard";
 import BasicShell from "../../components/shells/BasicShell";
-import { getCollection } from "../../helpers/firebaseHelpers";
+import { getCollection} from "../../helpers/firebaseHelpers";
 import { toKebabCase } from "../../helpers/formatters";
 import useCheckAdmin from "../../hooks/useCheckAdmin";
 import Hero from "../../components/Hero";
