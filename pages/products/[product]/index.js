@@ -216,7 +216,7 @@ export default function ProductPage(props) {
               </Box> */}
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Description From {product.brand}</Title>
-              {/* <div dangerouslySetInnerHTML={{ __html: product.brandDescription }} /> */}
+              <div dangerouslySetInnerHTML={{ __html: product.brandDescription }} />
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>What{"'s"} Included</Title>
               <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
