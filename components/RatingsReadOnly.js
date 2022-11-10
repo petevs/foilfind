@@ -1,7 +1,9 @@
 import { Box, Text } from "@mantine/core"
 import { IconStar, IconStarHalf } from "@tabler/icons"
 
-const RatingsReadOnly = ({rating}) => {
+const RatingsReadOnly = ({rating, size}) => {
+
+  console.log(rating)
 
   // take the rating and create an array of 'full' stars and 'half' stars
 
@@ -30,7 +32,7 @@ const RatingsReadOnly = ({rating}) => {
           })}
         >
           {[1,2,3,4,5].map((star, index) => (
-            <IconStar size={16} key={index} />
+            <IconStar size={size || 16} key={index} />
           ))}
         </Box>
         <Box sx={(theme) => ({
@@ -42,7 +44,7 @@ const RatingsReadOnly = ({rating}) => {
           }})}>
           {
             stars.map((star, index) => (
-              star === 'full' ? <IconStar size={16} key={index} /> : <IconStarHalf size={16} key={index} />
+              star === 'full' ? <IconStar size={size || 16} key={index} /> : <IconStarHalf size={16} key={index} />
             ))
           }
         </Box>

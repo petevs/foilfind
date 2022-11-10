@@ -106,7 +106,21 @@ export default function ProductPage(props) {
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
-  console.log(product)
+  const aggregateReviewsBySource = (reviews) => {
+    const sources = reviews.map(review => review.source)
+    const uniqueSources = [...new Set(sources)]
+    const reviewsBySource = uniqueSources.map(source => {
+      const reviewsForSource = reviews.filter(review => review.source === source)
+      const averageRating = reviewsForSource.reduce((acc, review) => acc + review.rating, 0) / reviewsForSource.length
+      return {
+        source,
+        averageRating,
+        reviews: reviewsForSource,
+        link: reviewsForSource[0].link
+      }
+    })
+    return reviewsBySource
+  }
 
   return (
     <div>
@@ -426,8 +440,8 @@ export default function ProductPage(props) {
           </Box>
 
           <Box>
-            <Title order={3} style={{margin: '1rem 0'}}>Compare Retailers</Title> 
             <Divider mb='lg' />
+            <Title order={3} style={{margin: '1rem 0'}}>Compare Retailers</Title> 
             {
               product.inventory.map((item, index) => (
                 <Box key={index} sx={
@@ -458,7 +472,7 @@ export default function ProductPage(props) {
             </Text>
 
 
-            <Title order={3} style={{margin: '1rem 0'}}>Is This Foil Right For Me?</Title>
+            <Title order={3} style={{margin: '1rem 0'}}>Size Chart</Title>
             <Divider mb='lg' />
 
             <WingRangeChart />
@@ -482,11 +496,8 @@ export default function ProductPage(props) {
               
             </Box>
 
-            <Title order={3} style={{margin: '1rem 0'}}>Questions & Answers</Title> 
-            <Divider mb='lg' /> 
-
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Related Resources</Title> 
-            <Divider mb='lg' />
             <Box
               sx={{
                 display: 'grid',
@@ -494,7 +505,7 @@ export default function ProductPage(props) {
                 gap: '1rem',
               }}
             >
-              {/* {
+              {
                 relatedResources.map((item, index) => (
                   <ResourceCard
                     key={index}
@@ -503,14 +514,26 @@ export default function ProductPage(props) {
                     description={item.description}
                   />
                 ))
-              } */}
+              }
             </Box>
           </Box>
 
 
           <Box>
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Reviews</Title> 
-            <Divider mb='lg' />
+            {
+              aggregateReviewsBySource(product.reviews).map((item, index) => (
+                <Box key={index} sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '1rem', alignItems: 'center'}}>
+                    <Text color='dimmed'>{item.averageRating} /  5</Text>
+                    <Box sx={{marginTop: '8px'}}>
+                    <RatingsReadOnly rating={item.averageRating} size={18} />
+                    </Box>
+                    <Text component='a' underline size='md'> {item.reviews.length} {item.source} reviews</Text>
+                </Box>
+              ))
+
+            }
           </Box>
   
 
