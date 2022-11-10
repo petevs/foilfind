@@ -1,7 +1,7 @@
 import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
-import { Box, Button, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
+import { Box, Button, MultiSelect, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
 
@@ -91,14 +91,34 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
             placeholder="Enter brand description"
             value={productInfo.brandDescription}
             onChange={(e) => setProductInfo({...productInfo, brandDescription: e.currentTarget.value})}
+            autosize
           />
           <Textarea
             label='Our Summary'
             placeholder="Enter our summary"
-            value={productInfo.ourSummary}
-            onChange={(e) => setProductInfo({...productInfo, ourSummary: e.currentTarget.value})}
+            value={productInfo.summary}
+            onChange={(e) => setProductInfo({...productInfo, summary: e.currentTarget.value})}
+            autosize
           />
-          <Button>Generate Our Summary</Button>
+          <Button
+            disabled
+          >Generate Our Summary</Button>
+          <MultiSelect
+            label='Keywords'
+            placeholder='Select keywords'
+            data={[
+              { label: 'Broad Range', value: 'broad range' },
+              { label: 'Progressive Lift', value: 'progressive lift' },
+              { label: 'Predictable', value: 'predictable' },
+              { label: 'Tight Turns', value: 'tight turns' },
+              { label: 'Stable', value: 'stable' },
+              { label: 'Wide Speed Range', value: 'wide speed range' },
+            ]}
+            value={productInfo.keywords}
+            onChange={(e) => setProductInfo({...productInfo, keywords: e})}
+            searchable
+          />
+
         </Box>
         </FormWrapper>
       </SectionWrapper>

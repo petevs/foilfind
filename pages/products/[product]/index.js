@@ -1,4 +1,4 @@
-import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, Badge, Slider, RangeSlider, Checkbox, Paper, Menu, ActionIcon, Select } from "@mantine/core"
+import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, Badge, Slider, RangeSlider, Checkbox, Paper, Menu, ActionIcon, Select, UnstyledButton } from "@mantine/core"
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import BasicShell from "../../../components/shells/BasicShell";
 import { db } from "../../../firebase";
@@ -10,6 +10,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconThumbUp } from "@tabler/icons";
 import ResourceCard from "../../../components/productListing/ResourceCard";
+import { camelToTitleCase} from '../../../helpers/formatters'
+import WingRangeChart from "../../../components/WingRangeChart";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -160,8 +162,11 @@ export default function ProductPage(props) {
               </Text>
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Related Keywords</Title>
-              <Badge>Awesome Glide</Badge>
-              <Badge>Badass Stuff</Badge>
+              {
+                product.keywords.map((keyword, index) => (
+                  <Badge key={index} style={{margin: '.5rem .5rem .5rem 0'}}>{keyword}</Badge>
+                ))
+              }
 
               {/* <Title order={3} style={{marginTop: '2rem'}}>Is This Foil Right For Me?</Title>
               <Box sx={{display: 'grid', gap: '.5rem', paddingTop: '.5rem'}}>
@@ -216,7 +221,20 @@ export default function ProductPage(props) {
               </Box> */}
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Description From {product.brand}</Title>
-              <div dangerouslySetInnerHTML={{ __html: product.brandDescription }} />
+              <Box sx={{
+                maxHeight: '75px',
+                overflowY: 'hidden'
+              }}>
+                <Text color='dimmed'>
+                  {product.brandDescription}
+                </Text>
+              </Box>
+              <UnstyledButton mt='xs'>
+                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} >
+                  <Text color='primary' size='md' underline>Read More</Text>
+                  <IconChevronRight size={16} />
+                </Box>
+              </UnstyledButton>
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>What{"'s"} Included</Title>
               <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
@@ -406,8 +424,26 @@ export default function ProductPage(props) {
             <Title order={3} style={{margin: '1rem 0'}}>Is This Foil Right For Me?</Title>
             <Divider mb='lg' />
 
+            <WingRangeChart />
+
             <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
             <Divider mb='lg' />
+            <Box>
+              {
+                [
+                  { value: 'areaCM', label: 'Area (cm²)' },
+                  { value: 'wingSpanMillimeters', label: 'Wing Span (mm)' },
+                  { value: 'weightGrams', label: 'Weight (g)' },
+                  { value: 'ar', label: 'Aspect Ratio' },
+                ].map((key, index) => (
+                  <Box key={index} sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem'}}>
+                    <Text size='md' weight={600}>{key.label}</Text>
+                    <Text size='md'>{product.frontWing[key.value]}</Text>
+                  </Box>
+                ))
+              }
+              
+            </Box>
 
             <Title order={3} style={{margin: '1rem 0'}}>Questions & Answers</Title> 
             <Divider mb='lg' /> 

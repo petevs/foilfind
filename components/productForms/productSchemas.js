@@ -50,6 +50,8 @@ const initialProductInfo = (product) =>  ({
   releaseYear: product?.releaseYear || '',
   msrp: product?.msrp || 0,
   brandDescription: product?.brandDescription || '',
+  summary: product?.summary || '',
+  keywords: []
 })
 
 const initialWingSpecs = (product) => {

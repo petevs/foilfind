@@ -20,8 +20,6 @@ export default function ProductForm(props) {
 
   const { product } = props
 
-  console.log(product)
-
   const router = useRouter()
 
   const createSlug = (str) => {
@@ -40,7 +38,7 @@ export default function ProductForm(props) {
   const [productLinks, setProductLinks] = useState([])
   const [productInventory, setProductInventory] = useState(product.inventory || [])
 
-  console.log(foilKitSpecs)
+  console.log(productInfo)
 
   // function to get min and max price from productInventory
 
