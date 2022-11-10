@@ -1,7 +1,7 @@
 import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
-import { Box, Select, TextInput } from "@mantine/core"
+import { Box, Button, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
 
@@ -80,6 +80,25 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
             value={productInfo.releaseYear}
             onChange={(e) => setProductInfo({...productInfo, releaseYear: e.currentTarget.value})}
           />
+          <NumberInput
+            label="MSRP"
+            placeholder="Enter MSRP"
+            value={productInfo.msrp}
+            onChange={(e) => setProductInfo({...productInfo, msrp: e})}
+          />
+          <Textarea 
+            label="Brand Description"
+            placeholder="Enter brand description"
+            value={productInfo.brandDescription}
+            onChange={(e) => setProductInfo({...productInfo, brandDescription: e.currentTarget.value})}
+          />
+          <Textarea
+            label='Our Summary'
+            placeholder="Enter our summary"
+            value={productInfo.ourSummary}
+            onChange={(e) => setProductInfo({...productInfo, ourSummary: e.currentTarget.value})}
+          />
+          <Button>Generate Our Summary</Button>
         </Box>
         </FormWrapper>
       </SectionWrapper>

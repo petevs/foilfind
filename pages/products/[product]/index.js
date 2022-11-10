@@ -106,7 +106,7 @@ export default function ProductPage(props) {
   return (
     <div>
       <Head>
-        <title>{product.name} | Foil Find</title>
+        <title>{product.name}</title>
         <meta property="og:image" content={imgURL} />
       </Head>
       <BasicShell>
