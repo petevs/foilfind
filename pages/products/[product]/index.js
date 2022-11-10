@@ -12,6 +12,7 @@ import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDi
 import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
+import Image from "next/image";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -105,6 +106,8 @@ export default function ProductPage(props) {
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
+  console.log(product)
+
   return (
     <div>
       <Head>
@@ -128,16 +131,48 @@ export default function ProductPage(props) {
               gridTemplateColumns: '1fr',
             }
           }}>
-            <Skeleton height='100%' width='100%' />
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <Image 
+                  src={product.images[0]} 
+                  alt={product.name} 
+                  layout='fill'
+                  objectFit='cover'
+                  blurDataURL={product.images[0]}
+                  placeholder='blur'
+                />
+              </Box>
             <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem',
               '@media (max-width: 768px)': {
                 display: 'none'
               }
           }}>
-              <Skeleton height='100%' width='100%' />   
-              <Skeleton height='100%' width='100%' />   
-              <Skeleton height='100%' width='100%' />   
-              <Skeleton height='100%' width='100%' />   
+              {
+                product.images.slice(1, 5).map((image, index) => (
+                  <Box
+                    key={image}
+                    sx={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  >
+                    <Image
+                      src={image}
+                      alt={product.name}
+                      layout='fill'
+                      objectFit="cover"
+                      blurDataURL={image}
+                      placeholder='blur'
+                    />
+                  </Box>
+                ))
+              }
             </Box>
           </Box>
 
@@ -157,9 +192,11 @@ export default function ProductPage(props) {
               /> */}
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Summary of What We{"'"}ve Found</Title>
-              <Text color='dimmed'>
+              <Text>
                   {product.summary}
               </Text>
+
+              <Divider my='md' />
 
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Related Keywords</Title>
               {
@@ -220,45 +257,45 @@ export default function ProductPage(props) {
                 </Box>
               </Box> */}
 
+              <Divider my='md' />
+
               <Title order={3} style={{margin: '1rem 0 .5rem'}}>Description From {product.brand}</Title>
               <Box sx={{
-                maxHeight: '75px',
-                overflowY: 'hidden'
+                maxHeight: '6.2rem',
+                overflowY: 'hidden',
+                '@media (max-width: 768px)': {
+                  maxHeight: '7rem',
+                }
               }}>
-                <Text color='dimmed'>
+                <Text>
                   {product.brandDescription}
                 </Text>
               </Box>
-              <UnstyledButton mt='xs'>
-                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} >
+              <UnstyledButton>
+                <Text color='primary' size='sm'>...</Text>
+                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} mt='xs' >
                   <Text color='primary' size='md' underline>Read More</Text>
                   <IconChevronRight size={16} />
                 </Box>
               </UnstyledButton>
 
-              <Title order={3} style={{margin: '1rem 0 .5rem'}}>What{"'s"} Included</Title>
-              <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
-                <Group>
-                  <IconCheck size={24} />
-                  <Text color='dimmed'>Foil</Text>
-                </Group>
-                <Group>
-                  <IconCheck size={24} />
-                  <Text color='dimmed'>Foil</Text>
-                </Group>
-                <Group>
-                  <IconCheck size={24} />
-                  <Text color='dimmed'>Foil</Text>
-                </Group>
-                <Group>
-                  <IconCheck size={24} />
-                  <Text color='dimmed'>Foil</Text>
-                </Group>
-                <Group>
-                  <IconCheck size={24} />
-                  <Text color='dimmed'>Foil</Text>
-                </Group>
-              </Box>
+              {
+                product?.includes.length >= 1 && (
+                  <>
+                  <Title order={3} style={{margin: '1rem 0 .5rem'}}>What{"'s"} Included</Title>
+                  <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
+                    {
+                      product.includes.map((item, index) => (
+                        <Group key={item}>
+                          <IconCheck size={16} />
+                          <Text color='dimmed' size='sm'>{item}</Text>
+                        </Group>
+                      ))
+                    }
+                  </Box>
+                </>
+                )
+              }
 
             </Box>
 

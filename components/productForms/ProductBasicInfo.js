@@ -2,6 +2,7 @@ import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Button, MultiSelect, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
+import { useState } from "react"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
 
@@ -21,6 +22,9 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
       { label: 'Hard Boards', value: 'hard boards' },
     ],
   }
+
+  const [includeOptions, setIncludeOptions] = useState(productInfo?.includes || [])
+  const [keywordOptions, setKeywordOptions] = useState(productInfo?.keywords || [])
 
 
   return (
@@ -106,17 +110,31 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
           <MultiSelect
             label='Keywords'
             placeholder='Select keywords'
-            data={[
-              { label: 'Broad Range', value: 'broad range' },
-              { label: 'Progressive Lift', value: 'progressive lift' },
-              { label: 'Predictable', value: 'predictable' },
-              { label: 'Tight Turns', value: 'tight turns' },
-              { label: 'Stable', value: 'stable' },
-              { label: 'Wide Speed Range', value: 'wide speed range' },
-            ]}
+            data={keywordOptions}
             value={productInfo.keywords}
             onChange={(e) => setProductInfo({...productInfo, keywords: e})}
+            creatable
+            getCreateLabel={(value) => `Add "${value}" as a new keyword`}
+            onCreate={(value) => {
+              setProductInfo({...productInfo, keywords: [...productInfo.keywords, value]})
+              setKeywordOptions([...keywordOptions, value])
+            }}
             searchable
+          />
+          <MultiSelect
+            label='Includes'
+            placeholder='Select includes'
+            data={includeOptions}
+            value={productInfo.includes}
+            onChange={(e) => setProductInfo({...productInfo, includes: e})}
+            creatable
+            searchable
+            getCreateLabel={(value) => `Add "${value}"`}
+            onCreate={(value) => {
+              setProductInfo({...productInfo, includes: [...productInfo.includes, value]})
+              setIncludeOptions([...includeOptions, value])
+            }
+            }
           />
 
         </Box>
