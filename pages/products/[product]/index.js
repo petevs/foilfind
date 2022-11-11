@@ -18,6 +18,7 @@ import UsedTable from "../../../components/productPage/UsedTable";
 import { thousandSeparator } from "../../../helpers/formatters";
 import BrandDescriptionModal from "../../../components/productPage/BrandDescriptionModal";
 import PhotoSection from "../../../components/productPage/PhotoSection";
+import { ConfirmedFit } from "../../../components/productPage/ConfirmedFit";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -134,7 +135,10 @@ export default function ProductPage(props) {
         <meta property="og:image" content={imgURL} />
       </Head>
       <BasicShell>
-        <Container size='lg' p='lg'>
+        <Container size='lg'>
+        <ConfirmedFit 
+          category={product.category}
+        />
           <Title order={2}>{product.name}</Title>
           <Box
             sx={{
@@ -424,8 +428,6 @@ export default function ProductPage(props) {
           </Box>
 
           <Box>
-            <Divider my='lg' />
-            <Title order={3} style={{margin: '1rem 0'}}>Compare Retailers</Title> 
             <RetailerTable 
               data={product.inventory}
               brand={product.brand}
@@ -435,8 +437,6 @@ export default function ProductPage(props) {
             <UsedTable 
               productName={product.name}
             />
-
-
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Size Chart</Title>
 
