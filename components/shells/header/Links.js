@@ -41,8 +41,9 @@ const Links = () => {
             <Box sx={style}>
                 {
                     list.map((item, index) => (
-                        <Link key={index} href={item.href}>
+                        <Link key={index} href={item.href} passHref>
                             <Text
+                                component='a'
                                 size='sm'
                                 color={item.href === router.asPath ? 'blue': 'dark'}
                                 sx={(theme) => ({

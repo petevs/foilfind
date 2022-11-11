@@ -13,6 +13,9 @@ import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
 import Image from "next/image";
+import RetailerTable from "../../../components/productPage/RetailerTable";
+import UsedTable from "../../../components/productPage/UsedTable";
+import { thousandSeparator } from "../../../helpers/formatters";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -440,45 +443,24 @@ export default function ProductPage(props) {
           </Box>
 
           <Box>
-            <Divider mb='lg' />
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Compare Retailers</Title> 
-            {
-              product.inventory.map((item, index) => (
-                <Box key={index} sx={
-                  (theme) => (
-                    {
-                      display: 'grid',
-                      gridTemplateColumns: 'auto 1fr',
-                      gap: '1rem',
-                      alignItems: 'center',
-                      padding: `${theme.spacing.md}px`,
-
-                      ':hover': {
-                        backgroundColor: theme.colors.gray[1],
-                      }
-                    }
-                  )}>
-                  <Text size='sm' weight={600}>${item.price}</Text>
-                  <Text size='sm'>{item.retailer}</Text>
-                </Box>
-              ))
-            }
-            <Text>More retailers that carry Armstrong</Text>
-
+            <RetailerTable 
+              data={product.inventory}
+              brand={product.brand}
+            />
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Find It Used</Title> 
-            <Divider mb='lg' />
-            <Text>
-              List of used items here. And option to add your item.
-            </Text>
+            <UsedTable />
 
 
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Size Chart</Title>
-            <Divider mb='lg' />
 
             <WingRangeChart />
 
+            <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
-            <Divider mb='lg' />
             <Box>
               {
                 [
@@ -487,9 +469,16 @@ export default function ProductPage(props) {
                   { value: 'weightGrams', label: 'Weight (g)' },
                   { value: 'ar', label: 'Aspect Ratio' },
                 ].map((key, index) => (
-                  <Box key={index} sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem'}}>
+                  <Box key={index} 
+                    sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem',
+                    '@media screen and (max-width: 768px)': {
+                      gridTemplateColumns: 'auto auto',
+                      justifyContent: 'space-between',
+                    }
+                  }}
+                  >
                     <Text size='md' weight={600}>{key.label}</Text>
-                    <Text size='md'>{product.frontWing[key.value]}</Text>
+                    <Text size='md'>{thousandSeparator(product.frontWing[key.value])}</Text>
                   </Box>
                 ))
               }
