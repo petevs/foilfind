@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../components/RatingsReadOnly";
 import Head from "next/head";
 import Link from "next/link";
-import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconThumbUp } from "@tabler/icons";
+import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconHeart, IconShare, IconThumbUp } from "@tabler/icons";
 import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
@@ -134,6 +134,14 @@ export default function ProductPage(props) {
       <BasicShell>
         <Container size='lg' p='lg'>
           <Title order={2}>{product.name}</Title>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'auto auto',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
           <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center'}}>
             <Text size='sm' color='dimmed'>{product.brand}</Text>
             <Text color='dimmed' size='sm'>·</Text>
@@ -141,6 +149,27 @@ export default function ProductPage(props) {
               <RatingsReadOnly rating={product.reviewSummary.rating} />
             </Box>
             <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+            </Box>
+            <Box
+              sx={{
+                display: 'grid',
+                gridAutoFlow: 'column',
+                gap: '1rem'
+              }}
+            >              
+            <UnstyledButton>
+                      <Group spacing='xs'>
+                        <IconShare size={14} />
+                        <Text underline weight={600} color='primary' size='sm'>Share</Text>
+                      </Group>
+            </UnstyledButton>
+            <UnstyledButton>
+                      <Group spacing='xs'>
+                        <IconHeart size={14} />
+                        <Text underline weight={600} color='primary' size='sm'>Save to Wishlist</Text>
+                      </Group>
+            </UnstyledButton>
+          </Box>
           </Box>
             
           <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', height: '300px', gap: '1rem', margin: '1rem 0',
@@ -451,7 +480,9 @@ export default function ProductPage(props) {
             />
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Find It Used</Title> 
-            <UsedTable />
+            <UsedTable 
+              productName={product.name}
+            />
 
 
             <Divider my='lg' />
