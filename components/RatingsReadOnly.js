@@ -3,8 +3,6 @@ import { IconStar, IconStarHalf } from "@tabler/icons"
 
 const RatingsReadOnly = ({rating, size}) => {
 
-  console.log(rating)
-
   // take the rating and create an array of 'full' stars and 'half' stars
 
   const stars = []

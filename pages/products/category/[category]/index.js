@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../../components/RatingsReadOnly";
+import Image from "next/image";
 
 export async function getStaticPaths(){
 
@@ -316,7 +317,31 @@ export default function ProductCategoryPage(props) {
                       gap: '1rem', 
                       alignItems: 'center'
                     }}>
-                      <Skeleton height={50} circle />
+                      {
+                        (('images' in product) && product.images.length >= 0 )?
+                        <Box
+                          sx={{
+                            position: 'relative',
+                            height: 50,
+                            width: 50,
+                            borderRadius: '50%',
+                            backgroundColor: 'white',
+                            zIndex: 9
+                          }}
+                        >
+                          <Image
+                            src={product.images[0]}
+                            alt={product.name}
+                            layout='fill'
+                            objectFit='cover'
+                            style={{
+                              borderRadius: '50%'
+                            }}
+                          />
+                          </Box>
+                          :
+                        <Skeleton height={50} circle />
+                      }
                       <Box>
                         <Text weight={600} size='md'>{product.name}</Text>
                         <Text size='sm' color='dimmed'>{product.brand}</Text>
