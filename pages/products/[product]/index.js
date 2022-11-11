@@ -16,6 +16,8 @@ import Image from "next/image";
 import RetailerTable from "../../../components/productPage/RetailerTable";
 import UsedTable from "../../../components/productPage/UsedTable";
 import { thousandSeparator } from "../../../helpers/formatters";
+import BrandDescriptionModal from "../../../components/productPage/BrandDescriptionModal";
+import PhotoSection from "../../../components/productPage/PhotoSection";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -171,58 +173,11 @@ export default function ProductPage(props) {
             </UnstyledButton>
           </Box>
           </Box>
-            
-          <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', height: '300px', gap: '1rem', margin: '1rem 0',
-            '@media (max-width: 768px)': {
-              gridTemplateColumns: '1fr',
-            }
-          }}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
-                <Image 
-                  src={product.images[0]} 
-                  alt={product.name} 
-                  layout='fill'
-                  objectFit='cover'
-                  blurDataURL={product.images[0]}
-                  placeholder='blur'
-                />
-              </Box>
-            <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem',
-              '@media (max-width: 768px)': {
-                display: 'none'
-              }
-          }}>
-              {
-                product.images.slice(1, 5).map((image, index) => (
-                  <Box
-                    key={image}
-                    sx={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  >
-                    <Image
-                      src={image}
-                      alt={product.name}
-                      layout='fill'
-                      objectFit="cover"
-                      blurDataURL={image}
-                      placeholder='blur'
-                    />
-                  </Box>
-                ))
-              }
-            </Box>
-          </Box>
-
-
+          
+          <PhotoSection
+            product={product}
+          />
+          
           <Box sx={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem', marginBottom: '2rem',
             '@media (max-width: 768px)': {
               gridTemplateColumns: '1fr',
@@ -317,13 +272,10 @@ export default function ProductPage(props) {
                   {product.brandDescription}
                 </Text>
               </Box>
-              <UnstyledButton>
-                <Text color='primary' size='sm'>...</Text>
-                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} mt='xs' >
-                  <Text color='primary' size='md' underline>Read More</Text>
-                  <IconChevronRight size={16} />
-                </Box>
-              </UnstyledButton>
+              <BrandDescriptionModal
+                description={product.brandDescription}
+                brand={product.brand}
+              />
 
               {
                 product?.includes.length >= 1 && (

@@ -8,7 +8,7 @@ const UsedTable = ({data, brand, productName}) => {
 
 
   return (
-    <Paper withBorder radius='md'>
+    <Paper withBorder={!data ? false : true} radius='md'>
     {
         !data ?
         <Box sx={(theme) => ({padding: '2rem', border: `1px dashed ${theme.colors.gray[5]}`, borderRadius: theme.radius.md})}>
