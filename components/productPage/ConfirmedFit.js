@@ -36,6 +36,37 @@ export const ConfirmedFit = ({category}) => {
         }
         
     }
+
+    const wingChart = {
+        'beginner, 14-20kts': {
+            '75-100': [3,5],
+            '100-125': [3,5],
+            '125-150': [3,5],
+            '150-175': [3,5],
+            '175-200': [3,5],
+            '200-225': [3,5],
+            '225-250': [3,5],
+        },
+        '10-20kts': {
+            '75-100': [3,5],
+            '100-125': [3,5],
+            '125-150': [3,5],
+            '150-175': [3,5],
+            '175-200': [3,5],
+            '200-225': [3,5],
+            '225-250': [3,5],
+        },
+        '15-25kts': {
+            '75-100': [3,5],
+            '100-125': [3,5],
+            '125-150': [3,5],
+            '150-175': [3,5],
+            '175-200': [3,5],
+            '200-225': [3,5],
+            '225-250': [3,5],
+        },
+        
+    }
     
     const doesItFit = (riderWeight, skillLevel, windRange, foilSize) => {
 
@@ -78,6 +109,8 @@ export const ConfirmedFit = ({category}) => {
         return false
     
     }
+
+    const doesWIngFit = (riderWeight, skillLevel, windRange, wingSize) => {}
 
 
 
