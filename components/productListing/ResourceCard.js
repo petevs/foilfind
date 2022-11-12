@@ -1,6 +1,7 @@
 import { Box, Badge, Title , Text, Paper, Button} from '@mantine/core'
+import Link from 'next/link'
 
-const ResourceCard = ({type, title,description}) => {
+const ResourceCard = ({type, title, description, path}) => {
 
   const colorBasedOnType = () => {
     switch(type) {
@@ -16,6 +17,7 @@ const ResourceCard = ({type, title,description}) => {
   }
 
   return (
+    <Link href={`/resources/${path}`} passHref>
     <Paper withBorder p='md' radius='md'>
       <Box sx={{display: 'grid', alignItems: 'start', justifyItems: 'start'}}>
         <Badge color={colorBasedOnType()} mb='md'>{type}</Badge>
@@ -24,6 +26,7 @@ const ResourceCard = ({type, title,description}) => {
         <Button mt='md' size='xs' radius='md' variant='default'>View Resource</Button>
       </Box>
     </Paper>
+    </Link>
   )
 }
 

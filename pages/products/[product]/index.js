@@ -459,6 +459,7 @@ export default function ProductPage(props) {
                     title={item.title}
                     type='video'
                     description={item.description}
+                    path={item.path}
                   />
                 ))
               }
