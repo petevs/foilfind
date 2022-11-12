@@ -1,11 +1,84 @@
-import { Box, Divider, Group, Select, Text } from '@mantine/core'
-import { IconCheck } from '@tabler/icons'
-import React from 'react'
+import { Box, Divider, Group, NativeSelect, NumberInput, Select, Text } from '@mantine/core'
+import { IconCheck, IconX } from '@tabler/icons'
+import { useState, useEffect } from 'react'
 
 export const ConfirmedFit = ({category}) => {
 
     // remove the 's' from the category
     const categorySingular = category.slice(0, -1)
+
+    const [weight, setWeight] = useState(70)
+    const [weightUnit, setWeightUnit] = useState('kg')
+    const [skillLevel, setSkillLevel] = useState('beginner')
+    const [windRange, setWindRange] = useState('light')
+
+    const convertToKg = (weight, unit) => {
+        if(unit === 'kg') {
+            return weight
+        } else {
+            return weight * 0.453592
+        }
+    }
+
+    const foilChart = {
+        lightOrBeginner: {
+            light: [1300, 1800],
+            medium: [1550, 2200],
+            mediumHeavy: [1700, 2800],
+            heavy: [2100, 2400],
+        },
+        goodWind: {
+            light: [800, 1300],
+            medium: [850, 1550],
+            mediumHeavy: [900, 1600],
+            heavy: [1400, 2100],
+        }
+        
+    }
+    
+    const doesItFit = (riderWeight, skillLevel, windRange, foilSize) => {
+
+        if(!riderWeight || !skillLevel || !windRange || !foilSize) {
+            return false
+        }
+
+        const getKey = () => {
+            if(windRange === 'light' || skillLevel === 'beginner') {
+                return 'lightOrBeginner'
+            }
+            return 'goodWind'
+        }
+    
+        const getWeightRange = () => {
+    
+            if(riderWeight < 140) {
+                return 'light'
+            }
+            if(riderWeight >= 140 && riderWeight < 170) {
+                return 'medium'
+            }
+            if(riderWeight >= 170 && riderWeight < 200) {
+                return 'mediumHeavy'
+            }
+            if(riderWeight >= 200) {
+                return 'heavy'
+            }
+    
+        }
+    
+        const key = getKey()
+        const weightRange = getWeightRange()
+    
+        const range = foilChart[key][weightRange]
+    
+        if(foilSize >= range[0] && foilSize <= range[1]) {
+            return true
+        }
+        return false
+    
+    }
+
+
 
   return (
     <>
@@ -46,7 +119,17 @@ export const ConfirmedFit = ({category}) => {
                 <Divider orientation='vertical' />
                 <Group spacing='xs'>
                     {/* <IconCheck size={18} /> */}
-                    <Text size='sm' color='dark'>Enter your details to find out</Text>
+                    {
+                        doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, 1200) ?
+                        <Group>
+                            <IconCheck size={18} />
+                            <Text>This foil should fit.</Text>
+                        </Group> :
+                        <Group>
+                            <IconX size={18} color='red' />
+                            <Text>This foil may not fit.</Text>
+                        </Group>
+                    }
                 </Group>
             </Box>
             <Box
@@ -57,7 +140,7 @@ export const ConfirmedFit = ({category}) => {
                 })
                 }
             >
-                <Select
+                {/* <Select
                     placeholder='Weight'
                     size='xs'
                     variant='filled'
@@ -65,33 +148,73 @@ export const ConfirmedFit = ({category}) => {
                         border: `1px solid ${theme.colors.dark[0]}`,
                         borderRadius: theme.radius.sm,
                     })}
-                    data={[
-                        { label: '100kg', value: '100kg' },
-                        { label: '90kg', value: '90kg' },
-                        { label: '80kg', value: '80kg' },
-                        { label: '70kg', value: '70kg' },  
-                    ]}
-                />
+                    data={weightOptions}
+                /> */}
+                <Box sx={{display: 'grid', gridAutoFlow: 'column'}}>
+                    <NumberInput
+                        placeholder='Weight'
+                        size='xs'
+                        min={0}
+                        max={200}
+                        step={1}
+                        styles={{
+                            input: {
+                                borderTopRightRadius: 0,
+                                borderBottomRightRadius: 0,
+                                borderRight: 'none',
+                                width: 75,
+                            },
+                            rightSection: {
+                                display: 'none'
+                            }
+                        }}
+                        value={weight}
+                        onChange={(event) => {
+                            setWeight(event)
+                        }}
+                    />
+                    <NativeSelect
+                        size='xs'
+                        styles={{
+                            input: {
+                                fontWeight: 500,
+                                borderTopLeftRadius: 0,
+                                borderBottomLeftRadius: 0,
+                            }
+                        }}
+                        data={[
+                            { label: 'kg', value: 'kg' },
+                            { label: 'lbs', value: 'lbs' },
+                        ]}
+                        value={weightUnit}
+                        onChange={(event) => setWeightUnit(event.target.value)}
+                    />
+                </Box>
                 <Select
                     placeholder='Skill level'
                     size='xs'
-                    variant='filled'
                     data={[
-                        { label: 'Beginner', value: 'Beginner' },
-                        { label: 'Intermediate', value: 'Intermediate' },
-                        { label: 'Advanced', value: 'Advanced' },
+                        { label: 'Beginner', value: 'beginner' },
+                        { label: 'Intermediate', value: 'intermediate' },
+                        { label: 'Advanced', value: 'advanced' },
+                        { label: 'Expert', value: 'expert' },
                     ]}
+                    value={skillLevel}
+                    onChange={(event) => setSkillLevel(event)}
                 />
                 <Select
                     placeholder='Wind range'
                     size='xs'
-                    variant='filled'
                     data={[
-                        { label: '0-10kts', value: '0-10kts' },
-                        { label: '10-20kts', value: '10-20kts' },
-                        { label: '20-30kts', value: '20-30kts' },
-                        { label: '30-40kts', value: '30-40kts' },
+                        { label: '10-15kts', value: 'light' },
+                        { label: '15-20kts', value: 'moderate' },
+                        { label: '20-25kts', value: 'moderateHeavy' },
+                        { label: '25-30kts', value: 'heavy' },
+                        { label: '30-35kts', value: 'veryHeavy' },
+                        { label: '35kts+', value: 'nuking' },
                     ]}
+                    value={windRange}
+                    onChange={(event) => setWindRange(event)}
                 />
             </Box>
         </Box>
