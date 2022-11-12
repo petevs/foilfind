@@ -4,7 +4,7 @@ import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Button, MultiSelect, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
 import { useState } from "react"
 
-const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
+const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productImages, setProductImages}) => {
 
 
   const subcategories = {
@@ -136,6 +136,26 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands}) => {
             }
             }
           />
+          {
+            productImages.map(
+              (image, index) => (
+                <TextInput
+                  key={index}
+                  label={`Image ${index + 1}`}
+                  placeholder="Enter image URL"
+                  value={image}
+                  onChange={(e) => {
+                    const newImages = [...productImages]
+                    newImages[index] = e.currentTarget.value
+                    setProductImages(newImages)
+                  }}
+                />
+            ))
+          }
+          <Button
+            onClick={() => setProductImages([...productImages, ''])}
+          >Add Image</Button>
+
 
         </Box>
         </FormWrapper>

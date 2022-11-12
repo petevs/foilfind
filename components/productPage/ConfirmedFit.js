@@ -1,16 +1,17 @@
 import { Box, Divider, Group, NativeSelect, NumberInput, Select, Text } from '@mantine/core'
 import { IconCheck, IconX } from '@tabler/icons'
 import { useState, useEffect } from 'react'
+import { useLocalStorage } from '@mantine/hooks'
 
 export const ConfirmedFit = ({category}) => {
 
     // remove the 's' from the category
     const categorySingular = category.slice(0, -1)
 
-    const [weight, setWeight] = useState(75)
-    const [weightUnit, setWeightUnit] = useState('kg')
-    const [skillLevel, setSkillLevel] = useState('beginner')
-    const [windRange, setWindRange] = useState('moderate')
+    const [weight, setWeight] = useLocalStorage({key: 'weight', defaultValue: 75})
+    const [weightUnit, setWeightUnit] = useLocalStorage({key: 'weightUnit', defaultValue: 'kg'})
+    const [skillLevel, setSkillLevel] = useLocalStorage({key: 'skillLevel', defaultValue: 'beginner'})
+    const [windRange, setWindRange] = useLocalStorage({ key: 'windRange', defaultValue: 'moderate'})
 
     const convertToKg = (weight, unit) => {
         if(unit === 'kg') {

@@ -32,7 +32,7 @@ export default function ProductForm(props) {
   const [foilKitSpecs, setFoilKitSpecs] = useState(initialFoilKitSpecs(product))
   const [boardSpecs, setBoardSpecs] = useState(initialBoardSpecs(product))
   const [wingSpecs, setWingSpecs] = useState(product?.wingSpecs || '')
-  const [productImages, setProductImages] = useState([])
+  const [productImages, setProductImages] = useState(product?.images || [])
   const [productVideos, setProductVideos] = useState([])
   const [productReviews, setProductReviews] = useState(product.reviews || [])
   const [productLinks, setProductLinks] = useState([])
@@ -102,6 +102,7 @@ export default function ProductForm(props) {
       priceRange: getPriceRange(),
       numOfInStock: getNumOfInStock(),
       path: createSlug(productInfo.name),
+      images: productImages,
     })
     router.push(`/products/${product.path}`)
 
@@ -122,12 +123,14 @@ export default function ProductForm(props) {
         setProductInfo={setProductInfo}
         onSave={updateProduct}
         brands={props.brands}
+        productImages={productImages}
+        setProductImages={setProductImages}
       />
       {/* <ProductIncludedForm
         included={included}
         setIncluded={setIncluded}
         onSave={updateProduct}
-      /> */} 
+      />  */}
 
       {
         //If foils category selected then show foil specs form

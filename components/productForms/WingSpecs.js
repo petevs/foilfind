@@ -17,7 +17,7 @@ const WingSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
     <>
     <Divider my='xl' />
     <SectionWrapper>
-        <FormHeader title="Board Specs" />
+        <FormHeader title="Wing Specs" />
         <FormWrapper 
           onSave={onSave}
         >
@@ -34,6 +34,7 @@ const WingSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
                     value={productSpecs[input.value]}
                     onChange={(e) => setProductSpecs({...productSpecs, [input.value]: e})}
                     min={0}
+                    precision={1}
                   />
                 ))
               }

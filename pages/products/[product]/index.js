@@ -417,31 +417,36 @@ export default function ProductPage(props) {
 
             <WingRangeChart />
 
-            <Divider my='lg' />
-            <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
-            <Box>
-              {
-                [
-                  { value: 'areaCM', label: 'Area (cm²)' },
-                  { value: 'wingSpanMillimeters', label: 'Wing Span (mm)' },
-                  { value: 'weightGrams', label: 'Weight (g)' },
-                  { value: 'ar', label: 'Aspect Ratio' },
-                ].map((key, index) => (
-                  <Box key={index} 
-                    sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem',
-                    '@media screen and (max-width: 768px)': {
-                      gridTemplateColumns: 'auto auto',
-                      justifyContent: 'space-between',
-                    }
-                  }}
-                  >
-                    <Text size='md' weight={600}>{key.label}</Text>
-                    <Text size='md'>{thousandSeparator(product.frontWing[key.value])}</Text>
-                  </Box>
-                ))
-              }
-              
-            </Box>
+            {
+              product.category === 'foils' &&
+              <>
+                <Divider my='lg' />
+                <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
+                <Box>
+                  {
+                    [
+                      { value: 'areaCM', label: 'Area (cm²)' },
+                      { value: 'wingSpanMillimeters', label: 'Wing Span (mm)' },
+                      { value: 'weightGrams', label: 'Weight (g)' },
+                      { value: 'ar', label: 'Aspect Ratio' },
+                    ].map((key, index) => (
+                      <Box key={index} 
+                        sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem',
+                        '@media screen and (max-width: 768px)': {
+                          gridTemplateColumns: 'auto auto',
+                          justifyContent: 'space-between',
+                        }
+                      }}
+                      >
+                        <Text size='md' weight={600}>{key.label}</Text>
+                        <Text size='md'>{thousandSeparator(product.frontWing[key.value])}</Text>
+                      </Box>
+                    ))
+                  }
+                  
+                </Box>
+              </>
+            }
 
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Related Resources</Title> 

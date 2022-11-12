@@ -35,6 +35,9 @@ const PhotoSection = ({product}) => {
       size='255%'
       withCloseButton={false}
       padding='0'
+      transition='slide-up'
+      transitionDuration={600}
+      transitionTimingFunction='ease'
       styles={{
         inner: {
           padding: 0,
@@ -43,7 +46,7 @@ const PhotoSection = ({product}) => {
       }
     >
       <Box
-        sx={{minHeight: '100vh'}}
+        sx={{height: '100vh', overflowY: 'scroll'}}
       >
         <Box
           sx={(theme) => ({
