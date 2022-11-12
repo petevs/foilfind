@@ -7,10 +7,10 @@ export const ConfirmedFit = ({category}) => {
     // remove the 's' from the category
     const categorySingular = category.slice(0, -1)
 
-    const [weight, setWeight] = useState(70)
+    const [weight, setWeight] = useState(75)
     const [weightUnit, setWeightUnit] = useState('kg')
     const [skillLevel, setSkillLevel] = useState('beginner')
-    const [windRange, setWindRange] = useState('light')
+    const [windRange, setWindRange] = useState('moderate')
 
     const convertToKg = (weight, unit) => {
         if(unit === 'kg') {
