@@ -20,6 +20,7 @@ import BrandDescriptionModal from "../../../components/productPage/BrandDescript
 import PhotoSection from "../../../components/productPage/PhotoSection";
 import { ConfirmedFit } from "../../../components/productPage/ConfirmedFit";
 import DesktopTitle from "../../../components/productPage/DesktopTitle";
+import MobileTitle from "../../../components/productPage/MobileTitle";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -145,6 +146,10 @@ export default function ProductPage(props) {
           />
           
           <PhotoSection
+            product={product}
+          />
+
+          <MobileTitle
             product={product}
           />
           
@@ -279,7 +284,11 @@ export default function ProductPage(props) {
             
               <Divider my='md' /> */}
 
-              <Box>
+              <Box sx={{
+                '@media (max-width: 768px)': {
+                  display: 'none'
+                }
+              }}>
                 <Paper withBorder shadow='md' p='lg' radius='lg'>
                   <Box>
                     <Text size='xl' weight={600}>{product.priceRange ? `$${product.priceRange.minPrice} - $${product.priceRange.maxPrice}` : 'No Data'}</Text>

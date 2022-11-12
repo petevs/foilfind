@@ -8,6 +8,7 @@ export const ConfirmedFit = ({category}) => {
     const categorySingular = category.slice(0, -1)
 
   return (
+    <>
     <Box
         sx={(theme) => ({
             border: `1px solid ${theme.colors.dark[0]}`,
@@ -17,7 +18,7 @@ export const ConfirmedFit = ({category}) => {
     >
         <Box
             sx={(theme) => ({
-                border: `3px solid ${theme.colors.green[0]}`,
+                border: `3px solid ${theme.colors.gray[0]}`,
                 borderRadius: theme.radius.md,
                 padding: '.75rem 1.5rem',
                 display: 'grid',
@@ -36,7 +37,7 @@ export const ConfirmedFit = ({category}) => {
                     gridAutoFlow: 'column',
                     alignItems: 'center',
                     gap: '1rem',
-                    '@media (max-width: 600px)': {
+                    '@media (max-width: 768px)': {
                         justifyContent: 'space-between',
                     }
                 })}
@@ -44,8 +45,8 @@ export const ConfirmedFit = ({category}) => {
                 <Text weight={700} size='md' color='dark' transform='capitalize'>Does This {category.slice(0, -1)} Fit You?</Text>
                 <Divider orientation='vertical' />
                 <Group spacing='xs'>
-                    <IconCheck size={18} />
-                    <Text size='sm' color='dark'>This should work!</Text>
+                    {/* <IconCheck size={18} /> */}
+                    <Text size='sm' color='dark'>Enter your details to find out</Text>
                 </Group>
             </Box>
             <Box
@@ -95,5 +96,7 @@ export const ConfirmedFit = ({category}) => {
             </Box>
         </Box>
     </Box>
+    <Divider my='md' />
+    </>
   )
 }

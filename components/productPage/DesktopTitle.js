@@ -3,7 +3,14 @@ import RatingsReadOnly from '../RatingsReadOnly'
 import { IconShare, IconHeart } from '@tabler/icons'
 const DesktopTitle = ({product}) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        '@media (max-width: 768px)': {
+          gridTemplateColumns: '1fr',
+          display: 'none',
+        }
+      }}
+    >
       <Title order={2}>{product.name}</Title>
           <Box
             sx={{
@@ -16,7 +23,8 @@ const DesktopTitle = ({product}) => {
               }
             }}
           >
-          <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center'}}>
+          <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center',
+        }}>
             <Text size='sm' color='dimmed'>{product.brand}</Text>
             <Text color='dimmed' size='sm'>·</Text>
             <Box sx={{marginTop: '5px'}}>
