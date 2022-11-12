@@ -19,6 +19,7 @@ import { thousandSeparator } from "../../../helpers/formatters";
 import BrandDescriptionModal from "../../../components/productPage/BrandDescriptionModal";
 import PhotoSection from "../../../components/productPage/PhotoSection";
 import { ConfirmedFit } from "../../../components/productPage/ConfirmedFit";
+import DesktopTitle from "../../../components/productPage/DesktopTitle";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -139,44 +140,9 @@ export default function ProductPage(props) {
         <ConfirmedFit 
           category={product.category}
         />
-          <Title order={2}>{product.name}</Title>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'auto auto',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-          <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center'}}>
-            <Text size='sm' color='dimmed'>{product.brand}</Text>
-            <Text color='dimmed' size='sm'>·</Text>
-            <Box sx={{marginTop: '5px'}}>
-              <RatingsReadOnly rating={product.reviewSummary.rating} />
-            </Box>
-            <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
-            </Box>
-            <Box
-              sx={{
-                display: 'grid',
-                gridAutoFlow: 'column',
-                gap: '1rem'
-              }}
-            >              
-            <UnstyledButton>
-                      <Group spacing='xs'>
-                        <IconShare size={14} />
-                        <Text underline weight={600} color='primary' size='sm'>Share</Text>
-                      </Group>
-            </UnstyledButton>
-            <UnstyledButton>
-                      <Group spacing='xs'>
-                        <IconHeart size={14} />
-                        <Text underline weight={600} color='primary' size='sm'>Save to Wishlist</Text>
-                      </Group>
-            </UnstyledButton>
-          </Box>
-          </Box>
+          <DesktopTitle
+            product={product}
+          />
           
           <PhotoSection
             product={product}

@@ -10,14 +10,14 @@ export const ConfirmedFit = ({category}) => {
   return (
     <Box
         sx={(theme) => ({
-            border: `1px dashed ${theme.colors.dark[0]}`,
+            border: `1px solid ${theme.colors.dark[0]}`,
             borderRadius: theme.radius.md,
             margin: '1rem 0',
         })}
     >
         <Box
             sx={(theme) => ({
-                border: `3px solid ${theme.colors.green[2]}`,
+                border: `3px solid ${theme.colors.green[0]}`,
                 borderRadius: theme.radius.md,
                 padding: '.75rem 1.5rem',
                 display: 'grid',
@@ -44,8 +44,8 @@ export const ConfirmedFit = ({category}) => {
                 <Text weight={700} size='md' color='dark' transform='capitalize'>Does This {category.slice(0, -1)} Fit You?</Text>
                 <Divider orientation='vertical' />
                 <Group spacing='xs'>
-                    <IconCheck size={18} color='green' />
-                    <Text size='sm' color='dimmed'>This should work!</Text>
+                    <IconCheck size={18} />
+                    <Text size='sm' color='dark'>This should work!</Text>
                 </Group>
             </Box>
             <Box
