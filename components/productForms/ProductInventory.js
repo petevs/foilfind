@@ -10,7 +10,13 @@ const ProductInventory = ({productInventory, setProductInventory}) => {
     price: '',
     currency: '',
     inStock: false,
-    link: ''
+    link: '',
+    retailerPath: '',
+    retailerID: '',
+    geo: {
+        latitude: 0,
+        longitude: 0
+    }
     }
 
   return (
@@ -37,10 +43,15 @@ const ProductInventory = ({productInventory, setProductInventory}) => {
                         <Select
                             label='Retailer'
                             placeholder='Enter retailer'
-                            data={retailerList}
+                            data={retailerList.map((retailer) => retailer.name)}
                             searchable
                             value={inventory.retailer}
-                            onChange={(e) => setProductInventory(productInventory.map((inventory, i) => i === index ? { ...inventory, retailer: e } : inventory))}
+                            onChange={(e) => setProductInventory(productInventory.map((inventory, i) => i === index ? { ...inventory, 
+                                retailer: e,
+                                retailerId: retailerList.find((retailer) => retailer.name === e).id,
+                                retailerPath: retailerList.find((retailer) => retailer.name === e).path,
+                                geo: retailerList.find((retailer) => retailer.name === e).geo
+                            } : inventory))}
                         />
                         <NumberInput
                             label={`Price ${productInventory[index].price}`}

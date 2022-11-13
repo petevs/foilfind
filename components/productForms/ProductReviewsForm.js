@@ -40,7 +40,7 @@ const ProductReviewsForm = ({productReviews, setProductReviews}) => {
                         <Select
                           label='Source'
                           placeholder='Enter source'
-                          data={retailerList}
+                          data={retailerList.map((retailer) => retailer.name)}
                           searchable
                           value={review.source}
                           onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, source: e } : review))}

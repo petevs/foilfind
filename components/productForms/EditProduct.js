@@ -8,8 +8,6 @@ const EditProduct = (props) => {
 
   const [product, setProduct] = useState(props.product)
 
-  console.log(props)
-
   useEffect(() => {
 
     const getProduct = async () => {
@@ -21,6 +19,8 @@ const EditProduct = (props) => {
     getProduct()
 
   },[props.product.id])
+
+  console.log(product)
 
   return (
     <ProductForm brands={props.brands} product={props.product} /> 

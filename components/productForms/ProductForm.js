@@ -25,7 +25,6 @@ export default function ProductForm(props) {
   const createSlug = (str) => {
     return str.toLowerCase().replaceAll(" ", "-").replaceAll("'", "-").replaceAll("\"", "");
   };
-  
 
   const [productInfo, setProductInfo] = useState(initialProductInfo(product))
   const [included, setIncluded] = useState(initialWingSpecs(product))
@@ -34,11 +33,10 @@ export default function ProductForm(props) {
   const [wingSpecs, setWingSpecs] = useState(product?.wingSpecs || '')
   const [productImages, setProductImages] = useState(product?.images || [])
   const [productVideos, setProductVideos] = useState([])
-  const [productReviews, setProductReviews] = useState(product.reviews || [])
+  const [productReviews, setProductReviews] = useState(product?.reviews || [])
   const [productLinks, setProductLinks] = useState([])
-  const [productInventory, setProductInventory] = useState(product.inventory || [])
+  const [productInventory, setProductInventory] = useState(product?.inventory || [])
 
-  console.log(productInfo)
 
   // function to get min and max price from productInventory
 
@@ -126,12 +124,6 @@ export default function ProductForm(props) {
         productImages={productImages}
         setProductImages={setProductImages}
       />
-      {/* <ProductIncludedForm
-        included={included}
-        setIncluded={setIncluded}
-        onSave={updateProduct}
-      />  */}
-
       {
         //If foils category selected then show foil specs form
 
