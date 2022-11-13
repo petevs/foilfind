@@ -1,6 +1,7 @@
 import { Title, Box, Text, Group, UnstyledButton } from '@mantine/core'
 import RatingsReadOnly from '../RatingsReadOnly'
 import { IconShare, IconHeart } from '@tabler/icons'
+import FavoritProductButton from './FavoriteProductButton'
 const DesktopTitle = ({product}) => {
   return (
     <Box
@@ -49,12 +50,9 @@ const DesktopTitle = ({product}) => {
                         <Text underline weight={600} color='primary' size='sm'>Share</Text>
                       </Group>
             </UnstyledButton>
-            <UnstyledButton>
-                      <Group spacing='xs'>
-                        <IconHeart size={14} />
-                        <Text underline weight={600} color='primary' size='sm'>Save to Wishlist</Text>
-                      </Group>
-            </UnstyledButton>
+            <FavoritProductButton 
+              productID={product.id}
+            />
           </Box>
           </Box>
     </Box>

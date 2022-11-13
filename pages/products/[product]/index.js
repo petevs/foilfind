@@ -59,51 +59,6 @@ export async function getStaticProps({ params }) {
   }
 }
 
-const PriceTable = ({headerTitle, content, footer}) => {
-  return (
-    <>
-      <Box
-        sx={(theme) => ({
-          border: `1px solid ${theme.colors.gray[2]}`,
-          borderRadius: theme.radius.md,
-          boxShadow: theme.shadows.sm,
-        })}
-      >
-        <Box
-          sx={
-            (theme) => (
-              {
-                padding: `${theme.spacing.md}px`,
-                backgroundColor: theme.colors.gray[0],
-                borderRadius: `${theme.radius.md}px ${theme.radius.md}px 0 0`,
-            }
-            )}
-        >
-          <Text weight={600}>{headerTitle}</Text>
-        </Box>
-        <Divider />
-        <Box
-          sx={{maxHeight: '200px', overflow: 'scroll'}}
-        >
-          {content}
-        </Box>
-      </Box>
-      <Box
-          sx={{
-            display: 'grid',
-            gridAutoFlow: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '1rem',
-            gap: '.5rem',
-          }}
-        >
-          {footer}
-        </Box>
-    </>
-  )
-}
-
 
 export default function ProductPage(props) {
 
@@ -139,7 +94,7 @@ export default function ProductPage(props) {
       <BasicShell>
         <Container size='lg'>
         <ConfirmedFit 
-          category={product.category}
+          product={product}
         />
           <DesktopTitle
             product={product}

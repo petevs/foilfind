@@ -3,7 +3,9 @@ import { IconCheck, IconX } from '@tabler/icons'
 import { useState, useEffect } from 'react'
 import { useLocalStorage } from '@mantine/hooks'
 
-export const ConfirmedFit = ({category}) => {
+export const ConfirmedFit = ({product}) => {
+
+    const { category } = product
 
     // remove the 's' from the category
     const categorySingular = category.slice(0, -1)
@@ -119,7 +121,7 @@ export const ConfirmedFit = ({category}) => {
     <Box
         sx={(theme) => ({
             border: `1px solid`,
-            borderColor: doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, 1200) ? theme.colors.green[5] : theme.colors.red[5],
+            borderColor: doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, product.frontWing.areaCM) ? theme.colors.green[5] : theme.colors.red[5],
             borderRadius: theme.radius.md,
             margin: '1rem 0',
         })}
@@ -189,7 +191,7 @@ export const ConfirmedFit = ({category}) => {
                         placeholder='Weight'
                         size='xs'
                         min={0}
-                        max={200}
+                        max={250}
                         step={1}
                         styles={{
                             input: {
