@@ -18,7 +18,13 @@ const ResourceCard = ({type, title, description, path}) => {
 
   return (
     <Link href={`/resources/${path}`} passHref>
-    <Paper withBorder p='md' radius='md'>
+    <Paper withBorder p='md' radius='md'
+      sx={{
+        '& :hover': {
+          cursor: 'pointer'
+        }
+      }}
+    >
       <Box sx={{display: 'grid', alignItems: 'start', justifyItems: 'start'}}>
         <Badge color={colorBasedOnType()} mb='md'>{type}</Badge>
         <Title order={4}>{title}</Title>

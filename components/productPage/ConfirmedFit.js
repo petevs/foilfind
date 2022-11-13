@@ -118,14 +118,14 @@ export const ConfirmedFit = ({category}) => {
     <>
     <Box
         sx={(theme) => ({
-            border: `1px solid ${theme.colors.dark[0]}`,
+            border: `1px solid`,
+            borderColor: doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, 1200) ? theme.colors.green[5] : theme.colors.red[5],
             borderRadius: theme.radius.md,
             margin: '1rem 0',
         })}
     >
         <Box
             sx={(theme) => ({
-                border: `3px solid ${theme.colors.gray[0]}`,
                 borderRadius: theme.radius.md,
                 padding: '.75rem 1.5rem',
                 display: 'grid',
@@ -156,7 +156,7 @@ export const ConfirmedFit = ({category}) => {
                     {
                         doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, 1200) ?
                         <Group>
-                            <IconCheck size={18} />
+                            <IconCheck color='green' size={18} />
                             <Text>This foil should fit.</Text>
                         </Group> :
                         <Group>
