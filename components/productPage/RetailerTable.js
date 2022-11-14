@@ -1,19 +1,49 @@
-import { Divider, Paper, Box, Text, Button, Indicator, Title, TextInput, Modal } from '@mantine/core'
+import { Divider, Paper, Box, Text, Button, Indicator, Title, TextInput, Modal, UnstyledButton, Group } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
-import { IconArrowsSort, IconChevronRight, IconAdjustmentsHorizontal, IconLocation } from '@tabler/icons'
+import { IconArrowsSort, IconChevronRight, IconAdjustmentsHorizontal, IconLocation, IconSelector, IconChevronUp, IconChevronDown } from '@tabler/icons'
 import { getDistanceBetweenPoints } from '../../helpers/getDistanceBetween'
 import { useState } from 'react'
 import { geocodeAddress } from '../../helpers/geocodeAddress'
 
 
+
 const RetailerTable = ({data, brand}) => {
 
     const columns = ['retailer', 'distance', 'in stock', 'price']
-    const [location, setLocation] = useState(null)
+    const [location, setLocation] = useLocalStorage({key: 'location', defaultValue: ''})
     const [geo, setGeo] = useLocalStorage({key: 'geopoint', defaultValue: [0, 0]})
     const [opened, setOpened] = useState(false)
+    const [sortedData, setSortedData] = useState(data);
+    const [sortBy, setSortBy] = useState(null);
+    const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
+    const setSorting = (field) => {
+      const reversed = field === sortBy ? !reverseSortDirection : false;
+      setReverseSortDirection(reversed);
+      setSortBy(field);
 
+      if(field === 'distance') {
+        setSortedData(data.sort((a, b) => {
+          const aDistance = getDistanceBetweenPoints(geo, [a.geo.latitude, a.geo.longitude])
+          const bDistance = getDistanceBetweenPoints(geo, [b.geo.latitude, b.geo.longitude])
+          return reversed ? bDistance - aDistance : aDistance - bDistance;
+        }));
+      }
+      
+      if(field === 'in stock') {
+        setSortedData(data.sort((a, b) => {
+          const aStock = a.stock ? 1 : 0
+          const bStock = b.stock ? 1 : 0
+          return reversed ? bStock - aStock : aStock - bStock;
+        }));
+      }
+
+      setSortedData([...data].sort((a, b) => {
+        if (a[field] > b[field]) return reversed ? -1 : 1;
+        if (a[field] < b[field]) return reversed ? 1 : -1;
+        return 0;
+      }));
+    };
 
   return (
     <>
@@ -66,11 +96,9 @@ const RetailerTable = ({data, brand}) => {
               variant="default"
               leftIcon={<IconLocation size={16} />}
             >
-              {geo[0] === 0 && geo[0] === 0 ? 'Set' : 'Update'} Location
+              {geo[0] === 0 && geo[0] === 0 ? 'Set Location' : location}
             </Button>
-            <Button
-            leftIcon={<IconArrowsSort size={16} />}
-            size='xs' color='dark' variant='default'>Sort</Button>
+ 
                 <Indicator label={0} showZero size={22} color='dark' withBorder>
                   <Button 
                     size='xs'
@@ -93,15 +121,27 @@ const RetailerTable = ({data, brand}) => {
         }}>
             {
                 columns.map((header, index) => (
-                    <Text key={index} size='md' transform='capitalize' weight={600}>
-                    {header}
-                    </Text>
+                    <UnstyledButton 
+                      key={index} 
+                      size='md' 
+                      transform='capitalize' 
+                      weight={600}
+                      sorted={sortBy === header}
+                      onClick={() => setSorting(header)}
+                    >
+                      <Group position='apart'>
+                        <Text transform='capitalize'>{header}</Text>
+                        {sortBy != header && <IconSelector size={16} />}
+                        {sortBy === header && reverseSortDirection && <IconChevronUp size={16} />}
+                        {sortBy === header && !reverseSortDirection && <IconChevronDown size={16} />}
+                      </Group>
+                    </UnstyledButton>
                 ))
             }
         </Box>
         <Divider />
         {
-                    data.map((row, index) => (
+                    sortedData.map((row, index) => (
                         <Box
                         component='a'
                         href={row.link} 

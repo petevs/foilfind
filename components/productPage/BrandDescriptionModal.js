@@ -14,8 +14,19 @@ const BrandDescriptionModal = ({description, brand}) => {
             title={`Description from ${brand}`}
             size="lg"
             noPadding
+            transition='slide-up'
+            transitionDuration={300}
+            transitionTimingFunction='ease'
+            centered
         >
+          <Box
+            sx={{
+              height: '50vh',
+              overflowY: 'scroll',
+            }}
+          >
             {description}
+          </Box>
         </Modal>
         <UnstyledButton
             onClick={() => setOpened(true)}
