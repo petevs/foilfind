@@ -171,13 +171,7 @@ const ProductReviews = ({targetRef, product}) => {
                         <Box sx={{marginTop: '8px'}}>
                         <RatingsReadOnly rating={item.averageRating} size={18} />
                         </Box>
-                        <Text 
-                            component={item.source === 'Foil Find' ? 'div' : 'a'} 
-                            underline={item.source !== 'Foil Find'} 
-                            size='md'
-                        > 
-                            {item.reviews.length} {item.source} reviews
-                        </Text>
+                        {item.reviews.length} {item.source} reviews
 
                     </Box>
                 ))
