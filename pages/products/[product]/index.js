@@ -22,6 +22,7 @@ import { ConfirmedFit } from "../../../components/productPage/ConfirmedFit";
 import DesktopTitle from "../../../components/productPage/DesktopTitle";
 import MobileTitle from "../../../components/productPage/MobileTitle";
 import { useScrollIntoView } from "@mantine/hooks";
+import FoilSpecs from "../../../components/productPage/FoilSpecs";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -280,61 +281,10 @@ export default function ProductPage(props) {
 
             <WingRangeChart />
 
-            {
-              product.category === 'foils' &&
-              <>
-                <Divider my='lg' />
-                <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
-                <Box>
-                  {
-                    [
-                      { value: 'areaCM', label: 'Area (cm²)' },
-                      { value: 'wingSpanMillimeters', label: 'Wing Span (mm)' },
-                      { value: 'weightGrams', label: 'Weight (g)' },
-                      { value: 'ar', label: 'Aspect Ratio' },
-                    ].map((key, index) => (
-                      <Box key={index}
-                      mb='xl' 
-                        sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 3fr', gap: '1rem',
-                        '@media screen and (max-width: 768px)': {
-                          gridTemplateColumns: 'auto auto',
-                          justifyContent: 'space-between',
-                        }
-                      }}
-                      >
-                        <Text size='md' weight={600}>{key.label}</Text>
-                        <Text size='md'>{thousandSeparator(product.frontWing[key.value])}</Text>
-                        <Slider
-                          value={product.frontWing[key.value]}
-                          min={695}
-                          max={2500}
-                          marks={[
-                            { value: 695, label: '695' },
-                            { value: 2500, label: '2500' },
-                          ]}
-                          styles={(theme) => ({
-                            thumb: {
-                              border: `1px solid ${
-                                theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[3]
-                              }`,
-                              borderRadius: '5px'
-                            },
-                            width: 28,
-                            height: 22,
-                            color: theme.colors.gray[5],
-                            backgroundColor: theme.white,
-                            borderRadius: theme.radius.xs,
-                          })}
-                          thumbChildren={<IconGripHorizontal size={18} stroke={1.5}/>}
-                          readOnly
-                        />
-                      </Box>
-                    ))
-                  }
-                  
-                </Box>
-              </>
-            }
+
+            <FoilSpecs 
+              product={product}
+            />
 
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Related Resources</Title> 
