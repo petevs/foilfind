@@ -38,15 +38,9 @@ const PhotoSection = ({product}) => {
       transition='slide-up'
       transitionDuration={600}
       transitionTimingFunction='ease'
-      styles={{
-        inner: {
-          padding: 0,
-        }
-        }
-      }
+      fullScreen
     >
       <Box
-        sx={{height: '100vh', overflowY: 'scroll'}}
       >
         <Box
           sx={(theme) => ({
