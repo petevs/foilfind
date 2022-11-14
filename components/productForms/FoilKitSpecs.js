@@ -112,6 +112,7 @@ const FoilKitSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
                   value={productSpecs.frontWing.ar}
                   onChange={(e) => setProductSpecs({...productSpecs, frontWing: {...productSpecs.frontWing, ar: e}})}
                   min={0}
+                  precision={1}
                 />
               </Accordion.Panel>
             </Accordion.Item>

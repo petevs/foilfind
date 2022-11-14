@@ -23,6 +23,7 @@ import DesktopTitle from "../../../components/productPage/DesktopTitle";
 import MobileTitle from "../../../components/productPage/MobileTitle";
 import { useScrollIntoView } from "@mantine/hooks";
 import FoilSpecs from "../../../components/productPage/FoilSpecs";
+import ProductReviews from "../../../components/productPage/ProductReviews";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -71,22 +72,6 @@ export default function ProductPage(props) {
   const { product, relatedResources } = props;
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
-
-  const aggregateReviewsBySource = (reviews) => {
-    const sources = reviews.map(review => review.source)
-    const uniqueSources = [...new Set(sources)]
-    const reviewsBySource = uniqueSources.map(source => {
-      const reviewsForSource = reviews.filter(review => review.source === source)
-      const averageRating = reviewsForSource.reduce((acc, review) => acc + review.rating, 0) / reviewsForSource.length
-      return {
-        source,
-        averageRating,
-        reviews: reviewsForSource,
-        link: reviewsForSource[0].link
-      }
-    })
-    return reviewsBySource
-  }
 
   return (
     <div>
@@ -321,34 +306,21 @@ export default function ProductPage(props) {
             </Box>
           </Box>
 
+          <Divider my='lg' />
+          <Title order={3} style={{margin: '1rem 0'}}>Other Sizes</Title> 
 
-          <Box ref={targetRef}> 
-            <Divider my='lg' />
-            <Title order={3} style={{margin: '1rem 0'}}>Reviews</Title> 
-            {
-              aggregateReviewsBySource(product.reviews).map((item, index) => (
-                <Box key={index} sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '1rem', alignItems: 'center'}}>
-                    <Text color='dimmed'>{item.averageRating} /  5</Text>
-                    <Box sx={{marginTop: '8px'}}>
-                    <RatingsReadOnly rating={item.averageRating} size={18} />
-                    </Box>
-                    <Text component='a' underline size='md'> {item.reviews.length} {item.source} reviews</Text>
-                </Box>
-              ))
+          <Divider my='lg' />
+          <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title> 
 
-            }
-            <Box>
-              <Button>
-                Write a Review
-              </Button>
-            </Box>
-          </Box>
+          <Divider my='lg' />
+          <Title order={3} style={{margin: '1rem 0'}}>Members Who Ride The {product.name}</Title>
+
+
+          <ProductReviews
+            targetRef={targetRef}
+            product={product}
+          />
   
-
-          
-
-
-
 
           <Box py='xl'>
             {
