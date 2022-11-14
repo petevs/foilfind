@@ -14,15 +14,14 @@ const FoilSpecs = ({product}) => {
 
 
   return (
-    <>
-        <Divider my='lg' />
+    <Box>
         <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
         {
             foilSpecs.map((spec) => (        
             <Box
                 key={spec.value}
                 sx={(theme) => ({
-                    width: '300px',
+                    position: 'relative',
                     marginBottom: theme.spacing.xs
                 })}
             >
@@ -53,7 +52,7 @@ const FoilSpecs = ({product}) => {
             </Box>
             ))
         }
-    </>
+    </Box>
   )
 }
 

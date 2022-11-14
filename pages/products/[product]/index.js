@@ -129,7 +129,7 @@ export default function ProductPage(props) {
                 style={{ width: "100%", height: "400px" }}
               /> */}
 
-              <Title order={3} style={{margin: '1rem 0 .5rem'}}>Summary of What We{"'"}ve Found</Title>
+              <Title order={3} style={{marginBottom: '1rem'}}>Summary of What We{"'"}ve Found</Title>
               <Text>
                   {product.summary}
               </Text>
@@ -276,15 +276,27 @@ export default function ProductPage(props) {
             <UsedTable 
               productName={product.name}
             />
+            {/* <Divider my='lg' />
+            <Title order={3} style={{margin: '1rem 0'}}>Size Chart</Title> */}
+
+            {/* <WingRangeChart /> */}
+
             <Divider my='lg' />
-            <Title order={3} style={{margin: '1rem 0'}}>Size Chart</Title>
-
-            <WingRangeChart />
-
-
-            <FoilSpecs 
-              product={product}
-            />
+            <Box
+              sx={(theme) => ({
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '2rem',
+                '@media (max-width: 768px)': {
+                  gridTemplateColumns: '1fr',
+                }
+              }
+              )}
+            >
+              <FoilSpecs 
+                product={product}
+              />
+            </Box>
 
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Related Resources</Title> 

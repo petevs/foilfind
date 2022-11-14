@@ -156,7 +156,7 @@ export const ConfirmedFit = ({product}) => {
                 <Group spacing='xs'>
                     {/* <IconCheck size={18} /> */}
                     {
-                        doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, 1200) ?
+                        doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, product.frontWing.areaCM) ?
                         <Group>
                             <IconCheck color='green' size={18} />
                             <Text>This foil should fit.</Text>
