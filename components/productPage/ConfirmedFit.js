@@ -17,9 +17,9 @@ export const ConfirmedFit = ({product}) => {
 
     const convertToKg = (weight, unit) => {
         if(unit === 'kg') {
-            return weight
+            return weight / 0.453592
         } else {
-            return weight * 0.453592
+            return weight
         }
     }
 
@@ -71,6 +71,8 @@ export const ConfirmedFit = ({product}) => {
     }
     
     const doesItFit = (riderWeight, skillLevel, windRange, foilSize) => {
+
+        console.log(riderWeight, skillLevel, windRange, foilSize)
 
         if(!riderWeight || !skillLevel || !windRange || !foilSize) {
             return false

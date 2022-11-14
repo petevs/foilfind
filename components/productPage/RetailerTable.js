@@ -126,7 +126,6 @@ const RetailerTable = ({data, brand}) => {
                       size='md' 
                       transform='capitalize' 
                       weight={600}
-                      sorted={sortBy === header}
                       onClick={() => setSorting(header)}
                     >
                       <Group position='apart'>
