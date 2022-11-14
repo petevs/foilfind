@@ -4,7 +4,7 @@ export const theme = {
   cursorType: 'pointer',
   globalStyles: (theme) => ({
     'a': {
-      color: theme.colors.dark,
+      color: theme.colors.dark[5],
     },
     'a:hover' : {
         textDecoration: 'none !important',

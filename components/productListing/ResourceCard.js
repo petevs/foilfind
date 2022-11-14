@@ -18,20 +18,30 @@ const ResourceCard = ({type, title, description, path}) => {
 
   return (
     <Link href={`/resources/${path}`} passHref>
-    <Paper withBorder p='md' radius='md'
-      sx={{
-        '& :hover': {
-          cursor: 'pointer'
-        }
-      }}
-    >
-      <Box sx={{display: 'grid', alignItems: 'start', justifyItems: 'start'}}>
+      <Box
+        component='a'
+        sx={(theme) => ({
+          display: 'grid', 
+          alignItems: 'start', 
+          justifyItems: 'start',
+          border: '1px solid',
+          borderColor: theme.colors.gray[3],
+          borderRadius: theme.radius.md,
+          padding: theme.spacing.md,
+          color: theme.colors.gray[9],
+          '& h4': {
+            color: theme.colors.dark,
+          },
+          '&:hover': {
+            borderColor: theme.colors.dark[5],
+            cursor: 'pointer',
+          }
+        })}>
         <Badge color={colorBasedOnType()} mb='md'>{type}</Badge>
         <Title order={4}>{title}</Title>
         <Text size='sm' color='dimmed'>{description}</Text>
         <Button mt='md' size='xs' radius='md' variant='default'>View Resource</Button>
       </Box>
-    </Paper>
     </Link>
   )
 }

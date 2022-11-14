@@ -1,4 +1,4 @@
-import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, Badge, Slider, RangeSlider, Checkbox, Paper, Menu, ActionIcon, Select, UnstyledButton } from "@mantine/core"
+import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, Badge, Slider, RangeSlider, Checkbox, Paper, Menu, ActionIcon, Select, UnstyledButton, Progress } from "@mantine/core"
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import BasicShell from "../../../components/shells/BasicShell";
 import { db } from "../../../firebase";
@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../components/RatingsReadOnly";
 import Head from "next/head";
 import Link from "next/link";
-import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconHeart, IconShare, IconThumbUp } from "@tabler/icons";
+import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconGripHorizontal, IconHeart, IconShare, IconThumbUp } from "@tabler/icons";
 import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
@@ -141,58 +141,6 @@ export default function ProductPage(props) {
                   <Badge key={index} style={{margin: '.5rem .5rem .5rem 0'}}>{keyword}</Badge>
                 ))
               }
-
-              {/* <Title order={3} style={{marginTop: '2rem'}}>Is This Foil Right For Me?</Title>
-              <Box sx={{display: 'grid', gap: '.5rem', paddingTop: '.5rem'}}>
-
-                <Text color='dimmed'>Your Weight</Text>
-                <Slider
-                  defaultValue={50}
-                  min={0}
-                  max={100}
-                  step={1}
-                />
-                <Text color='dimmed'>Wind Range You Ride In</Text>
-                <RangeSlider
-                  defaultValue={[20, 80]}
-                  min={0}
-                  max={100}
-                  step={1}
-                />
-                <Text color='dimmed'>Your Skill Level</Text>
-                <Slider
-                  defaultValue={1}
-                  min={0}
-                  max={4}
-                  step={1}
-                  marks={[
-                    { value: 0, label: ''},
-                    { value: 1, label: 'Beginner' },
-                    { value: 2, label: 'Intermediate' },
-                    { value: 3, label: 'Advanced' },
-                    { value: 4, label: 'Expert' },
-                  ]}
-                mb='xl'
-                />
-                <Divider my='xs' />
-                <Box
-                  sx={(theme) => ({
-                    display: 'grid',
-                    gridAutoFlow: 'column',
-                    justifyContent: 'start',
-                    color: theme.colors.dark,
-                    gap: theme.spacing.sm,
-                    backgroundColor: theme.colors.gray[0],
-                    padding: theme.spacing.md,
-                    border: `1px solid ${theme.colors.gray[2]}`,
-                    boxShadow: theme.shadows.sm,
-                    borderRadius: theme.radius.md,
-                  })}
-                >
-                  <IconThumbUp size={24} />
-                  <Text color='dark'>Based on your answers, this foil should be good fit for you!</Text>
-                </Box>
-              </Box> */}
 
               <Divider my='md' />
 
@@ -345,8 +293,9 @@ export default function ProductPage(props) {
                       { value: 'weightGrams', label: 'Weight (g)' },
                       { value: 'ar', label: 'Aspect Ratio' },
                     ].map((key, index) => (
-                      <Box key={index} 
-                        sx={{display: 'grid', gridTemplateColumns: '1fr 4fr', gap: '1rem',
+                      <Box key={index}
+                      mb='xl' 
+                        sx={{display: 'grid', gridTemplateColumns: '1fr 1fr 3fr', gap: '1rem',
                         '@media screen and (max-width: 768px)': {
                           gridTemplateColumns: 'auto auto',
                           justifyContent: 'space-between',
@@ -355,6 +304,30 @@ export default function ProductPage(props) {
                       >
                         <Text size='md' weight={600}>{key.label}</Text>
                         <Text size='md'>{thousandSeparator(product.frontWing[key.value])}</Text>
+                        <Slider
+                          value={product.frontWing[key.value]}
+                          min={695}
+                          max={2500}
+                          marks={[
+                            { value: 695, label: '695' },
+                            { value: 2500, label: '2500' },
+                          ]}
+                          styles={(theme) => ({
+                            thumb: {
+                              border: `1px solid ${
+                                theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[3]
+                              }`,
+                              borderRadius: '5px'
+                            },
+                            width: 28,
+                            height: 22,
+                            color: theme.colors.gray[5],
+                            backgroundColor: theme.white,
+                            borderRadius: theme.radius.xs,
+                          })}
+                          thumbChildren={<IconGripHorizontal size={18} stroke={1.5}/>}
+                          readOnly
+                        />
                       </Box>
                     ))
                   }
