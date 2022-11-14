@@ -4,6 +4,9 @@ import { IconArrowsSort, IconChevronRight, IconAdjustmentsHorizontal, IconLocati
 import { getDistanceBetweenPoints } from '../../helpers/getDistanceBetween'
 import { useState } from 'react'
 import { geocodeAddress } from '../../helpers/geocodeAddress'
+import DesktopRetailerTable from './retailerTableComponents/DesktopRetailerTable'
+import MobileRetailerTable from './retailerTableComponents/MobileRetailerTable'
+import MobileSortButton from './retailerTableComponents/MobileSortButton'
 
 
 
@@ -82,13 +85,33 @@ const RetailerTable = ({data, brand}) => {
         <Divider my='lg' />
        
         <Box
-          sx={{display: 'grid', gridTemplateColumns: 'auto auto', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem'}}
+          sx={{
+            display: 'grid', 
+            gridTemplateColumns: 'auto auto', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            paddingBottom: '1rem',
+            '@media (max-width: 768px)': {
+              gridTemplateColumns: '1fr',
+              gap: '1rem',
+            }
+          }}
         >
           <Box>
           <Title order={3}>Compare Retailers</Title>
           <Text color='dimmed'>Find the closest retailer with the best price</Text>
           </Box>
-          <Box sx={{display: 'grid', gridTemplateColumns: 'auto auto auto', gap: '1rem'}}>
+          <Box sx={{display: 'grid', gridTemplateColumns: 'auto', gap: '1rem',
+            '@media (max-width: 768px)': {
+              gridTemplateColumns: 'auto auto',
+              justifyContent: 'space-between'
+            }
+          }}>
+            <MobileSortButton
+              setSorting={setSorting}
+              sortBy={sortBy}
+              reverseSortDirection={reverseSortDirection}
+            />
             <Button
               size='xs'
               onClick={() => setOpened(true)}
@@ -98,108 +121,28 @@ const RetailerTable = ({data, brand}) => {
             >
               {geo[0] === 0 && geo[0] === 0 ? 'Set Location' : location}
             </Button>
- 
-                <Indicator label={0} showZero size={22} color='dark' withBorder>
-                  <Button 
-                    size='xs'
-                    variant='default' 
-                    leftIcon={<IconAdjustmentsHorizontal size={16} />}
-                    sx={(theme) => ({border: `2px solid ${theme.colors.dark[5]}`})}
-                    // onClick={() => setOpened(true)}
-                  >Filters</Button>
-                </Indicator>
             </Box>
         </Box>
-        <Paper withBorder radius='md'>
-        <Box sx={{
-          display: 'grid', 
-          gridTemplateColumns: `repeat(${columns.length}, 1fr) 18px`,
-          padding: '.75rem 1.5rem', 
-          backgroundColor: '#F9FAFB', 
-          borderRadius: '8px 8px 0 0', 
-          gap: '1rem'
-        }}>
-            {
-                columns.map((header, index) => (
-                    <UnstyledButton 
-                      key={index} 
-                      size='md' 
-                      transform='capitalize' 
-                      weight={600}
-                      onClick={() => setSorting(header)}
-                    >
-                      <Group position='apart'>
-                        <Text transform='capitalize'>{header}</Text>
-                        {sortBy != header && <IconSelector size={16} />}
-                        {sortBy === header && reverseSortDirection && <IconChevronUp size={16} />}
-                        {sortBy === header && !reverseSortDirection && <IconChevronDown size={16} />}
-                      </Group>
-                    </UnstyledButton>
-                ))
-            }
-        </Box>
-        <Divider />
-        {
-                    sortedData.map((row, index) => (
-                        <Box
-                        component='a'
-                        href={row.link} 
-                        target='_blank'
-                        key={index}
-                        sx={(theme) => ({
-                          '& :hover': {
-                            cursor: 'pointer',
-                            backgroundColor: theme.colors.blue[0],
-                            '& svg': {
-                              stroke: theme.colors.dark[5]
-                            }
-                          },
-                        })}>
-                          <Box
-                            sx={(theme) => ({
-                              display: 'grid', 
-                              gridTemplateColumns: `repeat(${columns.length}, 1fr) 18px`,
-                              padding: '.75rem 1.5rem', 
-                              borderBottom: `1px solid ${theme.colors.gray[2]}`,
-                              alignItems: 'center',
-                              gap: '1rem'
-                            })}
-                          >
-                            <Text weight={600} size='md'>{row.retailer}</Text>
-                            <Text color='dimmed'>
-                              {
-                                (geo[0] === 0 & geo[1] === 0) ? 
-                                <Button
-                                  size='xs'
-                                  compact
-                                  variant='default'
-                                  color='gray'
-                                  onClick={(e) => {e.preventDefault(); setOpened(true)}}
-                                >
-                                  Set Your Location
-                                </Button> 
-                                :
-                                getDistanceBetweenPoints(geo, [row.geo.latitude, row.geo.longitude]) + ' km'
-                              }
-                            </Text>
-                            {
-                                row.inStock ?
-                                <Text color='green'>In Stock</Text>
-                                :
-                                <Text color='red'>Out of Stock</Text>
-                            }
-                            <Text transform='capitalize' color='dimmed'>${row.price}</Text>
-                            <IconChevronRight size={18} color='gray' />
-                          </Box>
-                        </Box>
-                  ))}
-                  <Box
-                    sx={(theme) => ({
-                        padding: '.5rem 1.5rem'})}
-                  >
-                    <Text weight={500} size='xs' color='dimmed'>View more retailers that carry {brand} products</Text>
-                  </Box>
-        </Paper>
+        <DesktopRetailerTable
+          columns={columns}
+          sortBy={sortBy}
+          reverseSortDirection={reverseSortDirection}
+          setSorting={setSorting}
+          sortedData={sortedData}
+          getDistanceBetweenPoints={getDistanceBetweenPoints}
+          geo={geo}
+          brand={brand}
+        />
+        <MobileRetailerTable
+          columns={columns}
+          sortBy={sortBy}
+          reverseSortDirection={reverseSortDirection}
+          setSorting={setSorting}
+          sortedData={sortedData}
+          getDistanceBetweenPoints={getDistanceBetweenPoints}
+          geo={geo}
+          brand={brand}
+        />     
       </Box>
     </>
   )
