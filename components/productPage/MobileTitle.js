@@ -4,7 +4,7 @@ import { IconShare, IconHeart } from '@tabler/icons'
 import FavoritProductButton from './FavoriteProductButton'
 import ProductShareButton from './ProductShareButton'
 
-const MobileTitle = ({product}) => {
+const MobileTitle = ({product, scrollIntoView, targetRef}) => {
   return (
     <Box
       sx={{
@@ -29,10 +29,16 @@ const MobileTitle = ({product}) => {
         <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center'}}>
           <Text size='sm' color='dimmed'>{product.brand}</Text>
           <Text color='dimmed' size='sm'>·</Text>
-          <Box sx={{marginTop: '5px'}}>
-            <RatingsReadOnly rating={product.reviewSummary.rating} />
-          </Box>
-          <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+          <UnstyledButton
+              onClick={() => scrollIntoView(targetRef)}
+            >
+              <Group spacing='xs'>
+                <Box sx={{marginTop: '5px'}}>
+                  <RatingsReadOnly rating={product.reviewSummary.rating} />
+                </Box>
+                <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+              </Group>
+            </UnstyledButton>
           </Box>
           <Box
             sx={{

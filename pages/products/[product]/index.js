@@ -21,6 +21,7 @@ import PhotoSection from "../../../components/productPage/PhotoSection";
 import { ConfirmedFit } from "../../../components/productPage/ConfirmedFit";
 import DesktopTitle from "../../../components/productPage/DesktopTitle";
 import MobileTitle from "../../../components/productPage/MobileTitle";
+import { useScrollIntoView } from "@mantine/hooks";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -64,6 +65,7 @@ export default function ProductPage(props) {
 
   const { isAdmin, user } = useCheckAdmin();
   const router = useRouter();
+  const { scrollIntoView, targetRef } = useScrollIntoView();
 
   const { product, relatedResources } = props;
 
@@ -98,6 +100,8 @@ export default function ProductPage(props) {
         />
           <DesktopTitle
             product={product}
+            scrollIntoView={scrollIntoView}
+            targetRef={targetRef}
           />
           
           <PhotoSection
@@ -106,6 +110,8 @@ export default function ProductPage(props) {
 
           <MobileTitle
             product={product}
+            scrollIntoView={scrollIntoView}
+            targetRef={targetRef}
           />
           
           <Box sx={{display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem', marginBottom: '2rem',
@@ -247,10 +253,16 @@ export default function ProductPage(props) {
                 <Paper withBorder shadow='md' p='lg' radius='lg'>
                   <Box>
                     <Text size='xl' weight={600}>{product.priceRange ? `$${product.priceRange.minPrice} - $${product.priceRange.maxPrice}` : 'No Data'}</Text>
-                    <Group spacing='xs'>
-                      <RatingsReadOnly rating={product.reviewSummary.rating} />
-                      <Text sx={{marginTop: '-5px'}} color='dimmed' size='xs'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
-                    </Group>
+                    <UnstyledButton
+                      onClick={() => scrollIntoView(targetRef)}
+                    >
+                      <Group spacing='xs'>
+                        <Box sx={{marginTop: '5px'}}>
+                          <RatingsReadOnly rating={product.reviewSummary.rating} />
+                        </Box>
+                        <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+                      </Group>
+                    </UnstyledButton>
                     <Divider my='sm' />
                     <Box sx={{display: 'grid', gridTemplateColumns: '1fr auto'}}>
                       <Button color='red'
@@ -296,58 +308,6 @@ export default function ProductPage(props) {
                     <Text align='center' size='xs' color='dimmed' mt='xs'>${product.inventory[0].price} at {product.inventory[0].retailer}</Text>
                   </Box>
                 </Paper>
-
-
-                {/* <PriceTable 
-                  headerTitle={<Text size='md' weight={600}>Compare New {product.priceRange ? `$${product.priceRange.minPrice} - $${product.priceRange.maxPrice}` : 'No Data'}</Text>}
-                  content={
-                    product.inventory.map((item, index) => (
-                      <>
-                      <Box key={index} sx={
-                        (theme) => (
-                          {
-                            display: 'grid', 
-                            gridTemplateColumns: 'auto 1fr', 
-                            gap: '1rem', 
-                            alignItems: 'center', 
-                            padding: `${theme.spacing.md}px`,
-                        }
-                        )}>
-                        <Text size='sm' weight={600}>${item.price}</Text>
-                        <Text size='sm'>{item.retailer}</Text>
-                      </Box>
-                      {
-                        index !== product.inventory.length - 1 && <Divider />
-                      }
-                      </>
-                    ))
-                  }
-                  footer={
-                    <>
-                      <Text weight={600} size='xs' color='indigo'>Do You Sell The {product.name}?</Text>
-                    </>
-                  }
-                />
-
-
-
-
-
-              <PriceTable 
-                headerTitle='Compare Used'
-                content={
-                  <Box
-                    sx={{minHeight: '150px', display: 'grid', alignContent: 'center', gap: '.5rem'}}
-                  >
-                    <Text align='center' color='dimmed'>Sorry, we can{"'"}t find any used {product.name} for sale right now.</Text>
-                  </Box>
-                }
-                footer={
-                  <>
-                    <Text weight={600} size='xs' color='indigo'>Do You Have a Used {product.name} to Sell?</Text>
-                  </>
-                }
-              /> */}
               </Box>
             
             
@@ -427,7 +387,7 @@ export default function ProductPage(props) {
           </Box>
 
 
-          <Box>
+          <Box ref={targetRef}> 
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Reviews</Title> 
             {
@@ -442,6 +402,11 @@ export default function ProductPage(props) {
               ))
 
             }
+            <Box>
+              <Button>
+                Write a Review
+              </Button>
+            </Box>
           </Box>
   
 
