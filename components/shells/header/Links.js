@@ -25,12 +25,14 @@ const Links = () => {
 
     const list = [
         { title: 'Products', href: '/products'},
+        { title: 'Marketplace', href: '/marketplace'},
         { title: 'Retailers', href: '/retailers'},
         { title: 'Brands', href: '/brands'},
         { title: 'Stays', href: '/#'},
-        { title: 'Rentals', href: '/#'},
-        { title: 'Lessons', href: '/#'},
-        { title: 'Events', href: '/#'},
+        { title: 'Stoke', href: '/#'},
+        { title: 'Rentals', href: '/rentals'},
+        { title: 'Lessons', href: '/lessons'},
+        { title: 'Events', href: '/events'},
         { title: 'Resources', href: '/resources'},
         { title: 'Learn', href: '/#'},
         { title: 'Community', href: '/#'},
