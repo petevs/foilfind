@@ -2,7 +2,8 @@ import SectionWrapper from "../pages/editRetailer/SectionWrapper"
 import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Button, MultiSelect, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getCollectionWhere } from "../../helpers/firebaseHelpers"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productImages, setProductImages}) => {
 
@@ -25,6 +26,16 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productI
 
   const [includeOptions, setIncludeOptions] = useState(productInfo?.includes || [])
   const [keywordOptions, setKeywordOptions] = useState(productInfo?.keywords || [])
+
+  const [productList, setProductList] = useState([])
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const products = await getCollectionWhere('products', 'brand', '==', productInfo.brand)
+      setProductList(products.map(product => ({label: product.name, value: product.id})))
+    }
+    getProducts()
+  }, [productInfo.brand])
 
 
   return (
@@ -156,6 +167,14 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productI
             onClick={() => setProductImages([...productImages, ''])}
           >Add Image</Button>
 
+          <MultiSelect
+            label='Other Sizes'
+            placeholder='Select other sizes'
+            data={productList}
+            value={productInfo.otherSizes}
+            onChange={(e) => setProductInfo({...productInfo, otherSizes: e})}
+            searchable
+          />
 
         </Box>
         </FormWrapper>

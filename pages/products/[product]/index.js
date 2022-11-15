@@ -2,13 +2,13 @@ import { Box, Container, Title, Button, Skeleton, Text, Group, Divider, Center, 
 import { query, collection, where, getDocs } from 'firebase/firestore';
 import BasicShell from "../../../components/shells/BasicShell";
 import { db } from "../../../firebase";
-import { getCollection, getCollectionWhere } from "../../../helpers/firebaseHelpers";
+import { getCollection, getCollectionWhere, getDocument } from "../../../helpers/firebaseHelpers";
 import useCheckAdmin from "../../../hooks/useCheckAdmin";
 import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../components/RatingsReadOnly";
 import Head from "next/head";
 import Link from "next/link";
-import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconGripHorizontal, IconHeart, IconShare, IconThumbUp } from "@tabler/icons";
+import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconGripHorizontal, IconHeart, IconShare, IconTemperature, IconThumbUp } from "@tabler/icons";
 import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
@@ -24,6 +24,7 @@ import MobileTitle from "../../../components/productPage/MobileTitle";
 import { useScrollIntoView } from "@mantine/hooks";
 import FoilSpecs from "../../../components/productPage/FoilSpecs";
 import ProductReviews from "../../../components/productPage/ProductReviews";
+import OtherSizeProducts from "../../../components/productPage/OtherSizeProducts";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -54,12 +55,21 @@ export async function getStaticProps({ params }) {
 
   const relatedResources = await getCollectionWhere("resources", "relatedProducts", "array-contains", product.id);
   const reviews = await getCollectionWhere("product-reviews", "productID", "==", product.id);
+  
+  const otherSizeProducts = []
+  
+  for (const otherSizeProductID of product.otherSizes) {
+    const otherSizeProduct = await getDocument("products", otherSizeProductID)
+    otherSizeProducts.push(otherSizeProduct)
+  }
+
 
   return {
     props: {
       product,
       relatedResources,
-      reviews
+      reviews,
+      otherSizeProducts
     },
   }
 }
@@ -71,11 +81,9 @@ export default function ProductPage(props) {
   const router = useRouter();
   const { scrollIntoView, targetRef } = useScrollIntoView();
 
-  const { product, relatedResources, reviews: foilFindReviews } = props;
+  const { product, relatedResources, reviews: foilFindReviews, otherSizeProducts } = props;
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
-
-  console.log(props.reviews)
 
   return (
     <div>
@@ -310,8 +318,9 @@ export default function ProductPage(props) {
             </Box>
           </Box>
 
-          <Divider my='lg' />
-          <Title order={3} style={{margin: '1rem 0'}}>Other Sizes</Title> 
+          <OtherSizeProducts
+            products={otherSizeProducts}
+          />
 
           <Divider my='lg' />
           <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title> 
