@@ -4,6 +4,7 @@ import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { Box, Button, MultiSelect, NumberInput, Select, Textarea, TextInput } from "@mantine/core"
 import { useState, useEffect } from "react"
 import { getCollectionWhere } from "../../helpers/firebaseHelpers"
+import RichTextEditor from "../RichText"
 
 const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productImages, setProductImages}) => {
 
@@ -100,14 +101,22 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productI
             placeholder="Enter MSRP"
             value={productInfo.msrp}
             onChange={(e) => setProductInfo({...productInfo, msrp: e})}
+            precision={2}
           />
-          <Textarea 
+          {/* <Textarea 
             label="Brand Description"
             placeholder="Enter brand description"
             value={productInfo.brandDescription}
             onChange={(e) => setProductInfo({...productInfo, brandDescription: e.currentTarget.value})}
             autosize
+          /> */}
+          <RichTextEditor
+            label="Brand Description"
+            placeholder="Enter brand description"
+            value={productInfo.brandDescription}
+            onChange={(e) => setProductInfo({...productInfo, brandDescription: e})}
           />
+
           <Textarea
             label='Our Summary'
             placeholder="Enter our summary"
@@ -173,6 +182,14 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productI
             data={productList}
             value={productInfo.otherSizes}
             onChange={(e) => setProductInfo({...productInfo, otherSizes: e})}
+            searchable
+          />
+          <MultiSelect
+            label='Related Products'
+            placeholder='Select related products'
+            data={productList}
+            value={productInfo.relatedProducts}
+            onChange={(e) => setProductInfo({...productInfo, relatedProducts: e})}
             searchable
           />
 

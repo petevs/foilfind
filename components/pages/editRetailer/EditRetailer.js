@@ -45,8 +45,6 @@ export default function EditRetailer({slug}) {
 
   }, [slug])    
 
-  console.log(retailer)
-
   if(!retailer){
     return(
       <Container>

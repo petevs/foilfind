@@ -1,22 +1,10 @@
 import { Container, Card, Box, Skeleton, Text, Button, Menu, Title, UnstyledButton } from "@mantine/core";
 import Link from "next/link";
-import ContentSlider from "../../components/ContentSlider";
-import ProductCard from "../../components/ProductCard";
 import BasicShell from "../../components/shells/BasicShell";
 import { getCollection} from "../../helpers/firebaseHelpers";
-import { toKebabCase } from "../../helpers/formatters";
-import useCheckAdmin from "../../hooks/useCheckAdmin";
 import Hero from "../../components/Hero";
-import CategoryPicker from "../../components/CategoryPicker";
 import { useState } from "react";
-import CategoryFilters from "../../components/productPage/CategoryFilters";
-import CategoryContentLayout from "../../components/productPage/CategoryContentLayout";
-import CategorySort from "../../components/productPage/CategorySort";
-import ProductKCard from "../../components/productPage/ProductKCard";
-import HideMobileBox from "../../components/HideMobileBox";
-import CategoryHeader from "../../components/CategoryHeader";
 import CategorySlider from "../../components/CategorySlider";
-import { NextLink } from "@mantine/next";
 
 
 //get static props

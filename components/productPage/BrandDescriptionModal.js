@@ -18,6 +18,12 @@ const BrandDescriptionModal = ({description, brand}) => {
             transitionDuration={300}
             transitionTimingFunction='ease'
             centered
+            styles={{
+                header: {
+                  fontWeight: 700,
+                  fontSize: '1.4rem',
+                }
+            }}
         >
           <Box
             sx={{
@@ -25,14 +31,14 @@ const BrandDescriptionModal = ({description, brand}) => {
               overflowY: 'scroll',
             }}
           >
-            {description}
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </Box>
         </Modal>
         <UnstyledButton
             onClick={() => setOpened(true)}
         >
-                <Text color='primary' size='sm'>...</Text>
-                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} mt='xs' >
+                {/* <Text color='primary' size='sm'>...</Text> */}
+                <Box sx={{display: 'grid', gridAutoFlow: 'column', alignItems: 'center'}} >
                   <Text color='primary' size='md' underline>Read More</Text>
                   <IconChevronRight size={16} />
                 </Box>

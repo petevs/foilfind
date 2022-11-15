@@ -93,9 +93,12 @@ export default function ProductPage(props) {
       </Head>
       <BasicShell>
         <Container size='lg'>
-        <ConfirmedFit 
-          product={product}
-        />
+          {
+            product.category === 'foils' && 
+            <ConfirmedFit 
+              product={product}
+            />
+          }
           <DesktopTitle
             product={product}
             scrollIntoView={scrollIntoView}
@@ -150,9 +153,8 @@ export default function ProductPage(props) {
                   maxHeight: '7rem',
                 }
               }}>
-                <Text>
+                  <div dangerouslySetInnerHTML={{ __html: product.brandDescription }} />
                   {product.brandDescription}
-                </Text>
               </Box>
               <BrandDescriptionModal
                 description={product.brandDescription}
@@ -199,16 +201,22 @@ export default function ProductPage(props) {
                 <Paper withBorder shadow='md' p='lg' radius='lg'>
                   <Box>
                     <Text size='xl' weight={600}>{product.priceRange ? `$${product.priceRange.minPrice} - $${product.priceRange.maxPrice}` : 'No Data'}</Text>
-                    <UnstyledButton
-                      onClick={() => scrollIntoView(targetRef)}
-                    >
-                      <Group spacing='xs'>
-                        <Box sx={{marginTop: '5px'}}>
-                          <RatingsReadOnly rating={product.reviewSummary.rating} />
-                        </Box>
-                        <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
-                      </Group>
-                    </UnstyledButton>
+                    {
+                      product.reviewSummary.numOfReviews ? (
+                      <UnstyledButton
+                        onClick={() => scrollIntoView(targetRef)}
+                      >
+                        <Group spacing='xs'>
+                          <Box sx={{marginTop: '5px'}}>
+                            <RatingsReadOnly rating={product.reviewSummary.rating} />
+                          </Box>
+                          <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+                        </Group>
+                      </UnstyledButton>
+                      )
+                      :
+                      <Text color='dimmed' size='sm'>No Reviews Yet</Text>
+                    }
                     <Divider my='sm' />
                     <Box sx={{display: 'grid', gridTemplateColumns: '1fr auto'}}>
                       <Button color='red'
@@ -290,9 +298,12 @@ export default function ProductPage(props) {
               }
               )}
             >
-              <FoilSpecs 
-                product={product}
-              />
+              {
+                product.category === 'foils' &&
+                <FoilSpecs 
+                  product={product}
+                />
+              }
             </Box>
 
             <Divider my='lg' />
@@ -325,9 +336,9 @@ export default function ProductPage(props) {
           <Divider my='lg' />
           <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title> 
 
-          <Divider my='lg' />
+          {/* <Divider my='lg' />
           <Title order={3} style={{margin: '1rem 0'}}>Members Who Ride The {product.name}</Title>
-
+ */}
 
           <ProductReviews
             targetRef={targetRef}

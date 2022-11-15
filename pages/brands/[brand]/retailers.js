@@ -49,8 +49,6 @@ export default function BrandProducts(props){
 
   const { brand, retailers } = props;
 
-  console.log(retailers)
-
   return (
     <BasicShell>
       <BrandHeader brand={brand.brand} active='retailers'/>

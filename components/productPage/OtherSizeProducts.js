@@ -4,8 +4,6 @@ import Link from 'next/link'
 
 const OtherSizeProducts = ({products}) => {
 
-  console.log(products)
-
   return (
     <>
       <Divider my='lg' />

@@ -54,6 +54,7 @@ const initialProductInfo = (product) =>  ({
   keywords: product?.keywords || [],
   includes: product?.includes || [],
   otherSizes: product?.otherSizes || [],
+  relatedProducts: product?.relatedProducts || [],
 })
 
 const initialWingSpecs = (product) => {

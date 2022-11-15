@@ -26,8 +26,6 @@ export async function getServerSideProps(context) {
 
 export default function UserPage({ user }) {
 
-  console.log(user)
-
   const {
     retailerReviews,
     favoriteRetailers

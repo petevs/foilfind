@@ -20,8 +20,6 @@ const EditProduct = (props) => {
 
   },[props.product.id])
 
-  console.log(product)
-
   return (
     <ProductForm brands={props.brands} product={props.product} /> 
   )

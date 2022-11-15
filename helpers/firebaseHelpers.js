@@ -51,7 +51,6 @@ export const cloneToNewDocument = async (collection, id, newId, removePrevious) 
       await deleteDoc(docRef);
   }
 
-  // console.log('done')
 }
 
 export const deleteDocument = async (collection, id) => {

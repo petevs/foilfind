@@ -3,7 +3,6 @@ export const geocodeAddress = async (address) => {
     const data = await response.json()
     const { lat, lng } = data.results[0].geometry
     const place = data.results[0].components
-    console.log([lat, lng])
     return [ lat, lng]
 
   }

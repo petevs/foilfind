@@ -6,8 +6,6 @@ const DropdownChip = ({ label, children, active }) => {
 
   const [opened, setOpened] = useState(false)
 
-  console.log(label + 'is' + active)
-
   return (
     <Menu opened={opened} onChange={setOpened}>
         <Menu.Target>

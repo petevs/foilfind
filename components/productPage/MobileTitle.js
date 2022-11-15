@@ -29,16 +29,22 @@ const MobileTitle = ({product, scrollIntoView, targetRef}) => {
         <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '.5rem', alignItems: 'center'}}>
           <Text size='sm' color='dimmed'>{product.brand}</Text>
           <Text color='dimmed' size='sm'>·</Text>
-          <UnstyledButton
-              onClick={() => scrollIntoView(targetRef)}
-            >
-              <Group spacing='xs'>
-                <Box sx={{marginTop: '5px'}}>
-                  <RatingsReadOnly rating={product.reviewSummary.rating} />
-                </Box>
-                <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
-              </Group>
-            </UnstyledButton>
+          {
+              product.reviewSummary.numOfReviews ? (
+              <UnstyledButton
+                onClick={() => scrollIntoView(targetRef)}
+              >
+                <Group spacing='xs'>
+                  <Box sx={{marginTop: '5px'}}>
+                    <RatingsReadOnly rating={product.reviewSummary.rating} />
+                  </Box>
+                  <Text color='dimmed' size='sm'>Based on {product.reviewSummary.numOfReviews} Reviews</Text>
+                </Group>
+              </UnstyledButton>
+              )
+              :
+              <Text color='dimmed' size='sm'>No Reviews Yet</Text>
+            }
           </Box>
           <Box
             sx={{

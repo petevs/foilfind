@@ -85,7 +85,12 @@ export default function ProductForm(props) {
         case 'boards':
           return boardSpecs
         case 'wings':
-          return wingSpecs
+          return {
+            wingSpecs: {
+              size: wingSpecs.size,
+              weight: wingSpecs.weight
+            }
+          }
         default:
           return
     }
@@ -101,6 +106,7 @@ export default function ProductForm(props) {
       numOfInStock: getNumOfInStock(),
       path: createSlug(productInfo.name),
       images: productImages,
+      id: product?.id || productInfo.name,
     })
     router.push(`/products/${product.path}`)
 

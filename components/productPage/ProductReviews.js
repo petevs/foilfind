@@ -140,7 +140,7 @@ const ProductReviews = ({targetRef, product, foilFindReviews}) => {
             mt='md'
             sx={({ theme }) => ({
                 display: 'grid',
-                gridTemplateColumns: '1fr 2fr',
+                gridTemplateColumns: (foilFindReviews.length > 0 && product.reviews.length > 0) ? '1fr 2fr' : '1fr',
                 gap: '1rem',
                 '@media (max-width: 768px)': {
                     gridTemplateColumns: '1fr',
@@ -250,7 +250,7 @@ const ProductReviews = ({targetRef, product, foilFindReviews}) => {
                                                 setRating(review.rating)
                                                 setReviewID(review.id)
                                                 setOpened(true)
-                                                console.log(review)
+
                                             }}
                                         >
                                             Edit Review
@@ -276,7 +276,7 @@ const ProductReviews = ({targetRef, product, foilFindReviews}) => {
                         <Text color='dimmed'>
                                 If you{'\''}ve used this product, share your thoughts with the community.
                         </Text>
-                        <Button mt='sm' size='sm' color='dark' variant='outline'
+                        <Button mt='sm' size='xs' color='dark' variant='filled'
                             onClick={() => setOpened(true)}
                         >
                             Write a review

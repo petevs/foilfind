@@ -63,8 +63,6 @@ export default function RentalsPage(props) {
       }));
     };
 
-    console.log(sortedData)
-
     return (
         <BasicShell>
             <Container size="xl" p='lg'>
