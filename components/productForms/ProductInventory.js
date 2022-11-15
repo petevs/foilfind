@@ -29,8 +29,8 @@ const ProductInventory = ({productInventory, setProductInventory}) => {
             {
                 productInventory.map((inventory, index) => (
 
-                    <>
-                    <Box key={index}
+                    <Box key={index}>
+                    <Box
                         p='md'
                         sx={(theme) => ({
                             display: 'grid',
@@ -98,7 +98,7 @@ const ProductInventory = ({productInventory, setProductInventory}) => {
                         </Button>
                     </Box>
                     <Divider />
-                    </>
+                    </Box>
                 ))
             }
             <Box p='md'>

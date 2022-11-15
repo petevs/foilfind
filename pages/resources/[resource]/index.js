@@ -1,11 +1,13 @@
-import { Container, Text, AspectRatio, Box } from "@mantine/core"
+import { Container, Text, AspectRatio, Box, Title, Button, Divider } from "@mantine/core"
 import BasicShell from "../../../components/shells/BasicShell"
 import { getCollectionWhere, getDocument } from '../../../helpers/firebaseHelpers'
+import useCheckAdmin from "../../../hooks/useCheckAdmin"
+import { useRouter } from "next/router"
 
 export async function getServerSideProps(context) {
 
     const resourceDoc = await getCollectionWhere('resources', 'path', '==', context.params.resource)
-    const resource = resourceDoc[0]
+    const resource = JSON.stringify(resourceDoc[0])
     
     return {
         props: {
@@ -16,7 +18,9 @@ export async function getServerSideProps(context) {
 
 export default function ResourcePage(props) {
 
-    const { resource } = props
+    const resource = JSON.parse(props.resource)
+    const { isAdmin }   = useCheckAdmin()
+    const router = useRouter()
 
     const getIDFromYoutubeURL = (url) => {
         const id = url.split('v=')[1]
@@ -31,8 +35,6 @@ export default function ResourcePage(props) {
     return (
         <BasicShell>
             <Container size='lg' p='lg'>
-                <h1>{resource.title}</h1>
-                <Text>{resource.description}</Text>
                 {
                     resource.type === 'youtube' &&
                     <Box py='xl'>
@@ -48,6 +50,28 @@ export default function ResourcePage(props) {
                         </AspectRatio>
                     </Box>
 
+                }
+                <Title order={1}>{resource.title}</Title>
+                <div dangerouslySetInnerHTML={{__html: resource.description}}></div>
+
+                {
+                    isAdmin &&
+                    <Box>
+                        <Divider my='lg' />
+                        <Button
+                            color='dark'
+                            size='xs'
+                            onClick={() => router.push({
+                                pathname: '/resources/edit',
+                                query: {
+                                    rid: resource.id
+                                }
+                            })}
+
+                        >
+                            Edit
+                        </Button>
+                    </Box>
                 }
             </Container>
         </BasicShell>

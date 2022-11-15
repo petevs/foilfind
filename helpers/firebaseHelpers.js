@@ -27,7 +27,7 @@ export const getDocument = async (collection, id) => {
   const docSnap = await getDoc(docRef);
   
   if (docSnap.exists()) {
-      return docSnap.data();
+      return {...docSnap.data(), id: docSnap.id};
   } else {
       return null;
   }

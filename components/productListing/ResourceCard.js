@@ -1,7 +1,7 @@
 import { Box, Badge, Title , Text, Paper, Button} from '@mantine/core'
 import Link from 'next/link'
 
-const ResourceCard = ({type, title, description, path}) => {
+const ResourceCard = ({type, title, shortDescription, path}) => {
 
   const colorBasedOnType = () => {
     switch(type) {
@@ -14,6 +14,13 @@ const ResourceCard = ({type, title, description, path}) => {
       default:
         return 'gray'
     }
+  }
+
+  const clipTextToLength = (text, length) => {
+    if(text.length > length) {
+      return text.substring(0, length) + '...'
+    }
+    return text
   }
 
   return (
@@ -39,7 +46,7 @@ const ResourceCard = ({type, title, description, path}) => {
         })}>
         <Badge color={colorBasedOnType()} mb='md'>{type}</Badge>
         <Title order={4}>{title}</Title>
-        <Text size='sm' color='dimmed'>{description}</Text>
+        <Text size='sm' color='dimmed'>{clipTextToLength(shortDescription, 200)}</Text>
         <Button mt='md' size='xs' radius='md' variant='default'>View Resource</Button>
       </Box>
     </Link>

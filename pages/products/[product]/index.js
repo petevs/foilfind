@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import RatingsReadOnly from "../../../components/RatingsReadOnly";
 import Head from "next/head";
 import Link from "next/link";
-import { IconBuildingStore, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconGripHorizontal, IconHeart, IconShare, IconTemperature, IconThumbUp } from "@tabler/icons";
+import { IconEdit, IconClipboardCopy, IconCheck, IconChevronDown, IconChevronRight, IconDiscountCheck, IconGripHorizontal, IconHeart, IconShare, IconTemperature, IconThumbUp, IconCopy } from "@tabler/icons";
 import ResourceCard from "../../../components/productListing/ResourceCard";
 import { camelToTitleCase} from '../../../helpers/formatters'
 import WingRangeChart from "../../../components/WingRangeChart";
@@ -25,6 +25,7 @@ import { useScrollIntoView } from "@mantine/hooks";
 import FoilSpecs from "../../../components/productPage/FoilSpecs";
 import ProductReviews from "../../../components/productPage/ProductReviews";
 import OtherSizeProducts from "../../../components/productPage/OtherSizeProducts";
+import Router from "next/dist/server/router";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -321,7 +322,7 @@ export default function ProductPage(props) {
                     key={index}
                     title={item.title}
                     type='video'
-                    description={item.description}
+                    shortDescription={item.shortDescription}
                     path={item.path}
                   />
                 ))
@@ -345,17 +346,46 @@ export default function ProductPage(props) {
             product={product}
             foilFindReviews={foilFindReviews}
           />
-  
 
-          <Box py='xl'>
+
+
             {
               isAdmin && (
-                <Button
-                  onClick={() => router.push(`${router.asPath}/edit`)}
-                >Edit</Button>
+                <Box py='xl'>
+                  <Divider my='lg' />
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: 'auto auto',
+                      justifyContent: 'end',
+                      gap: '1rem'
+                    }}
+                  >
+
+                    <Button
+                      size='xs'
+                      color='dark'
+                      leftIcon={<IconEdit size={16} />}
+                      onClick={() => router.push(`${router.asPath}/edit`)}
+                    >
+                      Edit
+                    </Button>
+
+                    <Button
+                      size='xs'
+                      color='dark'
+                      leftIcon={<IconCopy size={16} />}
+                      onClick={() => router.push({
+                        pathname: `/products/add-new`,
+                        query: { pid: product.id }
+                      })}
+                    >
+                      Clone
+                    </Button>
+                  </Box>
+              </Box>
               )
             }
-          </Box>
         </Container>
       </BasicShell>
     </div>

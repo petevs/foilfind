@@ -1,10 +1,11 @@
 import SectionWrapper from '../editRetailer/SectionWrapper'
 import FormHeader from '../editRetailer/FormHeader'
 import FormWrapper from '../editRetailer/FormWrapper'
-import { Container, Box, TextInput, Select, MultiSelect } from '@mantine/core'
+import { Container, Box, TextInput, Select, MultiSelect, Textarea } from '@mantine/core'
 import { useState, useEffect } from 'react'
-import { createDocument, getCollection } from '../../../helpers/firebaseHelpers'
+import { createDocument, getCollection, getDocument } from '../../../helpers/firebaseHelpers'
 import { useRouter } from 'next/router'
+import RichTextEditor from '../../RichText'
 
 const ResourcesForm = (props) => {
  
@@ -24,15 +25,23 @@ const ResourcesForm = (props) => {
 
     const router = useRouter()
 
+    const createPathFromTitle = (title) => {
+        return title.toLowerCase().replace(/ /g, '-')
+    }
+
     const [resource, setResource] = useState({
-        title: '',
-        description: '',
-        link: '',
-        type: '',
-        tags: [],
-        image: '',
-        relatedProducts: [],
-        relatedRetailers: []
+        id: props.resource?.id || '',
+        title: props.resource?.title ||'',
+        shortDescription: props.resource?.shortDescription || '',
+        description: props.resource?.description || '',
+        content: '',
+        link: props.resource?.link || '',
+        type: props.resource?.type || '',
+        tags: props.resource?.tags || [],
+        image: props.resource?.image || '',
+        thumbnail: props.resource?.thumbnail || '',
+        relatedProducts: props.resource?.relatedProducts || [],
+        relatedRetailers: props.resource?.relatedRetailers || [],
     })
 
     const typesOfResources = [
@@ -45,15 +54,19 @@ const ResourcesForm = (props) => {
     ]
 
     const updateResource = async () => {
-        await createDocument('resources', resource.title, resource)
+
+        await createDocument('resources', (resource.id ? resource.id : resource.title), {
+            ...resource,
+            path: createPathFromTitle(resource.title)
+        })
         router.reload(window.location.pathname)
     }
-
+    
   return (
     <Container size='xl' py='xl'>
         <SectionWrapper>
                 <FormHeader 
-                    title='Add New Resource'
+                    title={props.resource ? 'Edit Resource' : 'Add Resource'}
                 />
             <FormWrapper
                 onSave={updateResource}
@@ -65,12 +78,20 @@ const ResourcesForm = (props) => {
                         value={resource.title}
                         onChange={(e) => setResource({...resource, title: e.currentTarget.value})}
                     />
-                    <TextInput
+                    <Textarea
+                        label="Short Description"
+                        placeholder="Enter short description"
+                        value={resource.shortDescription}
+                        onChange={(e) => setResource({...resource, shortDescription: e.currentTarget.value})}
+                        autosize
+                    />
+                    <RichTextEditor
                         label="Description"
                         placeholder="Enter description"
                         value={resource.description}
-                        onChange={(e) => setResource({...resource, description: e.currentTarget.value})}
+                        onChange={(e) => setResource({...resource, description: e})}
                     />
+
                     <TextInput
                         label="Link"
                         placeholder="Enter link"

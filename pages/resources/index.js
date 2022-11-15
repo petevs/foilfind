@@ -41,7 +41,7 @@ export default function ResourcesPage(props) {
                     {
                         resources.map((resource, index) => {
                             return (
-                                <ResourceCard key={index} type={resource.type} title={resource.title} description={resource.description} path={resource.path} />
+                                <ResourceCard key={index} type={resource.type} title={resource.title} shortDescription={resource.shortDescription} path={resource.path} />
                             )
                         })
                     }

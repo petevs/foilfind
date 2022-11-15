@@ -26,10 +26,16 @@ export async function getStaticProps({ params }){
 
 export default function AddNewProductPage(props){
 
+  // get query parameters
+
+  const router = useRouter()
+  const queryprops = router.query
+
+
   return (
     <BasicShell>
       <Container size='xl' p='lg'>
-        <ProductForm {...props} />
+        <ProductForm {...props} {...queryprops} />
       </Container>
     </BasicShell>
   )

@@ -3,7 +3,7 @@ import FormHeader from "../pages/editRetailer/FormHeader"
 import FormWrapper from "../pages/editRetailer/FormWrapper"
 import { TextInput, Select, Container, Box, Divider, MultiSelect, NumberInput, Text, Accordion, Textarea, Button, Paper } from "@mantine/core"
 import { useState, useEffect } from "react"
-import { createDocument } from "../../helpers/firebaseHelpers"
+import { createDocument, getDocument } from "../../helpers/firebaseHelpers"
 import { useRouter } from "next/router"
 import FoilKitSpecs from "./FoilKitSpecs"
 import ProductReviewsForm from "./ProductReviewsForm"
@@ -14,6 +14,7 @@ import ProductIncludedForm from "./ProductIncludedForm"
 import BrandDescription from "./BrandDescription"
 import WingSpecs from "./WingSpecs"
 import ProductInventory from "./ProductInventory"
+import { clampUseMovePosition } from "@mantine/hooks"
 
 
 export default function ProductForm(props) {
@@ -36,6 +37,30 @@ export default function ProductForm(props) {
   const [productReviews, setProductReviews] = useState(product?.reviews || [])
   const [productLinks, setProductLinks] = useState([])
   const [productInventory, setProductInventory] = useState(product?.inventory || [])
+
+  useEffect(() => {
+    if('pid' in props){
+
+      const getClonedDoc = async () => {
+        const clonedDoc = await getDocument('products', props.pid)
+        setProductInfo({...initialProductInfo(clonedDoc), id: ''})
+        setIncluded(initialWingSpecs(clonedDoc))
+        setFoilKitSpecs(initialFoilKitSpecs(clonedDoc))
+        setBoardSpecs(initialBoardSpecs(clonedDoc))
+        setWingSpecs(clonedDoc?.wingSpecs || '')
+        setProductImages(clonedDoc?.images || [])
+        setProductVideos([])
+        setProductReviews(clonedDoc?.reviews || [])
+        setProductLinks([])
+        setProductInventory(clonedDoc?.inventory || [])
+      }
+
+      getClonedDoc()
+    }
+
+  },[props])
+
+  console.log(productInfo)
 
 
   // function to get min and max price from productInventory
