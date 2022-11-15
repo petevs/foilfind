@@ -74,7 +74,7 @@ const RetailerTable = ({data, brand}) => {
             }}
             color="dark"
             variant="filled"
-            fullWidth
+            sx={{ width: '100%' }}
           >
             Set location
           </Button>

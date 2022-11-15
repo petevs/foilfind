@@ -95,7 +95,7 @@ export default function SignUpPage() {
             </Anchor>
           </Link>
         </Group>
-        <Button fullWidth mt='md' type='submit'>
+        <Button sx={{ width: '100%' }} mt='md' type='submit'>
           {
           type === 'login' ? 'Sign in' : 'Create account'
           }

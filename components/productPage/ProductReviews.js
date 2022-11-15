@@ -3,7 +3,7 @@ import RatingsReadOnly from "../RatingsReadOnly"
 import { useState, useContext } from 'react'
 import { UserContext } from "../../state/UserContext"
 import Link from "next/link"
-import { doc, updateDoc, arrayUnion } from "firebase/firestore"
+import { doc, updateDoc, addDoc, collection } from "firebase/firestore"
 import { db } from "../../firebase"
 
 const ProductReviews = ({targetRef, product}) => {
@@ -12,6 +12,7 @@ const ProductReviews = ({targetRef, product}) => {
     const { user, userDetails } = useContext(UserContext)
     const [rating, setRating] = useState(0)
     const [reviewContent, setReviewContent] = useState('')
+    const [reviewID, setReviewID] = useState(null)
 
     const getReviewSummary = (newReview) => {
         let total = 0
@@ -43,31 +44,26 @@ const ProductReviews = ({targetRef, product}) => {
       }
 
     const handleReviewSubmit = async () => {
-        const docRef = doc(db, 'products', product.id)
+
         const newReview = {
             rating,
             content: reviewContent,
             source: 'Foil Find',
-            link: `https://foilfind.com/product/${product.path}`,
-            username: userDetails?.username,
+            productID: product.id,
+            userID: user.uid,
+            username: userDetails.username,
+            userAvatar: userDetails.avatar,
+            // new date to seconds
+            date: Math.floor(Date.now() / 1000)
         }
-        const reviewSummary = getReviewSummary(newReview)
 
-        await updateDoc(docRef, {
-            reviewSummary: reviewSummary,
-            reviews: arrayUnion(newReview)
-        })
+        if(!reviewID) {
+            const newReviewRef = await addDoc(collection(db, 'product-reviews'), newReview)
+            setOpened(false)
+            return
+        }
 
-        const userDoc = doc(db, 'users', user.uid)
-        await updateDoc(userDoc, {
-            reviews: arrayUnion({
-                source: 'foilfind',
-                rating,
-                content: reviewContent,
-                link: `https://foilfind.com/product/${product.id}`,
-                username: userDetails?.username,
-            })
-        })
+        await updateDoc(doc(db, 'product-reviews', reviewID), newReview)
 
         setOpened(false)
 
@@ -99,13 +95,13 @@ const ProductReviews = ({targetRef, product}) => {
                         mt='sm'
                         placeholder='Write your review here'
                         minRows={5}
-                        fullWidth
+                        sx={{ width: '100%' }}
                         autosize
                         value={reviewContent}
                         onChange={e => setReviewContent(e.target.value)}
                     />
                     <Button
-                        fullWidth
+                        sx={{ width: '100%' }}
                         mt='sm'
                         color='dark'
                         variant='filled'
@@ -124,7 +120,7 @@ const ProductReviews = ({targetRef, product}) => {
                         passHref
                     >
                         <Button
-                            fullWidth
+                            sx={{ width: '100%' }}
                             mt='sm'
                             color='dark'
                             variant='filled'
@@ -229,6 +225,7 @@ const ProductReviews = ({targetRef, product}) => {
                                                 setReviewContent(review.content)
                                                 setRating(review.rating)
                                                 setOpened(true)
+                                                console.log(review)
                                             }}
                                         >
                                             Edit Review

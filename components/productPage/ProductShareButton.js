@@ -28,7 +28,7 @@ const ProductShareButton = ({url}) => {
                                 onClick={copy}
                                 size='sm'
                                 mt='sm'
-                                fullWidth
+                                sx={{ width: '100%' }}
                                 leftIcon={<IconCopy size={16} />}
                                 color={copied ? 'green' : 'dark'}
 

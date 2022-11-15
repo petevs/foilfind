@@ -242,8 +242,7 @@ const RetailerDetailCard = ({retailer}) => {
             variant='outline' 
             color='dark' 
             radius='xl' 
-            fullWidth
-            sx={(theme) => ({ '& span': {color: theme.colors.dark}})}
+            sx={(theme) => ({ width: '100%', & span': {color: theme.colors.dark}})}
             // onClick={() => window.open(checkforHTTP(), '_blank')}
             >Vist Website</Button>
         }
@@ -387,7 +386,7 @@ const RetailerDetailCard = ({retailer}) => {
           <>
             <Divider my='lg' />
             <Box sx={{display: 'grid', justifyContent: 'start', gridTemplateColumns: '1fr', alignItems: 'center'}}>
-              <Button fullWidth size='xs' variant='filled' color='gray'
+              <Button sx={{ width: '100%' }} size='xs' variant='filled' color='gray'
                 onClick={() => {
                   router.push('/retailers/' + retailer.path + '/edit')
                 }}
