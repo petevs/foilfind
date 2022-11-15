@@ -133,7 +133,12 @@ export default function ProductForm(props) {
       images: productImages,
       id: product?.id || productInfo.name,
     })
-    router.push(`/products/${product.path}`)
+    if(product.path){
+      router.push(`/products/${product.path}`)
+      return
+    }
+    
+    router.push(`/products/${createSlug(productInfo.name)}`)
 
   }
 

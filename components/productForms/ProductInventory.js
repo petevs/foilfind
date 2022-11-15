@@ -54,12 +54,13 @@ const ProductInventory = ({productInventory, setProductInventory}) => {
                             } : inventory))}
                         />
                         <NumberInput
-                            label={`Price ${productInventory[index].price}`}
+                            label={`Price`}
                             placeholder="Enter price"
                             value={inventory.price}
                             onChange={(e) => setProductInventory(productInventory.map((inventory, i) => i === index ? { ...inventory, price: e } : inventory))}
                             min={0}
                             max={100000}
+                            precision={2}
                         />
                         <Select
                             label='Currency'
