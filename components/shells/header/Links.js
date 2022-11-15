@@ -42,24 +42,25 @@ const Links = () => {
                 {
                     list.map((item, index) => (
                         <Link key={index} href={item.href} passHref>
-                            <Text
-                                component='a'
-                                size='sm'
-                                color={item.href === router.asPath ? 'blue': 'dark'}
-                                sx={(theme) => ({
-                                    fontWeight: item.href === router.asPath ? 600 : 400,
-                                    '& a': {
-                                        color: 'gray',
-                                    },
-                                    '&:hover': {
-                                        color: theme.colors.blue[5],
-                                        textDecoration: 'none',
-                                        cursor: 'pointer'
-                                    }
-                                })}
-                            >
-                                {item.title}
-                            </Text>
+                            <Box component='a'>
+                                <Text
+                                    size='sm'
+                                    color={item.href === router.asPath ? 'blue': 'dark'}
+                                    sx={(theme) => ({
+                                        fontWeight: item.href === router.asPath ? 600 : 400,
+                                        '& a': {
+                                            color: 'gray',
+                                        },
+                                        '&:hover': {
+                                            color: theme.colors.blue[5],
+                                            textDecoration: 'none',
+                                            cursor: 'pointer'
+                                        }
+                                    })}
+                                >
+                                    {item.title}
+                                </Text>
+                            </Box>
                         </Link>
                     ))
                 }
