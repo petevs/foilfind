@@ -13,22 +13,16 @@ const CategoryHeader = ({headline, toPath}) => {
     paddingTop: `${theme.spacing.lg}px`,
   }) 
 
-  const titleStyle = (theme) => ({
-    'root': {
-      margin: 0,
-    }
-  })
-
-
-
 
   return (
     <Box sx={wrapper}>
-        <Title sx={titleStyle} order={3} my='xs' >{headline}</Title>
+        <Title style={{margin: '1rem 0'}} order={3} my='xs' >{headline}</Title>
         <Link href={toPath} passHref>
-          <Button variant='subtle' rightIcon={<IconChevronRight size={16} />} compact color='gray'>
-            Find
-          </Button>
+          <Box component='a'>
+            <Button variant='subtle' rightIcon={<IconChevronRight size={16} />} compact color='gray'>
+              Find
+            </Button>
+          </Box>
         </Link>
     </Box>
   )

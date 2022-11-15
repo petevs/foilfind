@@ -56,6 +56,7 @@ const BoardSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
                     value={productSpecs[input.value]}
                     onChange={(e) => setProductSpecs({...productSpecs, [input.value]: e})}
                     min={0}
+                    precision={2}
                   />
                 ))
               }

@@ -1,13 +1,9 @@
-import { Title, Box, Tooltip, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor, Menu, Popover, TextInput, CopyButton } from "@mantine/core"
-import { IconBrandFacebook, IconEdit, IconCheck, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
-import { deleteDoc } from "firebase/firestore"
+import { Box, Text, Group, ActionIcon, Button, Divider, Anchor } from "@mantine/core"
+import { IconBrandFacebook, IconEdit, IconMapPin, IconPhone, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconLink, IconMail } from "@tabler/icons"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useContext } from 'react'
-import { deleteDocument } from "../../../helpers/firebaseHelpers"
 import { sortArray } from "../../../helpers/formatters"
 import useCheckAdmin from "../../../hooks/useCheckAdmin"
-import { UserContext } from '../../../state/UserContext'
 import FavoriteRetailerButton from "./FavoriteRetailerButton"
 import ReviewButton from "./ReviewButton"
 import ShareButton from "./ShareButton"
@@ -242,7 +238,7 @@ const RetailerDetailCard = ({retailer}) => {
             variant='outline' 
             color='dark' 
             radius='xl' 
-            sx={(theme) => ({ width: '100%', & span': {color: theme.colors.dark}})}
+            sx={(theme) => ({ width: '100%', '& span': {color: theme.colors.dark}})}
             // onClick={() => window.open(checkforHTTP(), '_blank')}
             >Vist Website</Button>
         }

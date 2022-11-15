@@ -37,7 +37,9 @@ const Hero = ({subhead, head, buttonText, buttonOnClick, bgImg}) => {
           <Button radius='xl' size='lg' mt='md'>Search Now</Button> */}
           <Text size='lg' weight={700} color='white'>{subhead}</Text>
           <Text sx={{fontSize: '3rem'}} weight={700} color='white'>{head}</Text>
-          <Button radius='xl' size='lg' mt='md'>{buttonText}</Button>
+          <Button radius='xl' size='lg' mt='md'
+            onClick={buttonOnClick}
+          >{buttonText}</Button>
         </Box>
       </Box>
       <Box></Box>

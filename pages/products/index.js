@@ -5,6 +5,8 @@ import { getCollection} from "../../helpers/firebaseHelpers";
 import Hero from "../../components/Hero";
 import { useState } from "react";
 import CategorySlider from "../../components/CategorySlider";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 
 //get static props
@@ -26,6 +28,14 @@ export default function ProductsHome(props){
 
   const [opened, setOpened] = useState(false);
   const productCategories = ['foils', 'wings', 'boards', 'accessories'];
+  const router = useRouter()
+
+  const categoryImages = {
+    'foils': 'https://www.armstrongfoils.com/media/2298/foil-kit-cat-big-2.jpg',
+    'wings': 'https://www.armstrongfoils.com/media/2356/a-wing-v2-cat-website.jpg',
+    'boards': 'https://www.armstrongfoils.com/media/2404/fg-boards-cat-website-2.jpg',
+    'accessories': 'https://www.armstrongfoils.com/media/2019/accessories-cat-big.jpg'
+  }
 
   const foils = props.products.filter(product => product.category === 'foils');
   const wings = props.products.filter(product => product.category === 'wings');
@@ -40,10 +50,11 @@ export default function ProductsHome(props){
           head='Find Foil Answers'
           buttonText='Learn More'
           bgImg='https://images.unsplash.com/photo-1471079688237-3ac9a55f1d6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d2luZCUyMG9jZWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'
+          buttonOnClick={() => router.push('/resources')}
         />
         <Box mt='xl'>
           <Title order={1}>Products</Title>
-          <Title order={2}>Find by Category</Title>
+          <Title order={2} style={{margin: '.5rem 0'}}>Find by Category</Title>
         </Box>
         <Box
           sx={{
@@ -65,15 +76,26 @@ export default function ProductsHome(props){
                 >
                   <Box>
                     <Box sx={(theme) => ({
+                      position: 'relative',
                       height: '206px', 
                       backgroundColor: theme.colors.gray[2], 
                       backgroundSize: 'cover', 
                       backgroundPosition: 'center',
                       borderRadius: theme.radius.md,
+                      '& span': {
+                        borderRadius: theme.radius.md,
+                      },
                       '&:hover': {
                         border: `1px solid ${theme.colors.dark[2]}`,
                       }
                     })}>
+                      <Image
+                        src={categoryImages[category]}
+                        layout='fill'
+                        objectFit='cover'
+                        objectPosition='center'
+                        alt={category}
+                      />
                     </Box>
                   <Text 
                     align='center' 
@@ -91,17 +113,17 @@ export default function ProductsHome(props){
         </Box>
         <CategorySlider
           headline='Popular Foils'
-          toPath='/products/categories/foils'
+          toPath='/products/category/foils'
           products={foils}
         />
         <CategorySlider
           headline='Popular Wings'
-          toPath='/products/categories/wings'
+          toPath='/products/category/wings'
           products={wings}
         />
         <CategorySlider
           headline='Popular Boards'
-          toPath='/products/categories/boards'
+          toPath='/products/category/boards'
           products={boards}
         />
       </Container>
