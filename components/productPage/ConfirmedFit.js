@@ -72,8 +72,6 @@ export const ConfirmedFit = ({product}) => {
     
     const doesItFit = (riderWeight, skillLevel, windRange, foilSize) => {
 
-        console.log(riderWeight, skillLevel, windRange, foilSize)
-
         if(!riderWeight || !skillLevel || !windRange || !foilSize) {
             return false
         }

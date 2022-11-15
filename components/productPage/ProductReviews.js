@@ -6,7 +6,7 @@ import Link from "next/link"
 import { doc, updateDoc, addDoc, collection } from "firebase/firestore"
 import { db } from "../../firebase"
 
-const ProductReviews = ({targetRef, product}) => {
+const ProductReviews = ({targetRef, product, foilFindReviews}) => {
 
     const [opened, setOpened] = useState(false)
     const { user, userDetails } = useContext(UserContext)
@@ -149,10 +149,34 @@ const ProductReviews = ({targetRef, product}) => {
         >
             <Box>
                 {
+                aggregateReviewsBySource(foilFindReviews).map((item, index) => (
+                    <Box 
+                        key={index} 
+                        href={item.link}
+                        target='_blank'
+                        sx={{
+                            display: 'grid', 
+                            gridAutoFlow: 'column', 
+                            justifyContent: 'start', 
+                            gap: '1rem', 
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Text color='dimmed'>{item.averageRating} /  5</Text>
+                        <Box sx={{marginTop: '8px'}}>
+                        <RatingsReadOnly rating={item.averageRating} size={18} />
+                        </Box>
+                        {item.reviews.length} {item.source} reviews
+
+                    </Box>
+                ))
+
+                }
+                {
                 aggregateReviewsBySource(product.reviews).map((item, index) => (
                     <Box 
                         key={index} 
-                        component={item.source === 'Foil Find' ? 'div' : 'a'}
+                        component={'a'}
                         href={item.link}
                         target='_blank'
                         sx={{
@@ -177,7 +201,7 @@ const ProductReviews = ({targetRef, product}) => {
             <Box>
 
                 {
-                    product.reviews.filter(review => review.source === 'Foil Find').map((review, index) => (
+                    foilFindReviews.map((review, index) => (
                         <Box
                             key={index}
                             sx={(theme) => ({
@@ -224,6 +248,7 @@ const ProductReviews = ({targetRef, product}) => {
                                             onClick={() => {
                                                 setReviewContent(review.content)
                                                 setRating(review.rating)
+                                                setReviewID(review.id)
                                                 setOpened(true)
                                                 console.log(review)
                                             }}
@@ -239,7 +264,7 @@ const ProductReviews = ({targetRef, product}) => {
 
                 {
                     // if user has written a review hide this section
-                    product.reviews.filter(review => review?.username === userDetails?.username).length === 0 &&
+                    foilFindReviews.filter(review => review?.userID === user?.uid).length === 0 &&
                     <Box
                         sx={(theme) => ({
                             border: `1px solid ${theme.colors.gray[3]}`,

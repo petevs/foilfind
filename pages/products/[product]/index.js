@@ -53,11 +53,13 @@ export async function getStaticProps({ params }) {
   const product = data[0];
 
   const relatedResources = await getCollectionWhere("resources", "relatedProducts", "array-contains", product.id);
+  const reviews = await getCollectionWhere("product-reviews", "productID", "==", product.id);
 
   return {
     props: {
       product,
-      relatedResources
+      relatedResources,
+      reviews
     },
   }
 }
@@ -69,9 +71,11 @@ export default function ProductPage(props) {
   const router = useRouter();
   const { scrollIntoView, targetRef } = useScrollIntoView();
 
-  const { product, relatedResources } = props;
+  const { product, relatedResources, reviews: foilFindReviews } = props;
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
+
+  console.log(props.reviews)
 
   return (
     <div>
@@ -319,6 +323,7 @@ export default function ProductPage(props) {
           <ProductReviews
             targetRef={targetRef}
             product={product}
+            foilFindReviews={foilFindReviews}
           />
   
 
