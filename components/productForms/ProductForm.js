@@ -38,29 +38,29 @@ export default function ProductForm(props) {
   const [productLinks, setProductLinks] = useState([])
   const [productInventory, setProductInventory] = useState(product?.inventory || [])
 
-  useEffect(() => {
-    if('pid' in props){
+  // useEffect(() => {
+  //   if('pid' in props){
 
-      const getClonedDoc = async () => {
-        const clonedDoc = await getDocument('products', props.pid)
-        setProductInfo({...initialProductInfo(clonedDoc), id: ''})
-        setIncluded(initialWingSpecs(clonedDoc))
-        setFoilKitSpecs(initialFoilKitSpecs(clonedDoc))
-        setBoardSpecs(initialBoardSpecs(clonedDoc))
-        setWingSpecs(clonedDoc?.wingSpecs || '')
-        setProductImages(clonedDoc?.images || [])
-        setProductVideos([])
-        setProductReviews(clonedDoc?.reviews || [])
-        setProductLinks([])
-        setProductInventory(clonedDoc?.inventory || [])
-      }
+  //     const getClonedDoc = async () => {
+  //       const clonedDoc = await getDocument('products', props.pid)
+  //       setProductInfo({...initialProductInfo(clonedDoc), id: ''})
+  //       setIncluded(initialWingSpecs(clonedDoc))
+  //       setFoilKitSpecs(initialFoilKitSpecs(clonedDoc))
+  //       setBoardSpecs(initialBoardSpecs(clonedDoc))
+  //       setWingSpecs(clonedDoc?.wingSpecs || '')
+  //       setProductImages(clonedDoc?.images || [])
+  //       setProductVideos([])
+  //       setProductReviews(clonedDoc?.reviews || [])
+  //       setProductLinks([])
+  //       setProductInventory(clonedDoc?.inventory || [])
+  //     }
 
-      getClonedDoc()
-    }
+  //     getClonedDoc()
+  //   }
 
-  },[props])
+  // },[props])
 
-  console.log(productInfo)
+  // console.log(productInfo)
 
 
   // function to get min and max price from productInventory
