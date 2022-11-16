@@ -38,6 +38,7 @@ const initialBoardSpecs = (product) => {
     riderSkillLevel: product?.riderSkillLevel || [],
     disciplines: product?.disciplines || [],
     constructionMaterial: product?.constructionMaterial || '',
+    weight: product?.weight || '',
   }
 }
 

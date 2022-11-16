@@ -5,7 +5,9 @@ import { retailerList } from './retailerList'
 import { DatePicker } from "@mantine/dates"
 
 
-const ProductReviewsForm = ({productReviews, setProductReviews}) => {
+const ProductReviewsForm = ({productReviews, setProductReviews, brands}) => {
+  
+  console.log(brands)
 
   const initialReview = {
     reviewTitle: '',
@@ -14,6 +16,14 @@ const ProductReviewsForm = ({productReviews, setProductReviews}) => {
     source: '',
     link: ''
   }
+
+  const reviewSources = () => {
+    const sources = []
+    brands.forEach(brand => sources.push(brand))
+    retailerList.forEach(retailer => sources.push(retailer.name))
+    return sources
+  }
+
 
   return (
     <>
@@ -40,7 +50,7 @@ const ProductReviewsForm = ({productReviews, setProductReviews}) => {
                         <Select
                           label='Source'
                           placeholder='Enter source'
-                          data={retailerList.map((retailer) => retailer.name)}
+                          data={reviewSources()}
                           searchable
                           value={review.source}
                           onChange={(e) => setProductReviews(productReviews.map((review, i) => i === index ? { ...review, source: e } : review))}

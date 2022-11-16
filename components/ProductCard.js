@@ -37,6 +37,8 @@ const ProductCard = ({ product }) => {
                       layout="fill"
                       objectFit="cover"
                       alt={product.name}
+                      blurDataURL={product.images[0]}
+                      placeholder="blur"
                     />
                   </Box>
                   <Box p='md'>

@@ -26,6 +26,7 @@ import FoilSpecs from "../../../components/productPage/FoilSpecs";
 import ProductReviews from "../../../components/productPage/ProductReviews";
 import OtherSizeProducts from "../../../components/productPage/OtherSizeProducts";
 import Router from "next/dist/server/router";
+import ProductBreadcrumbs from "../../../components/productPage/ProductBreadcrumbs";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -93,6 +94,9 @@ export default function ProductPage(props) {
         <meta property="og:image" content={imgURL} />
       </Head>
       <BasicShell>
+          <ProductBreadcrumbs
+            category={product.category}
+          />
         <Container size='lg'>
             <ConfirmedFit 
               product={product}
@@ -330,9 +334,9 @@ export default function ProductPage(props) {
           <OtherSizeProducts
             products={otherSizeProducts}
           />
-
+{/* 
           <Divider my='lg' />
-          <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title> 
+          <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title>  */}
 
           {/* <Divider my='lg' />
           <Title order={3} style={{margin: '1rem 0'}}>Members Who Ride The {product.name}</Title>

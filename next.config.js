@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['www.armstrongfoils.com'],
+    domains: ['www.armstrongfoils.com', 'appletreesurfboards.com'],
   },
   async redirects() {
     return [

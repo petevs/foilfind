@@ -1,5 +1,5 @@
 import BasicShell from "../../../components/shells/BasicShell"
-import { Card, Container, TextInput, Box, Chip, Select } from "@mantine/core"
+import { Card, Container, TextInput, Box, Chip, Select, MultiSelect } from "@mantine/core"
 import { db } from "../../../firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { getCollection } from "../../../helpers/firebaseHelpers";
@@ -106,7 +106,7 @@ export default function BrandProducts(props){
                             size='sm'
                             color='dark'
                             onClick={() => setCategories({...categories, [chip.value]: !categories[chip.value]})}
-                            selected={categories[chip.value]}
+                            checked={categories[chip.value]}
                             
                         >
                             {chip.label}

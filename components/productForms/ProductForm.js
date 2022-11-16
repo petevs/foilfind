@@ -203,6 +203,7 @@ export default function ProductForm(props) {
       <ProductReviewsForm
         productReviews={productReviews}
         setProductReviews={setProductReviews}
+        brands={props.brands}
       />
 
 
