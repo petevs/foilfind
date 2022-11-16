@@ -5,15 +5,20 @@ const nextConfig = {
   images: {
     domains: ['www.armstrongfoils.com'],
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/retailers',
-  //       permanent: true,
-  //     },
-  //   ]
-  // }
+  async redirects() {
+    return [
+      {
+        source: '/brands/:brand',
+        destination: '/brands/:brand/products',
+        permanent: true,
+      }
+      // {
+      //   source: '/',
+      //   destination: '/retailers',
+      //   permanent: true,
+      // },
+    ]
+  }
 }
 
 module.exports = nextConfig

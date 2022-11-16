@@ -1,5 +1,5 @@
 import BasicShell from "../../../components/shells/BasicShell"
-import { Card, Container, Text, Box, Checkbox, Skeleton } from "@mantine/core"
+import { Card, Container, TextInput, Box, Chip, Select } from "@mantine/core"
 import { db } from "../../../firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { getCollection } from "../../../helpers/firebaseHelpers";
@@ -7,6 +7,7 @@ import BrandHeader from "../../../components/BrandHeader";
 import BrandContentShell from "../../../components/BrandContentShell";
 import { useState, useEffect } from "react";
 import ProductCard from "../../../components/ProductCard";
+import { IconSearch } from "@tabler/icons";
 
 // get static paths for all brands
 export async function getStaticPaths() {
@@ -78,27 +79,65 @@ export default function BrandProducts(props){
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  const chips = [
+    { label: 'Foils', value: 'foils' },
+    { label: 'Wings', value: 'wings' },
+    { label: 'Boards', value: 'boards' },
+  ];
+
   return (
     <BasicShell>
       <BrandHeader brand={brand.brand} active='products'/>
       <BrandContentShell>
-        <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2rem'}}>
-          <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '.5rem', alignContent: 'start'}}>
-              {
-                Object.keys(categories).map((category) => (
-                  <Checkbox
-                    key={category}
-                    label={capitalizeFirstLetter(category)}
-                    checked={brand[category] ? categories[category] : false}
-                    onChange={(event) => {
-                      setCategories({ ...categories, [category]: event.currentTarget.checked });
-                    }}
-                    disabled={!brand[category]}
-                  />
-                ))
-              }
-    
+        <Box sx={{display: 'grid', gridTemplateColumns: '1fr', gap: '1rem'}}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              justifyContent: 'start',
+              gap: '1rem'
+            }}
+          >
+            {
+                    chips.map(chip => (
+                        <Chip
+                            key={chip.label}
+                            variant='outline'
+                            size='sm'
+                            color='dark'
+                            onClick={() => setCategories({...categories, [chip.value]: !categories[chip.value]})}
+                            selected={categories[chip.value]}
+                            
+                        >
+                            {chip.label}
+                        </Chip>
+                    ))
+                }
           </Box>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: '1fr auto',
+              gap: '1rem'
+            }}
+          >
+            <TextInput
+                placeholder='Search by product, category, keywords'
+                icon={<IconSearch size={16} />}
+                // value={search}
+                // onChange={(event) => setSearch(event.currentTarget.value)}
+              />
+              <Select
+                defaultValue={'featured'}
+                data={[
+                  { label: 'Featured', value: 'featured' },
+                  { label: 'Price: Low to High', value: 'price-low' },
+                  { label: 'Price: High to Low', value: 'price-high' },
+                  { label: 'Newest', value: 'newest' },
+                ]}
+              />
+          </Box>
+
           <Box>
             {
               filteredProducts.map((product) => (

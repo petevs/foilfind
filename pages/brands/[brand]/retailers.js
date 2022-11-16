@@ -55,6 +55,7 @@ export default function BrandProducts(props){
           <MapPageWrapper
             parsedRetailers={retailers}
             brandPage={true}
+            noTitle={true}
           />
     </BasicShell>
   )

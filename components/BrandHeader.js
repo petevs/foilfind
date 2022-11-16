@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 export default function BrandHeader({ brand, active }) {
 
   const links = [
-    { label: 'About', path: '/'},
     { label: 'Products', path: '/products'},
     { label: 'Retailers', path: '/retailers'},
+    { label: 'About', path: '/'},
   ]
 
   const router = useRouter();
@@ -15,20 +15,11 @@ export default function BrandHeader({ brand, active }) {
 
   return (
     <>
-      <Box sx={{
-        height: '300px', 
-        position: 'relative',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1523469409786-14311feb8e7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3216&q=80)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}>
-        <Overlay color="#000" opacity={0.65} zIndex={1} />
-        <Box sx={{display: 'grid', height: '100%', justifyContent: 'center', alignContent: 'center', position: 'relative', zIndex: 2}}>
-          <Title color='white' order={1}>{brand}</Title>
-        </Box>
-      </Box>
       <Container p='sm' size='xl'>
-          <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '1rem'}}>
+      
+        <Title order={1} style={{marginTop: '2rem'}} >{brand}</Title>
+
+          <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'start', gap: '1rem'}} mt='md'>
             {
               links.map((link) => (
                 <Link href={`${url}${link.path}`} key={link.label} passHref>
@@ -37,6 +28,7 @@ export default function BrandHeader({ brand, active }) {
               ))
             }
           </Box>
+
         </Container>
         <Divider />
     </>

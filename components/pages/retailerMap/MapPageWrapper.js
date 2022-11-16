@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 import RetailerMapFilters from "./RetailerMapFilters";
 import { filterListingsReducer } from "./filterListingsReducer";
 
-export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
+export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage, noTitle }) {
 
 
   const brands = [
@@ -201,7 +201,10 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   return (
     <>
       <Box sx={headerBox}>
-        <Title order={1}>Retailers</Title>
+        {
+          !noTitle &&
+          <Title order={1}>Retailers</Title>
+        }
         <RetailerMapFilters
           filters={filters}
           setFilters={setFilters}
