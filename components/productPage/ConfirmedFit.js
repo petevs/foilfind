@@ -2,6 +2,7 @@ import { Box, Divider, Group, NativeSelect, NumberInput, Select, Text } from '@m
 import { IconCheck, IconX } from '@tabler/icons'
 import { useState, useEffect } from 'react'
 import { useLocalStorage } from '@mantine/hooks'
+import { doesItFit } from './confirmedFit/doesItFit'
 
 export const ConfirmedFit = ({product}) => {
 
@@ -15,7 +16,7 @@ export const ConfirmedFit = ({product}) => {
     const [skillLevel, setSkillLevel] = useLocalStorage({key: 'skillLevel', defaultValue: 'beginner'})
     const [windRange, setWindRange] = useLocalStorage({ key: 'windRange', defaultValue: 'moderate'})
 
-    const convertToKg = (weight, unit) => {
+    const convertToLbs = (weight, unit) => {
         if(unit === 'kg') {
             return weight / 0.453592
         } else {
@@ -23,97 +24,11 @@ export const ConfirmedFit = ({product}) => {
         }
     }
 
-    const foilChart = {
-        lightOrBeginner: {
-            light: [1300, 1800],
-            medium: [1550, 2200],
-            mediumHeavy: [1700, 2800],
-            heavy: [2100, 2400],
-        },
-        goodWind: {
-            light: [800, 1300],
-            medium: [850, 1550],
-            mediumHeavy: [900, 1600],
-            heavy: [1400, 2100],
-        }
-        
-    }
+    console.log(product)
 
-    const wingChart = {
-        'beginner, 14-20kts': {
-            '75-100': [3,5],
-            '100-125': [3,5],
-            '125-150': [3,5],
-            '150-175': [3,5],
-            '175-200': [3,5],
-            '200-225': [3,5],
-            '225-250': [3,5],
-        },
-        '10-20kts': {
-            '75-100': [3,5],
-            '100-125': [3,5],
-            '125-150': [3,5],
-            '150-175': [3,5],
-            '175-200': [3,5],
-            '200-225': [3,5],
-            '225-250': [3,5],
-        },
-        '15-25kts': {
-            '75-100': [3,5],
-            '100-125': [3,5],
-            '125-150': [3,5],
-            '150-175': [3,5],
-            '175-200': [3,5],
-            '200-225': [3,5],
-            '225-250': [3,5],
-        },
-        
-    }
-    
-    const doesItFit = (riderWeight, skillLevel, windRange, foilSize) => {
-
-        if(!riderWeight || !skillLevel || !windRange || !foilSize) {
-            return false
-        }
-
-        const getKey = () => {
-            if(windRange === 'light' || skillLevel === 'beginner') {
-                return 'lightOrBeginner'
-            }
-            return 'goodWind'
-        }
-    
-        const getWeightRange = () => {
-    
-            if(riderWeight < 140) {
-                return 'light'
-            }
-            if(riderWeight >= 140 && riderWeight < 170) {
-                return 'medium'
-            }
-            if(riderWeight >= 170 && riderWeight < 200) {
-                return 'mediumHeavy'
-            }
-            if(riderWeight >= 200) {
-                return 'heavy'
-            }
-    
-        }
-    
-        const key = getKey()
-        const weightRange = getWeightRange()
-    
-        const range = foilChart[key][weightRange]
-    
-        if(foilSize >= range[0] && foilSize <= range[1]) {
-            return true
-        }
-        return false
-    
-    }
-
-    const doesWIngFit = (riderWeight, skillLevel, windRange, wingSize) => {}
-
+    const doesItFitResult = doesItFit(convertToLbs(weight, weightUnit), skillLevel, windRange, product)
+    const doesItFitState = doesItFitResult.result
+    const doestItFitMessage = doesItFitResult.message
 
 
   return (
@@ -121,7 +36,7 @@ export const ConfirmedFit = ({product}) => {
     <Box
         sx={(theme) => ({
             border: `1px solid`,
-            borderColor: doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, product.frontWing.areaCM) ? theme.colors.green[5] : theme.colors.red[5],
+            borderColor: doesItFitState ? theme.colors.green[5] : theme.colors.red[5],
             borderRadius: theme.radius.md,
             margin: '1rem 0',
         })}
@@ -154,18 +69,14 @@ export const ConfirmedFit = ({product}) => {
                 <Text weight={700} size='md' color='dark' transform='capitalize'>Does This {category.slice(0, -1)} Fit You?</Text>
                 <Divider orientation='vertical' />
                 <Group spacing='xs'>
-                    {/* <IconCheck size={18} /> */}
-                    {
-                        doesItFit(convertToKg(weight, weightUnit), skillLevel, windRange, product.frontWing.areaCM) ?
                         <Group>
-                            <IconCheck color='green' size={18} />
-                            <Text>This foil should fit.</Text>
-                        </Group> :
-                        <Group>
-                            <IconX size={18} color='red' />
-                            <Text>This foil may not fit.</Text>
+                            {
+                                doesItFitState ? <IconCheck size={20} color='green' /> : <IconX size={20} color='red' />
+
+                                
+                            }
+                            <Text>{doestItFitMessage}</Text>
                         </Group>
-                    }
                 </Group>
             </Box>
             <Box

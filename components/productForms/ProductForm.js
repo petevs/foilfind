@@ -175,8 +175,8 @@ export default function ProductForm(props) {
         // If boards category selected then show board specs form
         productInfo.category === 'boards' &&
         <BoardSpecs
-          productSpecs={foilKitSpecs}
-          setProductSpecs={setFoilKitSpecs}
+          productSpecs={boardSpecs}
+          setProductSpecs={setBoardSpecs}
           onSave={updateProduct}
         />
 

@@ -94,12 +94,9 @@ export default function ProductPage(props) {
       </Head>
       <BasicShell>
         <Container size='lg'>
-          {
-            product.category === 'foils' && 
             <ConfirmedFit 
               product={product}
             />
-          }
           <DesktopTitle
             product={product}
             scrollIntoView={scrollIntoView}
