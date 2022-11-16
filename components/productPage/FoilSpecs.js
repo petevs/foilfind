@@ -13,11 +13,16 @@ const FoilSpecs = ({product}) => {
     ]
 
 
+    const subKey = product.subCategory === 'front wings' ? 'frontWing' : 'tailWing'
+
+    const specs = subKey === 'frontWing' ? foilSpecs : foilSpecs.slice(0, 3)
+
+
   return (
     <Box>
         <Title order={3} style={{margin: '1rem 0'}}>Foil Specs</Title>
         {
-            foilSpecs.map((spec) => (        
+            specs.map((spec) => (        
             <Box
                 key={spec.value}
                 sx={(theme) => ({
@@ -35,7 +40,7 @@ const FoilSpecs = ({product}) => {
                     })}
                 >
                     <Text weight={600}>{spec.label}</Text>
-                    <Text weight={600}>{thousandSeparator(product.frontWing[spec.value])}</Text>
+                    <Text weight={600}>{thousandSeparator(product[subKey][spec.value])}</Text>
                 </Box>
                 <Box>
                     <Progress

@@ -2,7 +2,7 @@ import { Divider, Title, Box, Text } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const OtherSizeProducts = ({products}) => {
+const RelatedProducts = ({products}) => {
 
   if(products.length < 1) return <></>
 
@@ -20,7 +20,7 @@ const OtherSizeProducts = ({products}) => {
   return (
     <>
       <Divider my='lg' />
-      <Title order={3} style={{margin: '1rem 0'}}>Other Sizes</Title>
+      <Title order={3} style={{margin: '1rem 0'}}>Related Products</Title>
       <Box sx={slider}>
       {
           products.map((product, index) => (
@@ -58,4 +58,4 @@ const OtherSizeProducts = ({products}) => {
   )
 }
 
-export default OtherSizeProducts
+export default RelatedProducts

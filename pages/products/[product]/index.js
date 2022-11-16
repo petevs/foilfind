@@ -27,6 +27,7 @@ import ProductReviews from "../../../components/productPage/ProductReviews";
 import OtherSizeProducts from "../../../components/productPage/OtherSizeProducts";
 import Router from "next/dist/server/router";
 import ProductBreadcrumbs from "../../../components/productPage/ProductBreadcrumbs";
+import RelatedProducts from "../../../components/productPage/RelatedProducts";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -65,13 +66,21 @@ export async function getStaticProps({ params }) {
     otherSizeProducts.push(otherSizeProduct)
   }
 
+  const relatedProducts = []
+
+  for (const relatedProductID of product.relatedProducts) {
+    const relatedProduct = await getDocument("products", relatedProductID)
+    relatedProducts.push(relatedProduct)
+  }
+
 
   return {
     props: {
       product,
       relatedResources,
       reviews,
-      otherSizeProducts
+      otherSizeProducts,
+      relatedProducts
     },
   }
 }
@@ -83,7 +92,7 @@ export default function ProductPage(props) {
   const router = useRouter();
   const { scrollIntoView, targetRef } = useScrollIntoView();
 
-  const { product, relatedResources, reviews: foilFindReviews, otherSizeProducts } = props;
+  const { product, relatedResources, reviews: foilFindReviews, otherSizeProducts, relatedProducts } = props;
 
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
@@ -333,6 +342,10 @@ export default function ProductPage(props) {
 
           <OtherSizeProducts
             products={otherSizeProducts}
+          />
+
+          <RelatedProducts
+            products={relatedProducts}
           />
 {/* 
           <Divider my='lg' />
