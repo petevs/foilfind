@@ -28,6 +28,7 @@ import OtherSizeProducts from "../../../components/productPage/OtherSizeProducts
 import Router from "next/dist/server/router";
 import ProductBreadcrumbs from "../../../components/productPage/ProductBreadcrumbs";
 import RelatedProducts from "../../../components/productPage/RelatedProducts";
+import OtherSizeSelect from "../../../components/productPage/OtherSizeSelect";
 
 // get static paths for each product
 export async function getStaticPaths() {
@@ -227,6 +228,13 @@ export default function ProductPage(props) {
                       )
                       :
                       <Text color='dimmed' size='sm'>No Reviews Yet</Text>
+                    }
+                    {
+                      otherSizeProducts &&
+                      <OtherSizeSelect
+                        current={product.name} 
+                        products={otherSizeProducts}
+                      />
                     }
                     <Divider my='sm' />
                     <Box sx={{display: 'grid', gridTemplateColumns: '1fr auto'}}>
