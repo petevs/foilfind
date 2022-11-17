@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Container, Group, Modal } from "@mantine/core"
+import { ActionIcon, Box, Button, Container, Group, Modal, AspectRatio } from "@mantine/core"
 import Image from "next/image"
 import { IconChevronLeft, IconLayoutGrid } from "@tabler/icons"
 import { useState } from "react"
@@ -66,20 +66,26 @@ const PhotoSection = ({product}) => {
           <Box
             sx={(theme) => ({
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: '1fr',
               gap: '1rem',
             })}
           >
             {
               product.images.map((image, index) => (
-                <Box
-                  sx={{
-                    position: 'relative', 
-                    width: '100%', 
-                    height: '300px',
-                    gridColumn: photoList()[index] ? '1 / 3' : 'auto',
-                  }}
+                <AspectRatio
+                  // sx={{
+                  //   position: 'relative', 
+                  //   width: '100%', 
+                  //   height: '400px',
+                  //   gridColumn: photoList()[index] ? '1 / 3' : 'auto',
+                  // }}
+                  ratio={1}
                   key={index}
+                  sx={{ 
+                    minHeight: '300px', 
+                    width: '100%',
+                    // gridColumn: photoList()[index] ? '1 / 3' : 'auto',
+                  }}
                 >
                   <Image 
                     src={image} 
@@ -89,7 +95,7 @@ const PhotoSection = ({product}) => {
                     blurDataURL={image}
                     placeholder='blur'
                   />
-                </Box>
+                </AspectRatio>
               ))
             }
           </Box>
@@ -117,7 +123,7 @@ const PhotoSection = ({product}) => {
                   src={product.images[0]} 
                   alt={product.name} 
                   layout='fill'
-                  objectFit='cover'
+                  objectFit='contain'
                   blurDataURL={product.images[0]}
                   placeholder='blur'
                 />
