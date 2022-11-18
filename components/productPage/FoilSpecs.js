@@ -38,6 +38,15 @@ const FoilSpecs = ({product}) => {
                 ]
             }
         }
+        if(product.subCategory === 'fuselages') {
+            return {
+                subKey: 'fuselage',
+                specs: [
+                    { label: 'Length (cm)', value: 'lengthCM', min: 40, max: 120 },
+                    { label: 'Weight (grams)', value: 'weightGrams', min: 400, max: 2000 },
+                ]
+            }
+        }
     }
 
     console.log(product)

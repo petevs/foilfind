@@ -95,8 +95,6 @@ export default function ProductPage(props) {
 
   const { product, relatedResources, reviews: foilFindReviews, otherSizeProducts, relatedProducts } = props;
 
-  console.log(product)
-
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
   return (
@@ -108,6 +106,7 @@ export default function ProductPage(props) {
       <BasicShell>
           <ProductBreadcrumbs
             category={product.category}
+            subcategory={product.subCategory}
           />
         <Container size='lg'>
             <ConfirmedFit 
@@ -280,7 +279,12 @@ export default function ProductPage(props) {
                         </Menu.Dropdown>
                       </Menu>
                     </Box>
-                    <Text align='center' size='xs' color='dimmed' mt='xs'>${product.inventory[0].price} at {product.inventory[0].retailer}</Text>
+                    {
+                      product.inventory.length === 0 ?
+                      <Text color='red' size='sm' weight={600}>Out of Stock</Text>
+                      :
+                      <Text align='center' size='xs' color='dimmed' mt='xs'>${product.inventory[0].price} at {product.inventory[0].retailer}</Text>
+                    }
                   </Box>
                 </Paper>
               </Box>

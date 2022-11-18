@@ -23,6 +23,15 @@ const ProductBasicInfo = ({productInfo, setProductInfo, onSave, brands, productI
       { label: 'Inflatable Boards', value: 'inflatable boards' },
       { label: 'Hard Boards', value: 'hard boards' },
     ],
+    accessories: [
+      { label: 'Pumps', value: 'pumps' },
+      { label: 'Leashes', value: 'leashes' },
+      { label: 'Bags', value: 'bags' },
+      { label: 'Wing Bars', value: 'wing bars' },
+      { label: 'Harnesses', value: 'harnesses' },
+      { label: 'Harness Lines', value: 'harness lines' },
+      { label: 'Foot Straps', value: 'foot straps' },
+    ]
   }
 
   const [includeOptions, setIncludeOptions] = useState(productInfo?.includes || [])

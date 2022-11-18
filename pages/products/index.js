@@ -30,11 +30,42 @@ export default function ProductsHome(props){
   const productCategories = ['foils', 'wings', 'boards', 'accessories'];
   const router = useRouter()
 
+  const browseCategory = [
+    {label: 'Foil Kits', category: 'foils', subcategory: 'foil kits', path: '/foils/foil kits'},
+    {label: 'Front Wings', category: 'foils', subcategory: 'front wings', path: '/foils/front wings'},
+    {label: 'Tail Wings', category: 'foils', subcategory: 'tail wings', path: '/foils/tail wings'},
+    {label: 'Masts', category: 'foils', subcategory: 'masts', path: '/foils/masts'},
+    {label: 'Fuselages', category: 'foils', subcategory: 'fuselages', path: '/foils/fuselages'},
+    {label: 'Foil Hardware', category: 'foils', subcategory: 'hardware', path: '/foils/hardware'},
+    {label: 'Hard Boards', category: 'boards', subcategory: 'hard boards', path: '/boards/hard boards'},
+    {label: 'Inflatable Boards', category: 'boards', subcategory: 'inflatable boards', path: '/boards/inflatable'},
+    {label: 'Wings', category: 'wings', subcategory: 'wings', path: '/wings'},
+    {label: 'Pumps', category: 'accessories', subcategory: 'pumps', path: '/accessories/pumps'},
+    {label: 'Leashes', category: 'accessories', subcategory: 'leashes', path: '/accessories/leashes'},
+    {label: 'Bags', category: 'accessories', subcategory: 'bags', path: '/accessories/bags'},
+    {label: 'Wing Bars', category: 'accessories', subcategory: 'wing bars', path: '/accessories/wing bars'},
+    {label: 'Harnesses', category: 'accessories', subcategory: 'harnesses', path: '/accessories/harnesses'},
+    {label: 'Harness Lines', category: 'accessories', subcategory: 'harness lines', path: '/accessories/harness lines'},
+
+  ]
+
+
   const categoryImages = {
-    'foils': 'https://www.armstrongfoils.com/media/2298/foil-kit-cat-big-2.jpg',
-    'wings': 'https://www.armstrongfoils.com/media/2356/a-wing-v2-cat-website.jpg',
-    'boards': 'https://www.armstrongfoils.com/media/2404/fg-boards-cat-website-2.jpg',
-    'accessories': 'https://www.armstrongfoils.com/media/2019/accessories-cat-big.jpg'
+    'Foil Kits': 'https://www.armstrongfoils.com/media/1886/1050-money-4.png',
+    'Front Wings': 'https://www.armstrongfoils.com/media/1903/1050-wing-money-1.png',
+    'Tail Wings': 'https://www.armstrongfoils.com/media/2264/flying-v-money-view-1.png',
+    'Masts': 'https://www.armstrongfoils.com/media/2737/performance-mast-795mm-money-1.png',
+    'Fuselages': 'https://www.armstrongfoils.com/media/2274/tc-fuselage-money-web.png',
+    'Foil Hardware': 'https://www.armstrongfoils.com/media/2160/ttf-money-1.png',
+    'Hard Boards': 'https://www.armstrongfoils.com/media/2367/52-wing-sup-top.png',
+    'Inflatable Boards': 'https://www.f-one.world/app/uploads/2020/06/rocket-air-650x650.png',
+    'Wings': 'https://www.f-one.world/app/uploads/2021/05/strike-cwc-11-450x450.png',
+    'Pumps': 'https://www.armstrongfoils.com/media/2193/a-wing-pump-money-1.png',
+    'Leashes': 'https://www.armstrongfoils.com/media/1990/leash-money-2.png',
+    'Bags': 'https://www.armstrongfoils.com/media/2440/wing-surf-board-bag-money-1.png',
+    'Wing Bars': 'https://www.armstrongfoils.com/media/2185/powerlink-bar-money-1.png',
+    'Harnesses': 'https://cdn.shopify.com/s/files/1/0588/1721/6691/products/113782_4a24d48279e4304ecb5b84ed9897dcac7bcb604e_5884a755-9191-4125-8096-2e3a73f260d3_1267x.png?v=1668777469',
+    'Harness Lines': 'https://www.f-one.world/app/uploads/2019/10/HARNESS-LEASH-450x450.png'
   }
 
   const foils = props.products.filter(product => product.category === 'foils');
@@ -68,8 +99,8 @@ export default function ProductsHome(props){
           }}
         >
         {
-            productCategories.map(category => (
-              <Link key={category} href={`/products/category/${category}`} passHref>
+            browseCategory.map(category => (
+              <Link key={category.label} href={`/products/category${category.path}`} passHref>
                 <Box 
                   component='a' 
                   key={category}
@@ -90,9 +121,9 @@ export default function ProductsHome(props){
                       }
                     })}>
                       <Image
-                        src={categoryImages[category]}
+                        src={categoryImages[category.label]}
                         layout='fill'
-                        objectFit='cover'
+                        objectFit='contain'
                         objectPosition='center'
                         alt={category}
                       />
@@ -103,7 +134,7 @@ export default function ProductsHome(props){
                     mt='sm'
                     color='dark'
                   >
-                    {category}
+                    {category.label}
                   </Text>
                   </Box>
                 </Box>

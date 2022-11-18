@@ -27,8 +27,14 @@ export const ConfirmedFit = ({product}) => {
     console.log(product)
 
     const doesItFitResult = doesItFit(convertToLbs(weight, weightUnit), skillLevel, windRange, product)
-    const doesItFitState = doesItFitResult.result
-    const doestItFitMessage = doesItFitResult.message
+    const doesItFitState = doesItFitResult?.result
+    const doestItFitMessage = doesItFitResult?.message
+
+    if(!doesItFitResult){
+        return (
+            <></>
+        )
+    }
 
 
   return (
