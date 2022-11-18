@@ -4,6 +4,12 @@ import { thousandSeparator } from '../../helpers/formatters'
 
 const FoilSpecs = ({product}) => {
 
+    if(product.subCategory === 'foil kits'){
+        return (
+            <></>
+        )
+    }
+
 
     const foilSpecs = [
         { label: 'Area (cm²)', value: 'areaCM', min: 700, max: 2400 },
@@ -48,10 +54,6 @@ const FoilSpecs = ({product}) => {
             }
         }
     }
-
-    console.log(product)
-    console.log(getKeys())
-
 
 
   return (

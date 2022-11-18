@@ -15,6 +15,13 @@ export async function getStaticPaths(){
     { params: { category: 'foils', subcategory: 'hardware' } },
     { params: { category: 'boards', subcategory: 'inflatable' } },
     { params: { category: 'boards', subcategory: 'hard boards' } },
+    { params: { category: 'accessories', subcategory: 'pumps' } },
+    { params: { category: 'accessories', subcategory: 'leashes' } },
+    { params: { category: 'accessories', subcategory: 'foot straps' } },
+    { params: { category: 'accessories', subcategory: 'board bags' } },
+    { params: { category: 'accessories', subcategory: 'wing bars' } },
+    { params: { category: 'accessories', subcategory: 'harnesses' } },
+    { params: { category: 'accessories', subcategory: 'harness lines' } },
   ];
 
   return {

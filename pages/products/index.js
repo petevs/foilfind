@@ -42,11 +42,11 @@ export default function ProductsHome(props){
     {label: 'Wings', category: 'wings', subcategory: 'wings', path: '/wings'},
     {label: 'Pumps', category: 'accessories', subcategory: 'pumps', path: '/accessories/pumps'},
     {label: 'Leashes', category: 'accessories', subcategory: 'leashes', path: '/accessories/leashes'},
-    {label: 'Bags', category: 'accessories', subcategory: 'bags', path: '/accessories/bags'},
+    {label: 'Foot Straps', category: 'accessories', subcategory: 'foot straps', path: '/accessories/foot straps'},
+    {label: 'Board Bags', category: 'accessories', subcategory: 'Board bags', path: '/accessories/board bags'},
     {label: 'Wing Bars', category: 'accessories', subcategory: 'wing bars', path: '/accessories/wing bars'},
     {label: 'Harnesses', category: 'accessories', subcategory: 'harnesses', path: '/accessories/harnesses'},
     {label: 'Harness Lines', category: 'accessories', subcategory: 'harness lines', path: '/accessories/harness lines'},
-
   ]
 
 
@@ -62,7 +62,8 @@ export default function ProductsHome(props){
     'Wings': 'https://www.f-one.world/app/uploads/2021/05/strike-cwc-11-450x450.png',
     'Pumps': 'https://www.armstrongfoils.com/media/2193/a-wing-pump-money-1.png',
     'Leashes': 'https://www.armstrongfoils.com/media/1990/leash-money-2.png',
-    'Bags': 'https://www.armstrongfoils.com/media/2440/wing-surf-board-bag-money-1.png',
+    'Foot Straps': 'https://www.f-one.world/app/uploads/2022/03/v-straps-foilboard-450x450.png',
+    'Board Bags': 'https://www.armstrongfoils.com/media/2440/wing-surf-board-bag-money-1.png',
     'Wing Bars': 'https://www.armstrongfoils.com/media/2185/powerlink-bar-money-1.png',
     'Harnesses': 'https://cdn.shopify.com/s/files/1/0588/1721/6691/products/113782_4a24d48279e4304ecb5b84ed9897dcac7bcb604e_5884a755-9191-4125-8096-2e3a73f260d3_1267x.png?v=1668777469',
     'Harness Lines': 'https://www.f-one.world/app/uploads/2019/10/HARNESS-LEASH-450x450.png'

@@ -231,7 +231,7 @@ export default function ProductPage(props) {
                       <Text color='dimmed' size='sm'>No Reviews Yet</Text>
                     }
                     {
-                      otherSizeProducts &&
+                      otherSizeProducts.length > 0 &&
                       <OtherSizeSelect
                         current={product.name} 
                         products={otherSizeProducts}
