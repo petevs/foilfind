@@ -95,6 +95,8 @@ export default function ProductPage(props) {
 
   const { product, relatedResources, reviews: foilFindReviews, otherSizeProducts, relatedProducts } = props;
 
+  console.log(product)
+
   const imgURL = `http://localhost:3000/api/og?title=${encodeURI(product.name)}`
 
   return (
