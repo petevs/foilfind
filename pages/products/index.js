@@ -65,7 +65,7 @@ export default function ProductsHome(props){
     'Foot Straps': 'https://www.f-one.world/app/uploads/2022/03/v-straps-foilboard-450x450.png',
     'Board Bags': 'https://www.armstrongfoils.com/media/2440/wing-surf-board-bag-money-1.png',
     'Wing Bars': 'https://www.armstrongfoils.com/media/2185/powerlink-bar-money-1.png',
-    'Harnesses': 'https://cdn.shopify.com/s/files/1/0588/1721/6691/products/113782_4a24d48279e4304ecb5b84ed9897dcac7bcb604e_5884a755-9191-4125-8096-2e3a73f260d3_1267x.png?v=1668777469',
+    'Harnesses': 'https://cdn.shopify.com/s/files/1/0588/1721/6691/products/113782_4a24d48279e4304ecb5b84ed9897dcac7bcb604e_845x.png',
     'Harness Lines': 'https://www.f-one.world/app/uploads/2019/10/HARNESS-LEASH-450x450.png'
   }
 
