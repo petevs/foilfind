@@ -334,11 +334,16 @@ export default function ProductPage(props) {
             <Divider my='lg' />
             <Title order={3} style={{margin: '1rem 0'}}>Related Resources</Title> 
             <Box
-              sx={{
+              sx={(theme) => ({
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gridAutoFlow: 'column',
+                justifyContent: 'start',
                 gap: '1rem',
-              }}
+                overflowX: 'scroll',
+                '&::-webkit-scrollbar': {
+                    display: 'none'
+                }
+              })}
             >
               {
                 relatedResources.map((item, index) => (
@@ -348,6 +353,7 @@ export default function ProductPage(props) {
                     type='video'
                     shortDescription={item.shortDescription}
                     path={item.path}
+                    thumbnail={item.thumbnail}
                   />
                 ))
               }
