@@ -6,8 +6,6 @@ import { DatePicker } from "@mantine/dates"
 
 
 const ProductReviewsForm = ({productReviews, setProductReviews, brands}) => {
-  
-  console.log(brands)
 
   const initialReview = {
     reviewTitle: '',

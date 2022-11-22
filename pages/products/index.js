@@ -12,8 +12,16 @@ import { useRouter } from "next/router";
 //get static props
 export async function getStaticProps() {
   // get all products
-  const products = await getCollection("products");
+  const rawProducts = await getCollection("products");
   const categories = ['foils', 'wings', 'boards', 'accessories'];
+
+  const products = rawProducts.map(product => ({
+    id: product.id,
+    name: product.name,
+    images: product.images.slice(0, 1),
+    brand: product.brand,
+    path: product.path,
+  }))
 
   return {
     props: {

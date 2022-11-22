@@ -5,9 +5,6 @@ import { Box, Select, MultiSelect, Text, Button, Accordion, NumberInput, Divider
 import { styles, riderWeights, riderSkillLevels, disciplines, constructionMaterials } from "../productForms/productSchemas"
 
 const BoardSpecs = ({ productSpecs, setProductSpecs, onSave}) => {
-
-  console.log(productSpecs)
-
   const numberInputs = [
     { label: 'Length (in)', value: 'length'},
     { label: 'Width (in)', value: 'width'},
