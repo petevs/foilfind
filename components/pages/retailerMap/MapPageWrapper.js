@@ -1,4 +1,4 @@
-import { Box, Text, ActionIcon, Group, Divider } from "@mantine/core";
+import { Box, Text, ActionIcon, Group, Divider, Title } from "@mantine/core";
 import ReactMapGl, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css"
 import { useLocalStorage } from '@mantine/hooks';
@@ -11,12 +11,67 @@ import ListingDrawer from "./ListingDrawer";
 import RetailerDetailCard from "./RetailerDetailCard";
 import { IconChevronLeft, IconX } from "@tabler/icons";
 import { useRouter } from 'next/router'
+import RetailerMapFilters from "./RetailerMapFilters";
+import { filterListingsReducer } from "./filterListingsReducer";
 
-export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage }) {
+export default function MapPageWrapper({ parsedRetailers, selectedRetailer, retailerPage, brandPage, noTitle }) {
+
+
+  const brands = [
+    'Slingshot Sports',     'Duotone Sports',
+    'Armstrong',            'F-One',
+    'Naish Kiteboarding',   'Fanatic',
+    'Cabrinha',             'Ozone Kites',
+    'Star Board',           'Ocean Rodeo',
+    'Ride Engine',          'North Kiteboarding',
+    'Takuma',               'SIC Maui',
+    'Core Kiteboarding',    'KT Surfing',
+    'Reedin',               'AK Durable',
+    'Airush',               'Freedom Foil Boards',
+    'Eleveight Kites',      'Neilpryde',
+    'Axis',                 'Quatro Maui',
+    'Go Foil',              'Moses Hydrofoil',
+    'Appletree Surfboards', 'JP Australia',
+    'Aztron Sports',        'Maui Fin Company'
+  ]
+
+  const brandsObject = brands.reduce((obj, brand) => {
+    obj[brand] = false
+    return obj
+  }, {})
+
+
+  const initialFilters = {
+    onlineShop: false,
+    storefront: false,
+    lessons: false,
+    rentals: false,
+    featured: false,
+    openNow: false,
+    brands: brandsObject,
+    shoppingOptions: {
+        orderByEmail: false,
+        shipToHome: false,
+        orderOnline: false,
+        shopInStore: false,
+        pickUpInStore: false,
+        orderByPhone: false
+    },
+    support: {
+        inStore: false,
+        byText: false,
+        byEmail: false,
+        byPhone: false,
+        liveChat: false,
+        liveVideoChat: false
+    },
+  }
+
 
 
   const [showList, setShowList] = useState(true)
   const mapRef = useRef(null)
+  const [filters, setFilters] = useState(initialFilters)
   const [filteredListings, setFilteredListings] = useState(parsedRetailers)
   const [highlightedListing, setHighlightedListing] = useState(selectedRetailer || null)
   const [listingDetail, setListingDetail] = useState(selectedRetailer || null)
@@ -33,7 +88,10 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
   })
 
   const updateFilteredListings = (bounds) => {
-    const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
+
+    const withFilters = filterListingsReducer(parsedRetailers, filters)
+
+    const newFiltered = withFilters.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
 
     setFilteredListings(newFiltered)
   }
@@ -43,11 +101,15 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
     if (mapRef.current){
       mapRef.current.resize()
       const bounds = mapRef.current.getMap().getBounds()
-      const newFiltered = parsedRetailers.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
+      const withFilters = filterListingsReducer(parsedRetailers, filters)
+
+      const newFiltered = withFilters.filter(retailer => checkIfPositionInViewport(retailer.geo.latitude, retailer.geo.longitude, bounds))
+      
+
       setFilteredListings(newFiltered)
     }
 
-  },[showList, viewState, parsedRetailers])
+  },[showList, viewState, parsedRetailers, filters])
 
   const [currentListing, setCurrentListing] = useState(null)
   const [hoveredListing, setHoveredListing] = useState(null)
@@ -97,18 +159,39 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
 
 
   const highlightCluster = (clustID) => {
-    const storesInside = supercluster.getLeaves(clustID).map(item => item.properties.name)
-    if(storesInside.includes(highlightedListing)){
-      return true
+    try{
+      const storesInside = supercluster.getLeaves(clustID).map(item => item.properties.name)
+      if(storesInside.includes(highlightedListing)){
+        return true
+      }
+  
+      return false
+    } catch (e){
+      return false
     }
-
-    return false
   }
+
+  const headerHeight = '120px'
+
+  const headerBox = (theme) => ({
+    height: headerHeight,
+    padding: `0 ${theme.spacing.md}px`,
+    borderBottom: `1px solid ${theme.colors.gray[2]}`,
+    borderTop: `1px solid ${theme.colors.gray[2]}`,
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: '.5rem',
+    alignItems: 'center',
+    alignContent: 'center',
+    '@media (max-width: 768px)': {
+      display: 'none'
+    }
+  })
 
   const wrapper = (theme) => ({
     display: 'grid',
     gridTemplateColumns: showList ? '375px 1fr' : '1fr',
-    height: `calc(100vh - ${theme.other.headerHeight}px)`,
+    height: `calc(100vh - ${theme.other.headerHeight}px - ${headerHeight})`,
     overflow: 'hidden',
     '@media (max-width: 768px)': {
       gridTemplateColumns: '1fr'
@@ -117,12 +200,23 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
 
   return (
     <>
+      <Box sx={headerBox}>
+        {
+          !noTitle &&
+          <Title order={1}>Retailers</Title>
+        }
+        <RetailerMapFilters
+          filters={filters}
+          setFilters={setFilters}
+        />
+      </Box>
       <Box sx={wrapper}>
         {
           (!retailerPage && !brandPage) && (
           <SidebarToggle 
             showList={showList}
             setShowList={setShowList}
+            headerHeight={headerHeight}
           />
           )
         }
@@ -232,7 +326,7 @@ export default function MapPageWrapper({ parsedRetailers, selectedRetailer, reta
                     style={{
                       width: `${10 + (pointCount / points.length) * 20}px`,
                       height: `${10 + (pointCount / points.length) * 20}px`,
-                      background: highlightCluster(cluster.id) ? '#FA5252' : '#2C2E33'
+                      background: highlightCluster(cluster?.id) ? '#FA5252' : '#2C2E33'
                     }}
                     onClick={() => {
                       const expansionZoom = Math.min(

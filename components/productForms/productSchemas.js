@@ -6,23 +6,23 @@ const initialFoilKitSpecs = (product) => {
     constructionMaterial: product?.constructionMaterial || '',
     disciplines: product?.disciplines || [],
     frontWing: {
-      areaCM: 0,
-      weightGrams: 0,
-      wingSpanMillimeters: 0,
-      ar: 0,
+      areaCM: product?.frontWing?.areaCM || 0,
+      weightGrams: product?.frontWing?.weightGrams || 0,
+      wingSpanMillimeters: product?.frontWing?.wingSpanMillimeters || 0,
+      ar: product?.frontWing?.ar || 0,
     },
     tailWing: {
-      areaCM: 0,
-      weightGrams: 0,
-      wingSpanMillimeters: 0,
+      areaCM: product?.tailWing?.areaCM || 0,
+      weightGrams: product?.tailWing?.weightGrams || 0,
+      wingSpanMillimeters: product?.tailWing?.wingSpanMillimeters || 0,
     },
     fuselage: {
-      lengthCM: 0,
-      weightGrams: 0,
+      lengthCM: product?.fuselage?.lengthCM || 0,
+      weightGrams: product?.fuselage?.weightGrams || 0,
     },
     mast: {
-      lengthCM: 0,
-      weightGrams: 0,
+      lengthCM:  product?.mast?.lengthCM || 0,
+      weightGrams: product?.mast?.weightGrams || 0,
     }
   }
 }
@@ -38,6 +38,7 @@ const initialBoardSpecs = (product) => {
     riderSkillLevel: product?.riderSkillLevel || [],
     disciplines: product?.disciplines || [],
     constructionMaterial: product?.constructionMaterial || '',
+    weight: product?.weight || '',
   }
 }
 
@@ -47,6 +48,14 @@ const initialProductInfo = (product) =>  ({
   category: product?.category || '',
   subCategory: product?.subCategory || '',
   brand: product?.brand || '',
+  releaseYear: product?.releaseYear || '',
+  msrp: product?.msrp || 0,
+  brandDescription: product?.brandDescription || '',
+  summary: product?.summary || '',
+  keywords: product?.keywords || [],
+  includes: product?.includes || [],
+  otherSizes: product?.otherSizes || [],
+  relatedProducts: product?.relatedProducts || [],
 })
 
 const initialWingSpecs = (product) => {

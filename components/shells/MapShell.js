@@ -15,7 +15,6 @@ export default function MapShell({children}){
           <ShellHeader 
             fixed={true}
           />
-
           <Box component='main'>
             {children}
           </Box>

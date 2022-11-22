@@ -1,11 +1,12 @@
-import { Title, Box, Text, Group, ActionIcon, Button, Divider, UnstyledButton, Anchor } from "@mantine/core"
-import { IconBrandFacebook, IconBuildingStore, IconDirections, IconHeart, IconMapPin, IconMessageDots, IconPackgeExport, IconPhone, IconReceipt, IconSchool, IconShoppingCart, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconStar, IconShare, IconLink, IconMail } from "@tabler/icons"
+import { Box, Text, Group, ActionIcon, Button, Divider, Anchor } from "@mantine/core"
+import { IconBrandFacebook, IconEdit, IconMapPin, IconPhone, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconLink, IconMail } from "@tabler/icons"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useContext } from 'react'
 import { sortArray } from "../../../helpers/formatters"
 import useCheckAdmin from "../../../hooks/useCheckAdmin"
-import { UserContext } from '../../../state/UserContext'
+import FavoriteRetailerButton from "./FavoriteRetailerButton"
+import ReviewButton from "./ReviewButton"
+import ShareButton from "./ShareButton"
 
 
 const RetailerDetailCard = ({retailer}) => {
@@ -34,8 +35,17 @@ const RetailerDetailCard = ({retailer}) => {
 
   const daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
+  const checkforHTTP = () => {
+    if (retailer.website.includes('http')) {
+      return retailer.website
+    } else {
+      return `https://${retailer.website}`
+    }
+  }
+
   //check if retailer has hours, if not then return false
   const checkHasHours = () => {
+    if(retailer?.hideHours){ return false }
     const days = []
     daysOfTheWeek.forEach(day => {
       if( !retailer.hours[day].open && !retailer.hours[day].close && !retailer.hours[day].closed) {
@@ -82,6 +92,42 @@ const RetailerDetailCard = ({retailer}) => {
     const pass = checks.every(check => check === '')
     return !pass
   }
+
+  const convertToToday = (seconds) => {
+    const date = new Date(seconds * 1000);
+    const today = new Date();
+    today.setHours(date.getHours());
+    today.setMinutes(date.getMinutes());
+    today.setSeconds(date.getSeconds());
+    return today;
+};
+
+  const checkIfOpen = (listing) => {
+    const daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; 
+    const date = new Date();
+    const dayNum = date.getDay();
+    const day = daysOfTheWeek[dayNum].toLowerCase();
+
+    const open = convertToToday(listing.hours[day].open.seconds);
+    const close = convertToToday(listing.hours[day].close.seconds);
+    const now = date
+    
+    if(listing.hours[day].closed === true){
+        return false
+    }
+
+    return now > open && now < close 
+
+  }
+
+  const aStyle = (theme) => ({
+    '& div': {
+      color: theme.colors.dark
+    },
+    '& div:hover': {
+      color: theme.colors.blue[5]
+    }
+  })
 
   return (
     <>
@@ -143,52 +189,59 @@ const RetailerDetailCard = ({retailer}) => {
           </ActionIcon> */}
         {/* </Box> */}
         <Box sx={{display: 'grid', gridAutoFlow: 'column', justifyContent: 'space-between', padding: '1rem 0'}}>
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+        <Box component='a' href={`tel:${retailer.phone}`} sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
               <IconPhone size={16} />
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Call</Text>
           </Box>
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+          <Box
+                        component='a'
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`}
+                        target='_blank' 
+          sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline' disabled={!retailer.address}
-              onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`, "_blank")}
             >
               <IconMapPin size={16} />
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Directions</Text>
           </Box>
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
-            <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
-              <IconStar size={16} />
-            </ActionIcon>
-            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Review</Text>
-          </Box>
+          <ReviewButton
+            retailerID={retailer.id}
+            retailerName={retailer.name}
+            retailerPath={retailer.path}
+          />
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
-            <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
-              <IconShare size={16} />
-            </ActionIcon>
-            <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Share</Text>
-          </Box>
+          <ShareButton
+            retailerPath={retailer.path}
+          />
 
-          <Box sx={{display: 'grid', justifyItems: 'center'}}>
+          {/* <Box sx={{display: 'grid', justifyItems: 'center'}}>
             <ActionIcon color='dark' radius='xl' size='lg' variant='outline'>
               <IconHeart size={16} />
             </ActionIcon>
             <Text size='xs' sx={{marginTop: '.25rem'}} color='dimmed'>Favorite</Text>
-          </Box>
+          </Box> */}
+          <FavoriteRetailerButton
+            retailerID={retailer.id}
+          />
 
         </Box>
        
-
-        <Button 
-          variant='outline' 
-          color='dark' 
-          radius='xl' 
-          fullWidth
-          onClick={() => window.open(retailer.website, "_blank")}
-          >Vist Website</Button>
+        {
+          retailer.website &&
+          <Button
+            component='a'
+            href={retailer.website}
+            target='_blank'
+            variant='outline' 
+            color='dark' 
+            radius='xl' 
+            sx={(theme) => ({ width: '100%', '& span': {color: theme.colors.dark}})}
+            // onClick={() => window.open(checkforHTTP(), '_blank')}
+            >Vist Website</Button>
+        }
         {
           checkHasHours() && 
           <>
@@ -235,31 +288,46 @@ const RetailerDetailCard = ({retailer}) => {
         <Text size='md' mb='md' weight={700}>Contact</Text>
         {
           retailer.phone &&
-          <Group mb='xs'>
-            <IconPhone size={16} />
-            <Text size='sm'>{retailer.phone}</Text>
-          </Group>
+          <Box component='a' href={`tel:${retailer.phone}`} sx={aStyle}>
+            <Group mb='xs'>
+              <IconPhone size={16} />
+              <Text size='sm'>{retailer.phone}</Text>
+            </Group>
+          </Box>
         }
         {
           retailer.website && 
-          <Group mb='xs'>
-            <IconLink size={16} />
-            <Text size='sm'>{retailer.website}</Text>
-          </Group>
+          <Box component='a' href={retailer.website} target='_blank' sx={aStyle}>
+            <Group mb='xs'>
+              <IconLink size={16} />
+              <Text size='sm'>{retailer.website}</Text>
+            </Group>
+        </Box>
         }
         {
           retailer.email &&
-          <Group mb='xs'>
-            <IconMail size={16} />
-            <Text size='sm'>{retailer.email}</Text>
-          </Group>
+          <Box component='a' href={`mailto:${retailer.email}`} sx={aStyle}>
+            <Group mb='xs'>
+              <IconMail size={16} />
+              <Text size='sm'>{retailer.email}</Text>
+            </Group>
+          </Box>
         }
         {
           retailer.address &&
-          <Box sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}>
-            <IconMapPin size={16} />
-            <Box>
-              <Text size='sm'>{retailer.address}</Text>
+          <Box
+            href={`https://www.google.com/maps/dir/?api=1&destination=${retailer.address}`}
+            target='_blank' 
+            component='a' 
+            sx={aStyle}
+          >
+            <Box
+              sx={{display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '16px'}}
+            >
+              <IconMapPin size={16} />
+              <Box>
+                <Text size='sm'>{retailer.address}</Text>
+              </Box>
             </Box>
           </Box>
         }
@@ -271,30 +339,38 @@ const RetailerDetailCard = ({retailer}) => {
             <Group spacing='sm'>
               {
                 retailer.socialMedia['facebook'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.facebook, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.facebook} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandFacebook size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['instagram'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.instagram, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.instagram} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandInstagram size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['twitter'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.twitter, "_blank")}>
+                  <Box component='a' href={retailer.socialMedia.twitter} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
                     <IconBrandTwitter size={16} />
                   </ActionIcon>
+                  </Box>
                 )
               }
               {
                 retailer.socialMedia['youtube'] && (
-                  <ActionIcon variant='outline' radius='xl' onClick={() => window.open(retailer.socialMedia.youtube, "_blank")}>
-                    <IconBrandYoutube size={16} />
+                  <Box component='a' href={retailer.socialMedia.youtube} target='_blank'>
+                  <ActionIcon variant='outline' radius='xl'>
+                    <IconBrandYoutube size={18} />
                   </ActionIcon>
+                  </Box>
                 )
               }
             </Group>
@@ -303,15 +379,19 @@ const RetailerDetailCard = ({retailer}) => {
         {
           isAdmin
           &&
-          <Box sx={{display: 'grid', justifyContent: 'start', marginTop: '3rem'}}>
-            <Button fullWidth my='xl' size='xs' variant='subtle'
-              onClick={() => {
-                router.push('/retailers/' + retailer.path + '/edit')
-              }}
-            >
-              Edit Details
-            </Button>
-          </Box>
+          <>
+            <Divider my='lg' />
+            <Box sx={{display: 'grid', justifyContent: 'start', gridTemplateColumns: '1fr', alignItems: 'center'}}>
+              <Button sx={{ width: '100%' }} size='xs' variant='filled' color='gray'
+                onClick={() => {
+                  router.push('/retailers/' + retailer.path + '/edit')
+                }}
+                leftIcon={<IconEdit size={16} />}
+              >
+                Edit Retailer
+              </Button>
+            </Box>
+          </>
         }
     </>
   )

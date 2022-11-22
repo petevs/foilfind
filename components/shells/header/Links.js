@@ -6,8 +6,6 @@ const Links = () => {
 
     const router = useRouter()
 
-    console.log(router.asPath)
-
     const style = (theme) => ({
         display: 'grid',
         gridArea: 'links',
@@ -27,37 +25,44 @@ const Links = () => {
 
     const list = [
         { title: 'Products', href: '/products'},
+        { title: 'Marketplace', href: '/marketplace'},
         { title: 'Retailers', href: '/retailers'},
         { title: 'Brands', href: '/brands'},
-        { title: 'Vacations', href: '/#'},
-        { title: 'Rentals', href: '/#'},
-        { title: 'Lessons', href: '/#'},
+        { title: 'Stays', href: '/#'},
+        { title: 'Stoke', href: '/#'},
+        { title: 'Rentals', href: '/rentals'},
+        { title: 'Lessons', href: '/lessons'},
+        { title: 'Events', href: '/events'},
+        { title: 'Resources', href: '/resources'},
         { title: 'Learn', href: '/#'},
         { title: 'Community', href: '/#'},
+
     ]
 
     return (
             <Box sx={style}>
                 {
                     list.map((item, index) => (
-                        <Link key={index} href={item.href}>
-                            <Text
-                                size='sm'
-                                color={item.href === router.asPath ? 'blue': 'dark'}
-                                sx={(theme) => ({
-                                    fontWeight: item.href === router.asPath ? 600 : 400,
-                                    '& a': {
-                                        color: 'gray',
-                                    },
-                                    '&:hover': {
-                                        color: theme.colors.blue[5],
-                                        textDecoration: 'none',
-                                        cursor: 'pointer'
-                                    }
-                                })}
-                            >
-                                {item.title}
-                            </Text>
+                        <Link key={index} href={item.href} passHref>
+                            <Box component='a'>
+                                <Text
+                                    size='sm'
+                                    color={item.href === router.asPath ? 'blue': 'dark'}
+                                    sx={(theme) => ({
+                                        fontWeight: item.href === router.asPath ? 600 : 400,
+                                        '& a': {
+                                            color: 'gray',
+                                        },
+                                        '&:hover': {
+                                            color: theme.colors.blue[5],
+                                            textDecoration: 'none',
+                                            cursor: 'pointer'
+                                        }
+                                    })}
+                                >
+                                    {item.title}
+                                </Text>
+                            </Box>
                         </Link>
                     ))
                 }

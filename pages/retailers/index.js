@@ -1,13 +1,15 @@
-import { getCollection } from '../../helpers/firebaseHelpers'
+import { getCollectionWhere } from '../../helpers/firebaseHelpers'
 import MapPageWrapper from '../../components/pages/retailerMap/MapPageWrapper';
 import Shell from '../../components/Shell';
 import MapShell from '../../components/shells/MapShell';
 
 
 export async function getStaticProps() {
-  const rawRetailers = await getCollection('retailers');
+  const rawRetailers = await getCollectionWhere('retailers', 'public', '==', true);
 
-  const retailers = JSON.stringify(rawRetailers)
+  const retailers = JSON.stringify(rawRetailers);
+
+  //find all the unique brands in retailers
 
   return {
     props: {

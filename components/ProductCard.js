@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Card, Box, Skeleton, Text } from "@mantine/core"
+import Image from "next/image"
 
 const ProductCard = ({ product }) => {
 
@@ -20,7 +21,26 @@ const ProductCard = ({ product }) => {
                     gap: '1rem'
                   }}
                 >
-                  <Skeleton radius="md" style={{width: '150px', height: '150px'}} />
+                  <Box
+                    sx={(theme) => ({
+                      position: 'relative',
+                      height: '150px',
+                      width: '150px',
+                      borderRadius: theme.radius.md,
+                      '& span': {
+                        borderRadius: theme.radius.md,
+                      }
+                    })}
+                  >
+                    <Image
+                      src={product.images[0]}
+                      layout="fill"
+                      objectFit="cover"
+                      alt={product.name}
+                      blurDataURL={product.images[0]}
+                      placeholder="blur"
+                    />
+                  </Box>
                   <Box p='md'>
                     <Text weight={500} size='lg'>{product.name}</Text>
                     <Text transform='uppercase' color='dimmed' size='sm'>{product.category} · {product.brand}</Text>

@@ -4,7 +4,7 @@ import { query, collection, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { TextInput, Paper, Text, Divider } from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
-import { createDocument } from "../../../helpers/firebaseHelpers";
+import { createDocument, deleteDocument } from "../../../helpers/firebaseHelpers";
 import { useRouter } from "next/router";
 import { sortArray } from "../../../helpers/formatters";
 import FormHeader from "./FormHeader";
@@ -45,8 +45,6 @@ export default function EditRetailer({slug}) {
 
   }, [slug])    
 
-  console.log(retailer)
-
   if(!retailer){
     return(
       <Container>
@@ -73,6 +71,32 @@ export default function EditRetailer({slug}) {
               >
 
                 <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
+                  <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                    <Checkbox
+                      label='Featured'
+                      checked={retailer.featured}
+                      onChange={(e) => {
+                        setRetailer({...retailer, featured: e.currentTarget.checked})
+                        setChanged(true)
+                      }}
+                    />
+                    <Checkbox
+                      label='Hide Retailer'
+                      checked={retailer.hideRetailer}
+                      onChange={(e) => {
+                        setRetailer({...retailer, hideRetailer: e.currentTarget.checked})
+                        setChanged(true)
+                      }}
+                    />
+                  </Box>
+                  <TextInput
+                    label="Name"
+                    value={retailer.name}
+                    onChange={(event) => {
+                      setRetailer({...retailer, name: event.currentTarget.value})
+                      setChanged(true)
+                    }}
+                  />
                   <TextInput
                     label="Website"
                     value={retailer.website}
@@ -126,6 +150,14 @@ export default function EditRetailer({slug}) {
           reset={() => setRetailer(initialRetailer)}
         >
           <Box sx={{display: 'grid', gridAutoFlow: 'row', gap: '1rem'}}>
+            <Checkbox
+              label='Hide Hours'
+              checked={retailer.hideHours}
+              onChange={(event) => {
+                setRetailer({...retailer, hideHours: event.currentTarget.checked})
+                setChanged(true)
+              }}
+            />    
             {
               ('hours' in retailer) &&
               daysOfTheWeek.map((day, index) => {
@@ -404,7 +436,17 @@ export default function EditRetailer({slug}) {
   </FormWrapper>
 </SectionWrapper>
 
-
+      <Divider my='xl' />
+      <Box sx={{display: 'grid', gridTemplateColumns: 'auto', alignContent: 'end'}}>
+        <Button
+          sx={{justifySelf: 'end'}}
+          onClick={() => {
+            deleteDocument('retailers', retailer.id)
+            router.push('/retailers')
+          }}
+          color='red'
+        >Delete</Button>
+      </Box>
 
     </Container>
   )

@@ -2,12 +2,12 @@ import { Box, Button } from '@mantine/core'
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons'
 
 
-const SidebarToggle = ({showList, setShowList}) => {
+const SidebarToggle = ({showList, setShowList, headerHeight}) => {
 
 
   const toggleButton = (theme) => ({
     position: 'absolute',
-    top: `calc(${theme.other.headerHeight}px + 10px)`,
+    top: `calc(${theme.other.headerHeight}px + 10px + ${headerHeight})`,
     left: showList ? '385px' : '10px',
     zIndex: 5,
     '@media (max-width: 768px)': {

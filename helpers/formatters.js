@@ -27,3 +27,17 @@ export const sortArray = (arr) => {
         return 0;
     });
 }
+
+export const camelToTitleCase = (str) => {
+    return str.replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function(str){ return str.toUpperCase(); })
+}
+
+
+export const numToCurrency = (num) => {
+    return num.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+}
+
+export const thousandSeparator = (num) => {
+    return num.toLocaleString('en-US');
+}

@@ -61,7 +61,7 @@ const MenuBox = ({ desktop }) => {
 
             {
                 user && (
-                        <Menu width={200} shadow="md" position='bottom-end' ZIndex={6}>
+                        <Menu width={200} shadow="md" position='bottom-end' zIndex={6}>
                             <Menu.Target>
                                 <Avatar 
                                     radius='xl'
@@ -70,7 +70,7 @@ const MenuBox = ({ desktop }) => {
                                 />
                             </Menu.Target>
                             <Menu.Dropdown>
-                                <Menu.Item component={NextLink} href='/profile'>
+                                <Menu.Item component={NextLink} href={`/${userDetails.username}`}>
                                     Profile
                                 </Menu.Item>
                                 <Menu.Item component={NextLink} href='/#'>

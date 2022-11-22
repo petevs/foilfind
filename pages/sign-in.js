@@ -75,7 +75,7 @@ export default function SignInPage() {
         <form onSubmit={(e) => handleSubmit(e)} onReset={form.onReset}>
         <TextInput 
           label="Email" 
-          placeholder="you@mantine.dev" 
+          placeholder="you@website.com" 
           required 
           error={form.errors.email && 'Invalid email'}
           value={form.values.email}
@@ -97,7 +97,7 @@ export default function SignInPage() {
             </Anchor>
           </Link>
         </Group>
-        <Button fullWidth mt='md' type='submit'>
+        <Button sx={{ width: '100%' }} mt='md' type='submit'>
           {
           type === 'login' ? 'Sign in' : 'Create account'
           }

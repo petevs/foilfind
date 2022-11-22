@@ -36,6 +36,10 @@ export default function AddNewRetailer() {
       ...retailer,
       latitude: lat,
       longitude: lng,
+      geo: {
+        latitude: lat,
+        longitude: lng
+      },
       place: place
     })
   }
@@ -98,17 +102,23 @@ export default function AddNewRetailer() {
               <Box sx={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
                 <TextInput
                   label='lat'
-                  value={retailer.lat}
+                  value={retailer.geo.latitude}
                   onChange={(event) => {
-                    setRetailer({...retailer, lat: event.currentTarget.value})
+                    setRetailer({...retailer, geo: {
+                      ...retailer.geo,
+                      latitude: event.currentTarget.value
+                    }})
                     setChanged(true)
                   }}
                 />
                 <TextInput
                   label='lng'
-                  value={retailer.lng}
+                  value={retailer.geo.longitude}
                   onChange={(event) => {
-                    setRetailer({...retailer, lng: event.currentTarget.value})
+                    setRetailer({...retailer, geo: {
+                      ...retailer.geo,
+                      longitude: event.currentTarget.value
+                    }})
                     setChanged(true)
                   }}
                 />
